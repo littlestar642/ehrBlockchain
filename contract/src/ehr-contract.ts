@@ -4,6 +4,9 @@
 
 import { Context, Contract, Info, Returns, Transaction } from 'fabric-contract-api';
 import { Ehr } from './ehr';
+import { Symptoms } from './properties/Symptoms';
+import { Bloodtest } from './properties/BloodTest';
+import { Utils } from './properties/Util';
 
 @Info({title: 'EhrContract', description: 'My Smart Contract' })
 export class EhrContract extends Contract {
@@ -16,7 +19,7 @@ export class EhrContract extends Contract {
     }
 
     @Transaction()
-    public async createEhr(ctx: Context, ehrId: string, symptoms:string, anyotherproblem:string, bloodtest:string, medicine:string,util:string,feedback:string, doctorID: string, patientID:string): Promise<void> {
+    public async createEhr(ctx: Context, ehrId: string, symptoms:Symptoms, anyotherproblem:string, bloodtest:Bloodtest, medicine:string,util:Utils,feedback:string, doctorID: string, patientID:string): Promise<void> {
         const exists = await this.ehrExists(ctx, ehrId);
         if (exists) {
             throw new Error(`The ehr ${ehrId} already exists`);
@@ -25,7 +28,7 @@ export class EhrContract extends Contract {
         ehr.doctorID=doctorID;
         ehr.patientID=patientID;
         ehr.Symptoms=symptoms;
-        ehr.anyotherproblem=anyotherproblem;
+        ehr.anyOtherProblem=anyotherproblem;
         ehr.bloodtest=bloodtest;
         ehr.medicines=medicine;
         ehr.util=util;

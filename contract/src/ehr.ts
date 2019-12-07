@@ -3,6 +3,9 @@
  */
 
 import { Object, Property } from 'fabric-contract-api';
+import {Bloodtest} from "./properties/BloodTest"
+import {Symptoms} from "./properties/Symptoms"
+import {Utils} from "./properties/Util"
 
 @Object()
 export class Ehr {
@@ -14,51 +17,21 @@ export class Ehr {
     public patientID: String;
 
     @Property()
-    public Symptoms:String
+    public Symptoms:Symptoms;
 
     @Property()
-    public anyotherproblem:String;
+    public anyOtherProblem:String;
 
     @Property()
-    public bloodtest:String
+    public bloodtest:Bloodtest
 
     @Property()
     public medicines:String
 
     @Property()
-    public util:String
+    public util:Utils
     
     @Property()
     public patientFeedback:String;
 
 }
-
-// symptoms={
-//     fainting:Boolean,
-//     heartbeatrate:Number,
-//     ChestTightness:Boolean,
-//     ChestPain:Number,
-//     SwellingIn:{
-//         legs:Boolean,
-//         feet:Boolean,
-//         ankles:Boolean,
-//         Abdomen:Boolean
-//     },
-//     weight:Number,
-// }
-
-// bloodtest={
-//     wbcCount:Number,
-//     rbcCount:Number,
-//     totalCholestrol:Number,
-//     lowDensityLipo:Number,
-//     HighDensityLipo:Number,
-//     triglycerides:Number
-// }
-
-// util{
-//     nextAppointment:Date,
-//     consultancyFees:Number,
-//     paymentDone:Boolean,
-//     paymentMethod:String
-// }
