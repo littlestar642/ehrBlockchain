@@ -16,15 +16,20 @@ export class EhrContract extends Contract {
     }
 
     @Transaction()
-    public async createEhr(ctx: Context, ehrId: string, value: string, doctorID: string, patientID:string): Promise<void> {
+    public async createEhr(ctx: Context, ehrId: string, symptoms:string, anyotherproblem:string, bloodtest:string, medicine:string,util:string,feedback:string, doctorID: string, patientID:string): Promise<void> {
         const exists = await this.ehrExists(ctx, ehrId);
         if (exists) {
             throw new Error(`The ehr ${ehrId} already exists`);
         }
         const ehr = new Ehr();
-        ehr.value = value;
         ehr.doctorID=doctorID;
         ehr.patientID=patientID;
+        ehr.Symptoms=symptoms;
+        ehr.anyotherproblem=anyotherproblem;
+        ehr.bloodtest=bloodtest;
+        ehr.medicines=medicine;
+        ehr.util=util;
+        ehr.patientFeedback=feedback;
         const buffer = Buffer.from(JSON.stringify(ehr));
         await ctx.stub.putState(ehrId, buffer);
     }
@@ -48,7 +53,7 @@ export class EhrContract extends Contract {
             throw new Error(`The ehr ${ehrId} does not exist`);
         }
         const ehr = new Ehr();
-        ehr.value = newValue;
+        
         const buffer = Buffer.from(JSON.stringify(ehr));
         await ctx.stub.putState(ehrId, buffer);
     }
@@ -73,5 +78,6 @@ export class EhrContract extends Contract {
         const buffer = Buffer.from(JSON.stringify(ehr));
         await ctx.stub.putState(ehrId, buffer);
     }
+
 
 }
