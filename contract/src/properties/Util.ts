@@ -8,17 +8,11 @@ import { Object, Property } from 'fabric-contract-api';
 export class Utils {
 
     @Property()
-    public nextAppointment:String
+    public nextAppointment:string
 
     @Property()
     public consultancyFees:Number
 
     @Property()
     public paymentDone:Boolean
-
-    @Property()
-    public:String
-
-
-
 }

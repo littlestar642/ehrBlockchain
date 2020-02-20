@@ -11,27 +11,30 @@ import {Utils} from "./properties/Util"
 export class Ehr {
 
     @Property()
-    public doctorID: String;
+    public ehrID:string;
 
     @Property()
-    public patientID: String;
+    public doctorID:string;
+
+    @Property()
+    public patientID:string;
 
     @Property()
     public Symptoms:Symptoms;
 
     @Property()
-    public anyOtherProblem:String;
+    public anyOtherProblem:string;
 
     @Property()
     public bloodtest:Bloodtest
 
     @Property()
-    public medicines:String
+    public medicines:string
 
     @Property()
     public util:Utils
     
     @Property()
-    public patientFeedback:String;
+    public patientFeedback:string;
 
 }
