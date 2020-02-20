@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+        <div class = "col-6 text-center" style="margin-top: 100px; margin-bottom: 100px;">
+
+            <div class="card-container">
+                <div class="card text-black bg-light border-primary">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Patient Consent</h5>
+                        
+                        <form [formGroup]="form" #patientInformation >  
+                            
+                            <div id = "patientId" style="padding: 2px;">
+                                <div class="row justify-content-start">  
+                                    <div class=" col-md-offset-1 col">
+                                        <div style="display: inline;">
+                                            <label for="patientId"> Patient ID : </label>  
+                                            <input formControlName="patientId" class="form-control" type="text">
+                                            <button class="btn btn-primary"  (click)="sendVerificationCode()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">Send code</button>
+                                        </div>
+                                    </div>  
+                                </div>    
+                            </div>
+                            
+                            <div *ngIf="flag==true" style="padding: 2px;">
+                                <p class="card-text">please enter the verifcation code provided by your patient.</p>
+                                <div class="row" >  
+                                    <div class=" col-md-offset-1 col">
+                                        <div style="display: inline;">
+                                            <label for="verificationCode"> OTP : </label>  
+                                            <input formControlName="code" class="form-control" type="text">
+                                            <button class="btn btn-primary"  (click)="verifyCode()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">verify</button>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            
+                            <div class = "navlink">
+                                <button (click)= "goBack()" class="btn btn-primary">Go back</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

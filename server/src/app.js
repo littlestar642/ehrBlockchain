@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const util = require('util');
 const path = require('path');
 const fs = require('fs');
+const uuid=require('uuid');
 
 let network = require('./fabric/network.js');
 
@@ -137,21 +138,22 @@ if (invokeResponse.error) {
 
 
 app.post('/updateDoctor', async (req, res) => {
-    let doctorID = req.body.doctorID;
+    let newDoctorID = req.body.doctorID;
     let patientID=req.body.patientID;
-    console.log(doctorID)
+    console.log(newDoctorID)
     console.log(patientID)
 
 
-    let networkObj = await network.connectToNetwork(doctorID);
+    let networkObj = await network.connectToNetwork(newDoctorID);
 
 
     if (networkObj.error) {
         res.send(networkObj.error);
     }
-    if(!await network.invoke(networkObj,false,'patientExists',[patientID])){
-        res.send("Patient does not exist");
-    }
+    let patientExist=await network.invoke(networkObj,false,'patientExists',[{patientID}]);
+  if(!patientExist){
+    res.send("Patient does not exist");
+}
     
     let args = [JSON.stringify(req.body)];
     let invokeResponse = await network.invoke(networkObj, false, 'updateDoctorOnEhr', args);

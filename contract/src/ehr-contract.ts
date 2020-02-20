@@ -42,6 +42,7 @@ export class EhrContract extends Contract {
         ehr.medicines=argsJSON.medicines;
         ehr.util=argsJSON.util;
         ehr.patientFeedback=argsJSON.patientFeedback;
+        ehr.ehrID=argsJSON.ehrID;
         const buffer = Buffer.from(JSON.stringify(ehr));
         await ctx.stub.putState(argsJSON.ehrID, buffer);
     }
@@ -82,14 +83,14 @@ export class EhrContract extends Contract {
     @Transaction()
     public async updateDoctorOnEhr(ctx: Context, args:string): Promise<void> {
         let argsJSON=JSON.parse(args);
-        console.log(argsJSON);
         const exists = await this.ehrExists(ctx, argsJSON.ehrID);
         if (!exists) {
             throw new Error(`The ehr ${argsJSON.ehrID} does not exist`);
         }
-        const ehr = new Ehr();
-        ehr.doctorID = argsJSON.doctorID;
-        const buffer = Buffer.from(JSON.stringify(ehr));
+        let buffer = await ctx.stub.getState(argsJSON.ehrID);
+        let newJson=JSON.parse(buffer.toString())
+        newJson.doctorID = argsJSON.doctorID;
+        buffer = Buffer.from(JSON.stringify(newJson));
         await ctx.stub.putState(argsJSON.ehrID, buffer);
     }
 

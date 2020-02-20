@@ -1,0 +1,17 @@
+.row{
+    min-height: 10rem;        
+    margin-top: 1rem;
+}
+.col{
+    padding: 10px 15px;
+    border: 1px solid rgba(0,0,0,0.5)
+}
+
+.card-container{
+    margin: 20px;        
+}
+
+.navlink{
+    margin: 10px;
+    padding: 2px;
+}

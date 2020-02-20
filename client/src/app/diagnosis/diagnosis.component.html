@@ -1,0 +1,269 @@
+<!--
+<div class="container-fluid">
+    <h1>Patient Diagnosis</h1>
+  <form #patientForm="ngForm" (ngSubmit)="recordData()"> 
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Fainting</label>
+      <input type="checkbox" required name="fainting" class="form-control" >
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>HeartBeatRate</label>
+      <input type="number" required name="heartBeatRate" #heartBeatRate="ngModel" [class.is-invalid]="heartBeatRate.invalid && heartBeatRate.touched" class="form-control" [(ngModel)]="ehr.Symptoms.heartBeatRate">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>ChestTightness</label>
+      <input type="number" required name="chestTightness" #chestTightness="ngModel" [class.is-invalid]="chestTightness.invalid && chestTightness.touched" class="form-control" [(ngModel)]="ehr.Symptoms.ChestTightness">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Weight</label>
+      <input type="number" required name="weight" #weight="ngModel" [class.is-invalid]="weight.invalid && weight.touched" class="form-control" [(ngModel)]="ehr.Symptoms.weight">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Chest Pain</label>
+      <input type="number" required name="chestPain" #chestPain="ngModel" [class.is-invalid]="chestPain.invalid && chestPain.touched" class="form-control" [(ngModel)]="ehr.Symptoms.ChestPain">
+    </div>
+    
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>White Blood Count</label>
+      <input type="number" required name="wbcCount" #wbcCount="ngModel" [class.is-invalid]="wbcCount.invalid && wbcCount.touched" class="form-control" [(ngModel)]="ehr.bloodtest.wbcCount">
+    </div>
+    
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Red Blood Count</label>
+      <input type="number" required name="rbcCount" #rbcCount="ngModel" [class.is-invalid]="rbcCount.invalid && rbcCount.touched" class="form-control" [(ngModel)]="ehr.bloodtest.rbcCount">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Total Cholestrol</label>
+      <input type="number" required name="totalCholestrol" #totalCholestrol="ngModel" [class.is-invalid]="totalCholestrol.invalid && totalCholestrol.touched" class="form-control" [(ngModel)]="ehr.bloodtest.totalCholestrol">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Low Density Lipo</label>
+      <input type="number" required name="lowDensityLipo" #lowDensityLipo="ngModel" [class.is-invalid]="lowDensityLipo.invalid && lowDensityLipo.touched" class="form-control" [(ngModel)]="ehr.bloodtest.lowDensityLipo">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>High Density Lipo</label>
+      <input type="number" required name="HighDensityLipo" #HighDensityLipo="ngModel" [class.is-invalid]="HighDensityLipo.invalid && HighDensityLipo.touched" class="form-control" [(ngModel)]="ehr.bloodtest.HighDensityLipo">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>High Density Lipo</label>
+      <input type="number" required name="HighDensityLipo" #HighDensityLipo="ngModel" [class.is-invalid]="HighDensityLipo.invalid && HighDensityLipo.touched" class="form-control" [(ngModel)]="ehr.bloodtest.HighDensityLipo">
+    </div>
+  
+  
+  
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>Any other problem</label>
+      <input type="number" required name="anyOtherProblem" #anyOtherProblem="ngModel" [class.is-invalid]="anyOtherProblem.invalid && anyOtherProblem.touched" class="form-control" [(ngModel)]="ehr.anyOtherProblem">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>TriGlycerides</label>
+      <input type="number" required name="triglycerides" #triglycerides="ngModel" [class.is-invalid]="triglycerides.invalid && triglycerides.touched" class="form-control" [(ngModel)]="ehr.bloodtest.triglycerides">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>TriGlycerides</label>
+      <input type="number" required name="triglycerides" #triglycerides="ngModel" [class.is-invalid]="triglycerides.invalid && triglycerides.touched" class="form-control" [(ngModel)]="ehr.bloodtest.triglycerides">
+    </div>
+  
+    <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+      <label>nextAppointment</label>
+      <input type="number" required name="nextAppointment" #triglycerides="ngModel" [class.is-invalid]="triglycerides.invalid && triglycerides.touched" class="form-control" [(ngModel)]="ehr.util.nextAppointment">
+    </div>
+  
+    <div class="row" >  
+        <div class=" col-md-offset-1 col">
+                <button class="btn btn-primary"  type="submit" style="display: inline; margin: 3px; padding: 1px; height: 35px; margin-left: 15px;">Record</button>
+        </div>  
+    </div>
+  
+  </form>
+  </div>
+-->
+
+<div class="container-fluid">
+  <h1>Patient Diagnosis</h1>
+<form #patientForm="ngForm" (ngSubmit)="recordData()"> 
+  
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="mb-3">  
+    <label>Fainting</label>
+    <br>
+    
+    <div class="form-check">
+    <input type="radio" class="form-check-input" [(ngModel)]="ehr.Symptoms.fainting" name="Fainting" [value]="true">  
+    <label type="radio" class="form-check-label" >Yes<br> </label>
+  </div>
+    
+    <div class="form-check">
+      <input type="radio" class="form-check-input" [(ngModel)]="ehr.Symptoms.fainting" name="Fainting" [value]="false" >  
+      <label type="radio" class="form-check-label" >No<br> </label>
+    </div>
+
+  </div>
+
+
+  
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>HeartBeatRate</label>
+    <input type="number" max="0" min="10" required name="heartBeatRate" #heartBeatRate="ngModel" [class.is-invalid]="heartBeatRate.invalid && heartBeatRate.touched" class="form-control" [(ngModel)]="ehr.Symptoms.heartBeatRate">
+    <small class="text-danger" [class.d-none]="heartBeatRate.valid || heartBeatRate.untouched">This is a required value!</small>
+  </div>
+
+
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="mb-3">
+    <label>Chest Tightness</label>
+    <br>
+    
+    <div class="form-check">
+    <input type="radio" class="form-check-input" [(ngModel)]="ehr.Symptoms.ChestTightness" name="chestTightness" [value]="true" >  
+    <label type="radio" class="form-check-label" >Yes<br> </label>
+    </div>
+    
+    <div class="form-check">
+      <input type="radio" class="form-check-input" [(ngModel)]="ehr.Symptoms.ChestTightness" name="chestTightness" [value]="false" >  
+      <label type="radio" class="form-check-label" >No<br> </label>
+    </div>
+
+  </div>
+
+
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Weight</label>
+    <input type="number" required name="weight" #weight="ngModel" [class.is-invalid]="weight.invalid && weight.touched" class="form-control" [(ngModel)]="ehr.Symptoms.weight">
+    <small class="text-danger" [class.d-none]="weight.valid || weight.untouched">This is a required value!</small>
+  </div>
+  
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="mb-3">
+    <label>Chest Pain</label>
+    <br>
+    
+    <div class="form-check">
+    <input type="radio" class="form-check-input" [(ngModel)]="ehr.Symptoms.ChestPain" name="chestPain" [value]="true" >  
+    <label type="radio" class="form-check-label" >Yes<br> </label>
+    </div>
+    
+    <div class="form-check">
+      <input type="radio" class="form-check-input" [(ngModel)]="ehr.Symptoms.ChestPain" name="chestPain" [value]="false" >  
+      <label type="radio" class="form-check-label" >No<br> </label>
+    </div>
+
+
+  </div>
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Any other problem</label>
+    <input type="textbox" style="height:10em;" required name="anyOtherProblem" #anyOtherProblem="ngModel" [class.is-invalid]="anyOtherProblem.invalid && anyOtherProblem.touched" class="form-control" [(ngModel)]="ehr.anyOtherProblem">
+    <small class="text-danger" [class.d-none]="anyOtherProblem.valid || anyOtherProblem.untouched">This is a required value!</small>
+  </div>
+  
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>White Blood Count</label>
+    <input type="number" required name="wbcCount" #wbcCount="ngModel" [class.is-invalid]="wbcCount.invalid && wbcCount.touched" class="form-control" [(ngModel)]="ehr.bloodtest.wbcCount">
+    <small class="text-danger" [class.d-none]="wbcCount.valid || wbcCount.untouched">This is a required value!</small>
+  </div>
+  
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Red Blood Count</label>
+    <input type="number" required name="rbcCount" #rbcCount="ngModel" [class.is-invalid]="rbcCount.invalid && rbcCount.touched" class="form-control" [(ngModel)]="ehr.bloodtest.rbcCount">
+    <small class="text-danger" [class.d-none]="rbcCount.valid || rbcCount.untouched">This is a required value!</small>
+  </div>
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Total Cholestrol</label>
+    <input type="number" required name="totalCholestrol" #totalCholestrol="ngModel" [class.is-invalid]="totalCholestrol.invalid && totalCholestrol.touched" class="form-control" [(ngModel)]="ehr.bloodtest.totalCholestrol">
+    <small class="text-danger" [class.d-none]="totalCholestrol.valid || totalCholestrol.untouched">This is a required value!</small>
+  </div>
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Low Density Lipo</label>
+    <input type="number" required name="lowDensityLipo" #lowDensityLipo="ngModel" [class.is-invalid]="lowDensityLipo.invalid && lowDensityLipo.touched" class="form-control" [(ngModel)]="ehr.bloodtest.lowDensityLipo">
+    <small class="text-danger" [class.d-none]="lowDensityLipo.valid || lowDensityLipo.untouched">This is a required value!</small>
+  </div>
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>High Density Lipo</label>
+    <input type="number" required name="HighDensityLipo" #HighDensityLipo="ngModel" [class.is-invalid]="HighDensityLipo.invalid && HighDensityLipo.touched" class="form-control" [(ngModel)]="ehr.bloodtest.HighDensityLipo">
+    <small class="text-danger" [class.d-none]="HighDensityLipo.valid || HighDensityLipo.untouched">This is a required value!</small>
+  </div>
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>TriGlycerides</label>
+    <input type="number" required name="triglycerides" #triglycerides="ngModel" [class.is-invalid]="triglycerides.invalid && triglycerides.touched" class="form-control" [(ngModel)]="ehr.bloodtest.triglycerides">
+    <small class="text-danger" [class.d-none]="triglycerides.valid || triglycerides.untouched">This is a required value!</small>
+  </div>
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Medicines</label>
+    <input type="text" required name="medicines" #medicines="ngModel" [class.is-invalid]="medicines.invalid && medicines.touched" class="form-control" [(ngModel)]="ehr.medicines">
+    <small class="text-danger" [class.d-none]="medicines.valid || medicines.untouched">This is a required value!</small>
+  </div>
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>nextAppointment</label>
+    <input type="date" required name="nextAppointment" #nextAppointment="ngModel" [class.is-invalid]="nextAppointment.invalid && nextAppointment.touched" class="form-control" [(ngModel)]="ehr.util.nextAppointment">
+    <small class="text-danger" [class.d-none]="nextAppointment.valid || nextAppointment.untouched">This is a required value!</small>
+  </div>
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    <label>Consultancy Fees</label>
+    <input type="number" required name="consultancyFees" #consultancyFees="ngModel" [class.is-invalid]="consultancyFees.invalid && consultancyFees.touched" class="form-control" [(ngModel)]="ehr.util.consultancyFees">
+    <small class="text-danger" [class.d-none]="consultancyFees.valid || consultancyFees.untouched">This is a required value!</small>
+  </div>
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="mb-3">
+    <label>Payment Done?</label>
+    <br>
+    
+    <div class="form-check">
+    <input type="radio" class="form-check-input" [(ngModel)]="ehr.util.paymentDone" name="paymentDone" [value]="true" >  
+    <label type="radio" class="form-check-label" >Yes<br> </label>
+    </div>
+    
+    <div class="form-check">
+      <input type="radio" class="form-check-input" [(ngModel)]="ehr.util.paymentDone" name="paymentDone" [value]="false" >  
+      <label type="radio" class="form-check-label" >No<br> </label>
+    </div>
+
+  </div>
+
+
+
+  <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
+    
+    <!-- <br> -->
+    <!-- <input type="textbox" style="height:10em;" required name="patientFeedback" #patientFeedback="ngModel" [class.is-invalid]="patientFeedback.invalid && patientFeedback.touched" class="form-control" [(ngModel)]="ehr.patientFeedback"> -->
+    <select (blur)="validatepaymentMethod(paymentMethod.value)" (change)="validatepaymentMethod(paymentMethod.value)"  class="custom-select" #paymentMethod="ngModel" [class.is-invalid]="paymentMethodHasError && paymentMethod.touched"  name="paymentMethod" id="paymentMethod" [(ngModel)]="utils.paymentMethod">
+      <option value="default">Payment Method</option>
+      <option *ngFor="let paymentMethod of paymentMethods">{{ paymentMethod }}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="!paymentMethodHasError || paymentMethod.untouched">Please select a payment method</small>
+  </div>
+
+
+  <button [disabled]="patientForm.form.invalid || paymentMethodHasError" class="btn-primary btn" style="margin-top: 2%;margin-bottom: 2%;">Submit</button>
+
+
+
+</form>
+</div>

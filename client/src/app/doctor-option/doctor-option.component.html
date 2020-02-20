@@ -1,0 +1,32 @@
+<div class = "container">
+    <div class = "row align-items-center justify-content-center">
+        <div class = "col-10">
+                <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <button class="btn btn-light" (click)="activateDiagnosis()">Diagnose</button>
+                        </li>
+                        <li class="nav-item">
+                                <button class="btn btn-light" (click)="activateHistory()">History</button>
+                        </li>
+                    </ul>
+                </nav>
+        </div>
+    </div>
+
+    <div class = "row align-items-center justify-content-center" *ngIf="isDiagnosisActive==true">
+        <div class = "col-10">
+            <app-diagnosis></app-diagnosis>
+        </div>
+    </div>
+
+
+    
+    <div class = "row align-items-center justify-content-center" *ngIf="isHistoryActive==true">
+        <div class = "col-10">
+            <app-history></app-history>       
+        </div>
+    </div>
+
+
+</div>

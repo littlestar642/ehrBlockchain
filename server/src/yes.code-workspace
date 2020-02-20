@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "/home/blockchain/finalProj/contract"
+		},
+		{
+			"path": "/home/blockchain/finalProj/client"
 		}
 	],
 	"settings": {}
