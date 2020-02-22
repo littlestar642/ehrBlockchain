@@ -20,7 +20,7 @@ export class Symptoms {
     ChestPain:Boolean;
 
     @Property()
-    Weight:Number
+    weight:Number
 
 
 }

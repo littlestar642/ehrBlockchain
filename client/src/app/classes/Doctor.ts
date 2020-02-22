@@ -1,4 +1,6 @@
 export class Doctor {
-    docotrId : string;
+    doctorId : string;
     doctorPassword : string;
+    doctorFirstName : string;
+    doctorLastName : string;
 }

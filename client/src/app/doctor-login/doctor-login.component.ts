@@ -27,7 +27,7 @@ export class DoctorLoginComponent implements OnInit {
 
   login(doctorInformation){
 
-    this.doctor.docotrId = this.DoctorId.value;
+    this.doctor.doctorId = this.DoctorId.value;
     this.doctor.doctorPassword = this.Password.value;
 
     //call doctorService(this.doctor)

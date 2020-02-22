@@ -163,5 +163,19 @@ export class EhrContract extends Contract {
     
       }
 
+      @Transaction(false)
+    public async queryByEhr(ctx:Context, ehrID:string) {
+
+        let queryString = {
+          selector: {
+            ehrID: ehrID
+          }
+        };
+    
+        let queryResults = await this.queryWithQueryString(ctx, JSON.stringify(queryString));
+        return queryResults;
+    
+      }
+
 
 }

@@ -32,24 +32,39 @@ export class DoctorService {
     // );
   }
 
-  verifyPatient( parientId : string, otp : string) : Observable<any>{
-    let url = this.baseUrl + "verifyPatient";
-    let headers = new HttpHeaders();
-    headers.set("patientId",parientId);
-    headers.set("otp",otp);
-    return this.http.get<any>(url,{headers:headers});
+  createDoctor(args:any):Observable<any>{
+    let newObj={doctorID:"",firstName:"",lastName:""};
+    newObj.doctorID=args.doctorId;
+    newObj.firstName=args.doctorFirstName;
+    newObj.lastName=args.doctorLastName;
+    let url = this.baseUrl + "createDoctor";
+    return this.http.post(url,newObj).pipe(
+      tap(resp=>{
+        console.log(resp);
+      })
+    )
   }
 
-  addPatient( user : User) : Observable<User>{
-    let url = this.baseUrl + "addPatient";
-    return this.http.post<User>(url,user).pipe(
-      tap(
-        resp => {
-          console.log("doc service -> addPatient : "+JSON.stringify(resp));
-        }
-      )
-    );
-  }
+  
+
+  // verifyPatient( parientId : string, otp : string) : Observable<any>{
+  //   let url = this.baseUrl + "verifyPatient";
+  //   let headers = new HttpHeaders();
+  //   headers.set("patientId",parientId);
+  //   headers.set("otp",otp);
+  //   return this.http.get<any>(url,{headers:headers});
+  // }
+
+  // addPatient( user : User) : Observable<User>{
+  //   let url = this.baseUrl + "addPatient";
+  //   return this.http.post<User>(url,user).pipe(
+  //     tap(
+  //       resp => {
+  //         console.log("doc service -> addPatient : "+JSON.stringify(resp));
+  //       }
+  //     )
+  //   );
+  // }
 
   getHistory(patientId:string) : Observable<any>  {
     let url = this.baseUrl + "getHistory/"+patientId;

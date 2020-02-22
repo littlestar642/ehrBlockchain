@@ -21,7 +21,7 @@ export class DiagnosisComponent implements OnInit {
   bloodTest=new BloodTest(30,30,30,30,30,30);
   symptoms=new Symptoms(true,65,true,true,80);
   utils=new Utils("2020-12-30",3000,true,"default");
-  ehr =new Ehr("1234","2131",this.symptoms,"Other Problems",this.bloodTest,"List of Medicines",this.utils,"Review of doctor");
+  ehr =new Ehr("D001","P001","E001",this.symptoms,"Other Problems",this.bloodTest,"List of Medicines",this.utils,"Review of doctor");
   TrueValue=true;
   FalseValue=false;
   paymentMethodHasError=true;

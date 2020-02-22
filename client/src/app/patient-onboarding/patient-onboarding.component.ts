@@ -1,7 +1,9 @@
+import { Patient } from './../classes/patient';
 import { Router } from '@angular/router';
-import { DoctorService } from './../services/doctor.service';
+import { PatientService } from './../services/patient.service';
 import { User } from './../classes/user';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';  
 
 @Component({
   selector: 'app-patient-onboarding',
@@ -11,18 +13,30 @@ import { Component, OnInit } from '@angular/core';
 export class PatientOnboardingComponent implements OnInit {
 
   title = "forms";
-  userModel = new User('random','rob@gm.com',1234567890,123456);
+  //userModel = new User('random','rob@gm.com',1234567890,123456);
+  private patient = new Patient();  
   
-  constructor(  private doctorService : DoctorService,
+  form = new FormGroup({
+    patientFirstName : new FormControl('',Validators.required),
+    patientLastName : new FormControl('',Validators.required),
+    patientId : new FormControl('',Validators.required),
+    patientPassword : new FormControl('',Validators.required)
+  })
+
+  constructor(  private patientService : PatientService,
                 private router : Router ) { }
 
   ngOnInit() {
   }
 
-  sendData(){
-    console.log("name : "+this.userModel.name);
+  savePatient(patientInormation){
+    this.patient.patientFirstName = this.form.get("patientFirstName").value;
+    this.patient.patientLastName = this.form.get("patientLastName").value;
+    this.patient.patientId = this.form.get("patientId").value;
+    this.patient.patientPassword = this.form.get("patientPassword").value;
+    console.log("name : "+JSON.stringify(this.patient));
     //service to send this data
-    this.doctorService.addPatient(this.userModel).subscribe(
+    this.patientService.createPatient(this.patient).subscribe(
       data => {
         console.log(" patient onboarding -> sendData : "+JSON.stringify(data));
         this.router.navigate(['/doctorHome/1']);

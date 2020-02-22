@@ -8,13 +8,23 @@ const util = require('util');
 const path = require('path');
 const fs = require('fs');
 const uuid=require('uuid');
+const nodemailer=require('nodemailer');
 
 let network = require('./fabric/network.js');
 
 const app = express();
+var session = require('express-session')
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
+
+app.set('trust proxy', 1)
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 const configPath = path.join(process.cwd(), './config.json');
 const configJSON = fs.readFileSync(configPath, 'utf8');
@@ -50,18 +60,9 @@ app.post('/createDoctor', async (req, res) => {
         if (invokeResponse.error) {
             res.send(invokeResponse.error);
         } else {
-            try{
-                let parsedResponse = JSON.parse(invokeResponse);
-              parsedResponse += 'doctor created';
-              res.send(parsedResponse);
-              }
-              catch{
-                let parsedResponse =invokeResponse+'doctor created';
-                res.send(invokeResponse);
-              }
-        }
+           res.send(true);
     }
-});
+  }});
 
 app.post('/createPatient', async (req, res) => {
   console.log('req.body: ');
@@ -91,17 +92,59 @@ app.post('/createPatient', async (req, res) => {
       if (invokeResponse.error) {
           res.send(invokeResponse.error);
       } else {
-        try{
-            let parsedResponse = JSON.parse(invokeResponse);
-          parsedResponse += 'updated doctor with new ID';
-          res.send(parsedResponse);
-          }
-          catch{
-            res.send(invokeResponse);
-          }
-      }
+        res.send(true);      
   }
+}});
+
+
+app.post('/sendOtpToPatient',async (req,res)=>{
+  console.log(req.body);
+
+  let patientID=req.body.patientID;
+  let emailToSend="avinashjaiswal642@gmail.com"
+  let networkObj = await network.connectToNetwork(patientID);
+  let patientExist=await network.invoke(networkObj,false,'patientExists',[{"patientID":patientID}]);
+  if(!patientExist){
+    res.send("Patient does not exist");
+}
+  req.session.patientID=patientID;
+
+  let otp=Math.floor(Math.random()*100000);
+  req.session.otp=otp;
+
+
+  // let emailToSend=req.body.email;
+  var transporter = nodemailer.createTransport({
+    host:"smtp.gmail.com",
+    auth: {
+      user: 'doctordappapp@gmail.com',
+      pass: 'doctordap123'
+    },
+    secure:false,
+    port:587
+  });
+  
+  var mailOptions = {
+    from: 'doctordappapp@gmail.com',
+    to: `${emailToSend}`,
+    subject: 'Your OTP for logging into doctor dap is',
+    text: `${otp}`
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+      res.send(error);
+    } else {
+      res.send('Email sent: ' + info.response);
+    }
+  });
 });
+
+app.post('/checkOtp',(req,res)=>{
+  if(req.body.otp===req.session.otp)res.send(true);
+  else res.send(false);
+})
 
 app.post('/createEhr', async (req, res) => {
 console.log(req.body);

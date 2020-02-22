@@ -14,6 +14,8 @@ import { DoctorOptionComponent } from './doctor-option/doctor-option.component';
 import { DiagnosisComponent } from './diagnosis/diagnosis.component';
 import { HistoryComponent } from './history/history.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DoctorRegistrationComponent } from './doctor-registration/doctor-registration.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { HttpClientModule } from '@angular/common/http';
     PatientConsentComponent,
     DoctorOptionComponent,
     DiagnosisComponent,
-    HistoryComponent
+    HistoryComponent,
+    DoctorRegistrationComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

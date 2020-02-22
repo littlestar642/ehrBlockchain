@@ -7,6 +7,7 @@ export class Ehr {
     constructor(
         public doctorID:String,
         public patientID:String,
+        public ehrID:String,
         public Symptoms:Symptoms,
         public anyOtherProblem:String,
         public bloodtest:BloodTest,

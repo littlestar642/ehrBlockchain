@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class = "col-6 text-center" style="margin-top: 100px; margin-bottom: 100px;">
+            <div class="card-container">
+                <div class="card text-black bg-light border-primary">
+                    <h2>Doctor Registraion form</h2>  
+                    
+                    <form [formGroup]="form" #doctorInformation (ngSubmit)="saveDoctor(doctorInformation)">  
+                    
+                    <div class="row justify-content-center align-items-center">  
+                        <div class="col-md-8">  
+                            <label for="doctorFirstName">First name </label>  
+                            <input formControlName="doctorFirstName" class="form-control" type="text">   
+                        </div>  
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">  
+                        <div class="col-md-8">  
+                            <label for="doctorLastName"> Last name </label>  
+                            <input formControlName="doctorLastName" class="form-control" type="text">   
+                        </div>  
+                    </div>  
+                    
+                    <div class="row justify-content-center align-items-center">  
+                            <div class="col-md-8">  
+                            <label for="docotorId"> Doctor ID </label>  
+                            <input formControlName="doctorId" class="form-control" type="text">   
+                        </div>  
+                    </div>  
+                    
+                    <div class="row justify-content-center align-items-center">  
+                        <div class="col-md-8">
+                            <label for="password"> Password </label>  
+                            <input formControlName="doctorPassword" class="form-control" type="password">   
+                        </div>  
+                    </div>  
+                    
+                    <div class="row justify-content-center align-items-center" style="margin: 10px;">  
+                        <div class="col-md-4">  
+                            <button class="btn btn-md btn-primary btn-style"  >Save</button>  
+                        </div>  
+                    </div>  
+                    
+                    </form>
+                    <a [routerLink] = "['/doctorLogin']"> click here to Login </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
