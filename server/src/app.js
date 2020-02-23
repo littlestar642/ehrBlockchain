@@ -154,12 +154,12 @@ console.log(req.body);
   if (networkObj.error) {
     res.send(networkObj.error);
   }
-  let patientExist=await network.invoke(networkObj,false,'patientExists',[{patientID}]);
+  let patientExist=await network.invoke(networkObj,true,'patientExists',[{patientID}]);
   if(!patientExist){
     res.send("Patient does not exist");
 }
 let args = [JSON.stringify(req.body)];
-let invokeResponse = await network.invoke(networkObj, false, 'createEhr', args);
+let invokeResponse = await network.invoke(networkObj,false, 'createEhr', args);
 if (invokeResponse.error) {
   res.send(invokeResponse.error);
 } else {
@@ -193,13 +193,13 @@ app.post('/updateDoctor', async (req, res) => {
     if (networkObj.error) {
         res.send(networkObj.error);
     }
-    let patientExist=await network.invoke(networkObj,false,'patientExists',[{patientID}]);
+    let patientExist=await network.invoke(networkObj,true,'patientExists',[{patientID}]);
   if(!patientExist){
     res.send("Patient does not exist");
 }
     
     let args = [JSON.stringify(req.body)];
-    let invokeResponse = await network.invoke(networkObj, false, 'updateDoctorOnEhr', args);
+    let invokeResponse = await network.invoke(networkObj,false, 'updateDoctorOnEhr', args);
     if (invokeResponse.error) {
       res.send(invokeResponse.error);
   } else {
@@ -216,6 +216,40 @@ app.post('/updateDoctor', async (req, res) => {
   }
 
 
+})
+
+app.post("/getHistoryForPatient",async (req,res)=>{
+  let patientID=req.body.patientID;
+  let networkObj = await network.connectToNetwork(newDoctorID);
+
+
+    if (networkObj.error) {
+        res.send(networkObj.error);
+    }
+    let patientExist=await network.invoke(networkObj,true,'patientExists',[{patientID}]);
+    if(!patientExist){
+      res.send("Patient does not exist");
+  }
+
+  let args = [JSON.stringify(req.body)];
+    let invokeResponse = await network.invoke(networkObj,false, 'queryByPatientID', args);
+    if (invokeResponse.error) {
+      res.send(invokeResponse.error);
+  } else {
+      console.log('after network.invoke ');
+      try{
+        let parsedResponse = JSON.parse(invokeResponse);
+      parsedResponse += 'updated doctor with new ID';
+      res.send(parsedResponse);
+      }
+      catch{
+        res.send(invokeResponse);
+      }
+      
+  }
+  
+
+  
 })
 
 app.listen(8000, () => {

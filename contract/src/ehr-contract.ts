@@ -163,7 +163,7 @@ export class EhrContract extends Contract {
     
       }
 
-      @Transaction(false)
+    @Transaction(false)
     public async queryByEhr(ctx:Context, ehrID:string) {
 
         let queryString = {
@@ -176,6 +176,20 @@ export class EhrContract extends Contract {
         return queryResults;
     
       }
+
+      @Transaction(false)
+      public async queryByPatientID(ctx:Context, patientID:string) {
+  
+          let queryString = {
+            selector: {
+              patientID: patientID
+            }
+          };
+      
+          let queryResults = await this.queryWithQueryString(ctx, JSON.stringify(queryString));
+          return queryResults;
+      
+        }
 
 
 }
