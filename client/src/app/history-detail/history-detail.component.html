@@ -1,0 +1,57 @@
+<div *ngIf = "record" class="page">
+    <div class="child">
+        <h5>Symptoms : </h5>
+        <hr/>
+        <div *ngIf="record.Symptoms" class="subchild">
+            <p>Fainting: {{record.Symptoms.faintaing}}</p>
+            <p>Heartbeat rate: {{record.Symptoms.heartBeatRate}}</p>
+            <p>Chest-tightness: {{record.Symptoms.ChestTightness}}</p>
+            <p>Chest-pain: {{record.Symptoms.ChestPain}}</p>
+            <p>Weight:  {{record.Symptoms.weight}}</p>
+        </div>
+    </div>
+    <div class="child">
+        <h5>Other probs :</h5>
+        <hr/>
+        <div *ngIf="record" class="subchild">
+            {{record.anyOtherProblem}}
+        </div>
+    </div>
+    <div class="child">
+        <h5>Blood-test :</h5>
+        <hr/>
+        <div *ngIf="record.bloodtest" class="subchild">
+            <p>Wbc Count:   {{record.bloodtest.wbcCount}}</p>
+            <p>Rbc Count: {{record.bloodtest.rbcCount}}</p>
+            <p>Total cholestrol: {{record.bloodtest.totalCholestrol}}</p>
+            <p>Low Density Lipoprotien: {{record.bloodtest.totalCholestrol}}</p>
+            <p>High Density Lipoprotien: {{record.bloodtest.HighDensityLipo}}</p>
+            <p>Triglycerides: {{record.bloodtest.triglycerides}}</p>
+        </div>
+    </div>
+    <div class="child">
+        <h5>Medicines :</h5>
+        <hr/>
+        <div *ngIf="record" class="subchild">
+                {{record.medicines}}
+        </div>
+    </div>
+    <div class="child">
+        <h5>Status : </h5>
+        <hr/>
+        <div *ngIf="record.util" class="subchild">
+            <p> public nextAppointment: {{record.util.nextAppointment}} </p>   
+            <p>public consultancyFees:  {{record.util.consultancyFees}}</p>    
+            <p>public paymentDone:  {{record.util.paymentDone}}</p>    
+            <p>public paymentMethod: {{record.util.paymentMethod}}</p>
+        </div>
+    </div>
+    <div class="child">
+        <h5>Patient feedback : </h5>
+        <hr/>
+        <div *ngIf="record" class="subchild">
+                {{record.patientFeedback}}
+        </div>
+    </div>
+    <button (click)="goBack()" class="btn btn-primary">Back</button>
+</div>

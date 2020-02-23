@@ -4,7 +4,7 @@
       <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
           <div class="card-container">
               <div class="card text-black bg-light border-primary">
-                <h2>Docotor Login</h2>  
+                <h2>Doctor Login</h2>  
 
                 <form [formGroup]="form" #doctorInformation (ngSubmit)="login(doctorInformation)">  
                   
@@ -36,7 +36,7 @@
 
                 <a [routerLink] = "['/patientLogin']"> click here to login as a patient </a>
                 <a [routerLink] = "['/doctorRegistration']"> click here to register </a>
-
+                <a [routerLink] = "['/homepage']"> Go back to home </a>
               </div>
           </div>
       </div>

@@ -1,3 +1,4 @@
+import { HistoryDetailComponent } from './history-detail/history-detail.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { DoctorRegistrationComponent } from './doctor-registration/doctor-registration.component';
 import { HistoryComponent } from './history/history.component';
@@ -13,7 +14,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path : "doctorLogin", component : DoctorLoginComponent },
-  { path : "Homepage", component : HomepageComponent },
+  { path : "homepage", component : HomepageComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
   { path : "patientLogin", component : PatientLoginComponent },
   { path : "doctorHome/:doctorId", component : DoctorHomeComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path : "patientOnboarding", component : PatientOnboardingComponent },
   { path : "patientConsent", component : PatientConsentComponent },
   { path : "doctorOption", component : DoctorOptionComponent },
-  { path: "history", component : HistoryComponent}
+  { path: "history", component : HistoryComponent},
+  { path : "historyDetail/:recordNumber", component: HistoryDetailComponent }
 ];
 
 @NgModule({

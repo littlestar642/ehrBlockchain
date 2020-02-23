@@ -219,7 +219,7 @@
 
 
   <div style="margin-top:2%;margin-bottom: 0px;"  class="form-group">
-    <label>nextAppointment</label>
+    <label>Next Appointment</label>
     <input type="date" required name="nextAppointment" #nextAppointment="ngModel" [class.is-invalid]="nextAppointment.invalid && nextAppointment.touched" class="form-control" [(ngModel)]="ehr.util.nextAppointment">
     <small class="text-danger" [class.d-none]="nextAppointment.valid || nextAppointment.untouched">This is a required value!</small>
   </div>

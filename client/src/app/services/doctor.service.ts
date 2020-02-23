@@ -1,10 +1,9 @@
-import { User } from './../classes/user';
 import { Ehr } from './../classes/ehr';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ObserveOnMessage } from 'rxjs/internal/operators/observeOn';
+
 
 
 @Injectable({
@@ -66,9 +65,9 @@ export class DoctorService {
   //   );
   // }
 
-  getHistory(patientId:string) : Observable<any>  {
+  getHistory( patientId:string  ) : Observable<Ehr[]>  {
     let url = this.baseUrl + "getHistory/"+patientId;
-    return this.http.get(this.baseUrl).pipe(
+    return this.http.get<Ehr[]>(this.baseUrl).pipe(
       tap(
         resp => {
           console.log("doc service -> getHistory : "+JSON.stringify(resp));

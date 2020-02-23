@@ -1,0 +1,11 @@
+#header{
+    width : auto;
+    height : 200px;
+    text-align : center;
+    margin : 10px;
+    background-color: cadetblue;
+}
+
+h1{
+    color: white;
+}
