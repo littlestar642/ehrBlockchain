@@ -9,10 +9,13 @@ export class DoctorOptionComponent implements OnInit {
 
   isDiagnosisActive = true;
   isHistoryActive = false;
-
+  private patientId : string;
+  private doctorId : string;
   constructor() { }
 
   ngOnInit() {
+    this.patientId = localStorage.getItem("patientId");
+    this.doctorId = localStorage.getItem("doctorId");
   }
 
   activateDiagnosis(){

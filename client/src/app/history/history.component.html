@@ -1,1 +1,9 @@
-<p>history works!</p>
+<div *ngFor="let record of records; let i = index">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Record {{i+1}}</h2>
+            <a class="stretched-link" routerLink = "/historyDetail/{{i}}"></a>
+            <!--<app-history-detail [records]='records' style="display: none;"></app-history-detail>-->
+        </div>
+    </div>
+</div>

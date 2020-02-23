@@ -1,3 +1,4 @@
+import { AlertService } from './../services/alert.service';
 import { Patient } from './../classes/patient';
 import { Router } from '@angular/router';
 import { PatientService } from './../services/patient.service';
@@ -24,7 +25,8 @@ export class PatientOnboardingComponent implements OnInit {
   })
 
   constructor(  private patientService : PatientService,
-                private router : Router ) { }
+                private router : Router,
+                private alertService : AlertService ) { }
 
   ngOnInit() {
   }
@@ -39,10 +41,13 @@ export class PatientOnboardingComponent implements OnInit {
     this.patientService.createPatient(this.patient).subscribe(
       data => {
         console.log(" patient onboarding -> sendData : "+JSON.stringify(data));
-        this.router.navigate(['/doctorHome/1']);
+        this.alertService.success("Patient onboarded successfully !!!");
+        localStorage.setItem("patientId",this.patient.patientId);
+        this.router.navigate(['/doctorHome/'+localStorage.getItem("doctorId")]);
       },
       error => {
         console.log(" patient onboarding -> sendData error : "+JSON.stringify(error));
+        this.alertService.error("Patient onboarding failed :(");
       }
     )
   }

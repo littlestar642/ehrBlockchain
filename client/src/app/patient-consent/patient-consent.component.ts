@@ -1,3 +1,4 @@
+import { AlertService } from './../services/alert.service';
 import { Router } from '@angular/router';
 import { PatientService } from './../services/patient.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -18,7 +19,8 @@ export class PatientConsentComponent implements OnInit {
   });
   constructor(  private location : Location,
                 private patientService : PatientService, 
-                private router : Router ) { }
+                private router : Router,
+                private alertService : AlertService ) { }
 
   ngOnInit() {
   }
@@ -35,7 +37,18 @@ export class PatientConsentComponent implements OnInit {
     console.log("pid : "+ patientId);
     console.log("otp : "+ otp);
 
-    this.patientService.checkOtp(otp).subscribe(res=>console.log(res));
+    this.patientService.checkOtp(otp).subscribe(
+      res => {
+        console.log("verifyCode res : "+JSON.stringify(res));
+        this.alertService.success("Patient consent verified successfully !!!");
+        localStorage.setItem("patientId",this.form.get("patientId").value);
+        this.router.navigate(['/doctorOption']);
+      },
+      error => {
+        console.log("verifyCode error : "+JSON.stringify(error));
+        this.alertService.error("error while checking otp :(");
+      }
+    );
     //service to verifiy
     // this.doctorService.verifyPatient(patientId,otp).subscribe(
     //   data=>{

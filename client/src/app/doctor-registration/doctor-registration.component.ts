@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AlertService } from './../services/alert.service';
 import { DoctorService } from './../services/doctor.service';
 import { Doctor } from '../classes/Doctor';
 import { Component, OnInit } from '@angular/core';
@@ -20,7 +22,9 @@ export class DoctorRegistrationComponent implements OnInit {
     doctorPassword : new FormControl('',Validators.required)
   })
 
-  constructor( private docotorService : DoctorService ) { }
+  constructor(  private docotorService : DoctorService,
+                private alertService : AlertService,
+                private router : Router ) { }
 
   ngOnInit() {
   }
@@ -32,9 +36,13 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
     this.docotorService.createDoctor(this.doctor).subscribe(
       data => {
+        this.alertService.success("doctor registered successfully !!!");
         console.log("saveDoctor data: "+JSON.stringify(data));
+        localStorage.setItem("doctorId",this.doctor.doctorId);
+        this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
       },
       error => {
+        this.alertService.error("error while registration :(");
         console.log("saveDoctor error: "+JSON.stringify(error));
       }
     )
