@@ -66,8 +66,8 @@ export class DoctorService {
   // }
 
   getHistory( patientId:string  ) : Observable<Ehr[]>  {
-    let url = this.baseUrl + "getHistory/"+patientId;
-    return this.http.get<Ehr[]>(this.baseUrl).pipe(
+    let url = this.baseUrl + "getHistoryForPatient/";
+    return this.http.post<Ehr[]>(this.baseUrl,{patientId}).pipe(
       tap(
         resp => {
           console.log("doc service -> getHistory : "+JSON.stringify(resp));
