@@ -1,3 +1,4 @@
+import { AlertService } from './../services/alert.service';
 import { DoctorService } from './../services/doctor.service';
 import { User } from './../classes/user';
 import { Utils } from './../classes/utils';
@@ -14,6 +15,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiagnosisComponent implements OnInit {
 
+  private patientId : string;
+  private doctorId : string;
   title = 'forms';
   paymentMethods=['Cash','Cheque'];
   paymentDones=['Yes','No'];
@@ -35,9 +38,12 @@ export class DiagnosisComponent implements OnInit {
       this.paymentMethodHasError=false;
     }
   }
-  constructor(  private doctorService : DoctorService ) { }
+  constructor(  private doctorService : DoctorService,
+                private alertService : AlertService ) { }
 
   ngOnInit() {
+    this.patientId = localStorage.getItem("patientId");
+    this.doctorId = localStorage.getItem("doctorId");
   }
 
   recordData(){
@@ -50,10 +56,12 @@ export class DiagnosisComponent implements OnInit {
     // doctorId is fixed constant as of now
     this.doctorService.createEhr(this.ehr).subscribe( 
       data=>{
-        console.log("resp : "+JSON.stringify(data))
+        console.log("resp : "+JSON.stringify(data));
+        this.alertService.success("Diagnosis recorded successfully !!!");
       },
       error => {
         console.log("error : "+JSON.stringify(error));
+        this.alertService.error("Failed to record Diagnosis :(");
       });
   }
 

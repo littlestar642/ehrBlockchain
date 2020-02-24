@@ -1,3 +1,4 @@
+import { AlertService } from './services/alert.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +17,9 @@ import { HistoryComponent } from './history/history.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DoctorRegistrationComponent } from './doctor-registration/doctor-registration.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { AlertComponent } from './alert/alert.component';
+import { HistoryDetailComponent } from './history-detail/history-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +34,9 @@ import { HomepageComponent } from './homepage/homepage.component';
     DiagnosisComponent,
     HistoryComponent,
     DoctorRegistrationComponent,
-    HomepageComponent
+    HomepageComponent,
+    AlertComponent,
+    HistoryDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,7 @@ import { HomepageComponent } from './homepage/homepage.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ AlertService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

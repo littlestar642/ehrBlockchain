@@ -1,0 +1,26 @@
+.page{
+    padding: 10px;
+    margin: 2px;
+}
+
+.child{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 3px;
+    padding: 5px;
+}
+
+.subchild{
+    padding: 3px;
+    margin: 2px;
+}
+button{
+    margin: 5px;
+    padding: 2px;
+}
+
+hr{
+    margin: 2px;
+    background-color: black;
+    height: 2px;
+}
