@@ -15,4 +15,7 @@ export class Utils {
 
     @Property()
     public paymentDone:Boolean
+
+    @Property()
+    public paymentMethod:String
 }

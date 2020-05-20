@@ -9,6 +9,7 @@ const path = require('path');
 const fs = require('fs');
 const uuid=require('uuid');
 const nodemailer=require('nodemailer');
+const mongoose=require('mongoose');
 
 let network = require('./fabric/network.js');
 
@@ -33,6 +34,11 @@ const config = JSON.parse(configJSON);
 //use this identity to query
 const appAdmin = config.appAdmin;
 
+
+
+const otpModel=require("./models/otp");
+mongoose.connect('mongodb+srv://m001-student:pCuWIN5JcG4JSzMO@avinash-001-q92dl.mongodb.net/blockchain?retryWrites=true&w=majority', {useNewUrlParser: true,useUnifiedTopology: true }).then(res=>console.log('connected'))
+    .catch(e=>console.log(e));
 
 
 
@@ -112,67 +118,79 @@ app.post('/sendOtpToPatient',async (req,res)=>{
   let otp=Math.floor(Math.random()*100000);
   req.session.otp=otp;
 
+  let otpJson=new otpModel({patientID,otp});
+  otpJson.save().then(e=>res.send(true));
+
+
 
   // let emailToSend=req.body.email;
-  var transporter = nodemailer.createTransport({
-    host:"smtp.gmail.com",
-    auth: {
-      user: 'doctordappapp@gmail.com',
-      pass: 'doctordap123'
-    },
-    secure:false,
-    port:587
-  });
+  // var transporter = nodemailer.createTransport({
+  //   host:"smtp.gmail.com",
+  //   auth: {
+  //     user: 'doctordappapp@gmail.com',
+  //     pass: 'doctordap123'
+  //   },
+  //   secure:false,
+  //   port:587
+  // });
   
-  var mailOptions = {
-    from: 'doctordappapp@gmail.com',
-    to: `${emailToSend}`,
-    subject: 'Your OTP for logging into doctor dap is',
-    text: `${otp}`
-  };
+  // var mailOptions = {
+  //   from: 'doctordappapp@gmail.com',
+  //   to: `${emailToSend}`,
+  //   subject: 'Your OTP for logging into doctor dap is',
+  //   text: `${otp}`
+  // };
   
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      res.send('Email sent: ' + info.response);
-    }
-  });
+  // transporter.sendMail(mailOptions, function(error, info){
+  //   if (error) {
+  //     console.log(error);
+  //     res.send(error);
+  //   } else {
+  //     res.send('Email sent: ' + info.response);
+  //   }
+  // });
 });
 
 app.post('/checkOtp',(req,res)=>{
-  if(req.body.otp===req.session.otp)res.send(true);
-  else res.send(false);
+  let patientID=req.body.patientID;
+  let otp=req.body.otp;
+  otpModel.find({patientID}).then(ret=>{
+    console.log(ret);
+    if(ret[0].otp===otp)res.send(true);
+
+  })
+})
+
+
+app.post('/checkDoctor',async (req,res)=>{
+  let doctorID=req.body.doctorID;
+  let networkObj = await network.connectToNetwork(doctorID);
+  if(networkObj.error){res.send(false)};
+  let doctorExist=await network.invoke(networkObj,false,'doctorExists',[{"doctorID":doctorID}]);
+  if(!doctorExist){
+    res.send(false);
+}
+else res.send(true);
 })
 
 app.post('/createEhr', async (req, res) => {
-console.log(req.body);
   let patientID=req.body.patientID;
   let doctorID=req.body.doctorID;
+
   let networkObj = await network.connectToNetwork(doctorID);
   if (networkObj.error) {
     res.send(networkObj.error);
   }
-  let patientExist=await network.invoke(networkObj,true,'patientExists',[{patientID}]);
-  if(!patientExist){
-    res.send("Patient does not exist");
-}
+//   let patientExist=await network.invoke(networkObj,true,'patientExists',[{patientID}]);
+//   if(!patientExist){
+//     res.send(false);
+// }
 let args = [JSON.stringify(req.body)];
 let invokeResponse = await network.invoke(networkObj,false, 'createEhr', args);
 if (invokeResponse.error) {
   res.send(invokeResponse.error);
 } else {
-  console.log('after network.invoke ');
-  try{
-    let parsedResponse = JSON.parse(invokeResponse);
-  parsedResponse += 'updated doctor with new ID';
-  res.send(parsedResponse);
-  }
-  catch{
-    res.send(invokeResponse);
-  }
-  
+  res.send(true); 
 }
 
 
@@ -220,7 +238,7 @@ app.post('/updateDoctor', async (req, res) => {
 
 app.post("/getHistoryForPatient",async (req,res)=>{
   let patientID=req.body.patientID;
-  let networkObj = await network.connectToNetwork(newDoctorID);
+  let networkObj = await network.connectToNetwork(patientID);
 
 
     if (networkObj.error) {
@@ -232,7 +250,7 @@ app.post("/getHistoryForPatient",async (req,res)=>{
   }
 
   let args = [JSON.stringify(req.body)];
-    let invokeResponse = await network.invoke(networkObj,false, 'queryByPatientID', args);
+    let invokeResponse = await network.invoke(networkObj,true, 'queryByPatientID', args);
     if (invokeResponse.error) {
       res.send(invokeResponse.error);
   } else {
@@ -250,6 +268,13 @@ app.post("/getHistoryForPatient",async (req,res)=>{
   
 
   
+})
+
+app.post('/getOtp',(req,res)=>{
+  let patientID=req.body.patientID;
+  otpModel.find({patientID}).then(ret=>{
+    res.send(ret.otp);
+  })
 })
 
 app.listen(8000, () => {

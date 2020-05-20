@@ -26,6 +26,13 @@ export class EhrContract extends Contract {
         return (!!buffer && buffer.length > 0);
     }
 
+    @Transaction(false)
+    @Returns('boolean')
+    public async doctorExists(ctx: Context, doctorID: string): Promise<boolean> {
+        const buffer = await ctx.stub.getState(doctorID);
+        return (!!buffer && buffer.length > 0);
+    }
+
     @Transaction()
     public async createEhr(ctx: Context,args:string): Promise<void> {
       let argsJSON=JSON.parse(args) as Ehr;
@@ -98,17 +105,23 @@ export class EhrContract extends Contract {
     @Transaction()
     public async createDoctor(ctx:Context,args:string){
         let newArgs=JSON.parse(args);
-        let newDoctor=new Doctor(newArgs.doctorID,newArgs.firstName,newArgs.lastName);
+        let newDoctor=new Doctor(newArgs.doctorID,newArgs.firstName,newArgs.lastName,newArgs.password);
         await ctx.stub.putState(newDoctor.doctorID, Buffer.from(JSON.stringify(newDoctor)));
     }
 
     @Transaction()
     public async createPatient(ctx:Context,args:string){
         let newArgs=JSON.parse(args);
-        let newPatient={patientID:newArgs.patientID,firstname:newArgs.firstname,lastname:newArgs.lastname};
+        let newPatient={patientID:newArgs.patientID,firstname:newArgs.firstname,lastname:newArgs.lastname,password:newArgs.password};
         await ctx.stub.putState(newPatient.patientID, Buffer.from(JSON.stringify(newPatient)));
     }
 
+
+
+
+
+
+    
     @Transaction(false)
     public async queryWithQueryString(ctx:Context, queryString:string) {
 
