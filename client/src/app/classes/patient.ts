@@ -3,4 +3,5 @@ export class Patient {
     patientLastName : string;
     patientId : string;
     patientPassword : string;
+    doctorId:string;
 }

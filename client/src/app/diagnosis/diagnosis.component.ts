@@ -24,7 +24,7 @@ export class DiagnosisComponent implements OnInit {
   bloodTest=new BloodTest(30,30,30,30,30,30);
   symptoms=new Symptoms(true,65,true,true,80);
   utils=new Utils("2020-12-30",3000,true,"default");
-  ehr =new Ehr("D001","P001","E001",this.symptoms,"Other Problems",this.bloodTest,"List of Medicines",this.utils,"Review of doctor");
+  ehr =new Ehr(this.doctorId,this.patientId,"E003",this.symptoms,"Other Problems",this.bloodTest,"List of Medicines",this.utils,"Review of doctor");
   TrueValue=true;
   FalseValue=false;
   paymentMethodHasError=true;
@@ -47,21 +47,19 @@ export class DiagnosisComponent implements OnInit {
   }
 
   recordData(){
-    console.log("blood test : "+JSON.stringify(this.bloodTest));
-    console.log("symptoms : "+JSON.stringify(this.symptoms));
-    console.log("utils : "+JSON.stringify(this.utils));
-    console.log("Ehr : "+JSON.stringify(this.ehr));
-    //call service
-    // this.ehr.patientID = localStorage.getItem("pateintId");
-    // doctorId is fixed constant as of now
+    
+    this.ehr.doctorId=this.doctorId;
+    this.ehr.patientId=this.patientId;
     this.doctorService.createEhr(this.ehr).subscribe( 
       data=>{
-        console.log("resp : "+JSON.stringify(data));
-        this.alertService.success("Diagnosis recorded successfully !!!");
-      },
-      error => {
-        console.log("error : "+JSON.stringify(error));
-        this.alertService.error("Failed to record Diagnosis :(");
+        if(!data.action){
+          this.alertService.error(data.message);
+        }
+        else{
+          // localStorage.setItem('doctorId',this.doctor.doctorId);
+          // this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
+          this.alertService.success(data.message);
+        }
       });
   }
 

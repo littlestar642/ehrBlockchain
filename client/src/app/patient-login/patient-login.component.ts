@@ -3,6 +3,7 @@ import { PatientService } from './../services/patient.service';
 import { Patient } from '../classes/patient';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-patient-login',
@@ -14,11 +15,10 @@ export class PatientLoginComponent implements OnInit {
   private patient = new Patient();
 
   constructor(  private patientService : PatientService,
-                private router : Router ) { }
+                private router : Router, private alertService:AlertService ) { }
 
   form = new FormGroup({
     patientId : new FormControl('',Validators.required),
-    password : new FormControl('',Validators.required)
   });
 
   ngOnInit() {
@@ -26,10 +26,16 @@ export class PatientLoginComponent implements OnInit {
 
   login(patientInformation){
     this.patient.patientId = this.PatientId.value;
-    this.patient.patientPassword = this.Password.value;
-    console.log("patientId : "+this.patient.patientId);
-    console.log("patientPassword : "+this.patient.patientPassword);
-    // call patientService(this.patient)
+
+    this.patientService.checkPatient(this.patient).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        localStorage.setItem('patientId',this.patient.patientId)
+        this.router.navigate(['/patientConsent/'])
+      }
+    })
   }
   get PatientId(){
     return this.form.get('patientId');

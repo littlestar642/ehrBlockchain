@@ -7,15 +7,15 @@ import { Object, Property } from 'fabric-contract-api';
 @Object()
 export class Doctor {
 
-    constructor(doctorID,firstName,lastName,password){
-        this.doctorID=doctorID;
+    constructor(doctorId,firstName,lastName,password){
+        this.doctorId=doctorId;
         this.firstName=firstName;
         this.lastName=lastName;
         this.password=password
     }
 
     @Property()
-    public doctorID:string;
+    public doctorId:string;
 
     @Property()
     public firstName:string;

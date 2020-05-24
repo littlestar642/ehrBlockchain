@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Doctor } from '../classes/Doctor';
 import { DoctorService } from '../services/doctor.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-doctor-login',
@@ -20,7 +21,7 @@ export class DoctorLoginComponent implements OnInit {
   });
 
   constructor(  private doctorService : DoctorService,
-                private router : Router ) { }
+                private router : Router, private alertService:AlertService ) { }
 
   ngOnInit() {
   }
@@ -30,7 +31,15 @@ export class DoctorLoginComponent implements OnInit {
     this.doctor.doctorId = this.DoctorId.value;
     this.doctor.doctorPassword = this.Password.value;
 
-    //call doctorService(this.doctor)
+    this.doctorService.checkDoctor(this.doctor).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        localStorage.setItem('doctorId',this.doctor.doctorId);
+        this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
+      }
+    })
 
   }
   get DoctorId(){
