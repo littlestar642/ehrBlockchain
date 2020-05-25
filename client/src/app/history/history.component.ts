@@ -14,31 +14,31 @@ export class HistoryComponent implements OnInit {
   private doctorId : string;
   private records : Ehr[];
   constructor(  private doctorService : DoctorService,
-                private alertService : AlertService ) { 
-    this.records = new Array(3);
-    this.records[0] = new Ehr("","P001","",null,"",null,"",null,"");
-    this.records[1] = new Ehr("","P002","",null,"",null,"",null,"");
-    this.records[2] = new Ehr("","P003","",null,"",null,"",null,"");
-    localStorage.setItem("records",JSON.stringify(this.records));
-  }
+                private alertService : AlertService ) {}
 
   ngOnInit() {
     this.patientId = localStorage.getItem("patientId");
     this.doctorId = localStorage.getItem("doctorId");
-    
-    //this.getHistory();
-    console.log("Help : "+JSON.stringify(this.records[0])); 
+    this.records=[];
+    this.getHistory();
   }
 
   getHistory(){
-    this.doctorService.getHistory(this.patientId).subscribe(
-      res => {
-        console.log("getHistory res : "+JSON.stringify(res));
-        this.records = res;
-      },
-      error => {
-        console.log("getHistory error : "+JSON.stringify(error));
-        this.alertService.info("No record found.");
+    let args={"patientId":"","doctorId":""};
+    args.patientId=this.patientId;
+    args.doctorId=this.doctorId;
+    this.doctorService.getHistory(args).subscribe(
+      res=>{
+        if(!res.action){
+          this.alertService.error(res.message);
+        }
+        else{
+          let newObj=JSON.parse(res.message);
+          newObj.forEach(r=>{
+            this.records.push(r.Record)
+          })
+          console.log(this.records);
+        } 
       }
     )
   }

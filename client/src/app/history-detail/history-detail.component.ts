@@ -12,9 +12,9 @@ export class HistoryDetailComponent implements OnInit {
 
   private recordNumber  : number;
   private flag : boolean = false;
-  // @Input()
   private records : Ehr[];
 
+  @Input()
   private record : Ehr;
   constructor(  private location : Location,
                 private route : ActivatedRoute  ) { 
@@ -22,10 +22,7 @@ export class HistoryDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.recordNumber = Number(this.route.snapshot.paramMap.get('recordNumber'));
-    this.record = JSON.parse(localStorage.getItem("records"))[this.recordNumber];
     console.log("Records [0] : "+JSON.stringify(this.record));
-    
   }
 
   goBack() : void

@@ -14,44 +14,54 @@ export class EhrContract extends Contract {
 
     @Transaction(false)
     @Returns('boolean')
-    public async ehrExists(ctx: Context, ehrID: string): Promise<boolean> {
-        const buffer = await ctx.stub.getState(ehrID);
+    public async ehrExists(ctx: Context, args: string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.ehrId);
         return (!!buffer && buffer.length > 0);
     }
 
     @Transaction(false)
     @Returns('boolean')
-    public async patientExists(ctx: Context, patientID: string): Promise<boolean> {
-        const buffer = await ctx.stub.getState(patientID);
+    public async patientExists(ctx: Context, args: string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.patientId);
         return (!!buffer && buffer.length > 0);
     }
 
     @Transaction(false)
     @Returns('boolean')
-    public async doctorExists(ctx: Context, doctorID: string): Promise<boolean> {
-        const buffer = await ctx.stub.getState(doctorID);
+    public async doctorExists(ctx: Context, args:string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.doctorId);
         return (!!buffer && buffer.length > 0);
     }
 
     @Transaction()
-    public async createEhr(ctx: Context,args:string): Promise<void> {
+    public async createEhr(ctx: Context,args:string): Promise<Boolean> {
       let argsJSON=JSON.parse(args) as Ehr;
-        const exists = await this.ehrExists(ctx, argsJSON.ehrID);
-        if (exists) {
-            throw new Error(`The ehr ${argsJSON.ehrID} already exists`);
-        }
+
+        let patientExists=await this.patientExists(ctx,args);
+        if(!patientExists)throw new Error("patient does not exist");
+
+        let ehrExists=await this.ehrExists(ctx,args);
+        if(ehrExists)throw new Error("Ehr with the same ID already exists");
+
+        let doctorExists=await this.doctorExists(ctx,args);
+        if(!doctorExists)throw new Error('doctor does not exist');
+        
         const ehr = new Ehr();
-        ehr.doctorID=argsJSON.doctorID;
-        ehr.patientID=argsJSON.patientID;
-        ehr.Symptoms=argsJSON.Symptoms;
+        ehr.doctorId=argsJSON.doctorId;
+        ehr.patientId=argsJSON.patientId;
+        ehr.Symptoms=JSON.parse(JSON.stringify(argsJSON.Symptoms)) as Symptoms;
         ehr.anyOtherProblem=argsJSON.anyOtherProblem;
-        ehr.bloodtest=argsJSON.bloodtest;
+        ehr.bloodtest=JSON.parse(JSON.stringify(argsJSON.bloodtest)) as Bloodtest;
         ehr.medicines=argsJSON.medicines;
-        ehr.util=argsJSON.util;
+        ehr.util=JSON.parse(JSON.stringify(argsJSON.util)) as Utils;
         ehr.patientFeedback=argsJSON.patientFeedback;
-        ehr.ehrID=argsJSON.ehrID;
+        ehr.ehrId=argsJSON.ehrId;
         const buffer = Buffer.from(JSON.stringify(ehr));
-        await ctx.stub.putState(argsJSON.ehrID, buffer);
+        await ctx.stub.putState(argsJSON.ehrId, buffer);
+        return true;
     }
 
     @Transaction(false)
@@ -67,7 +77,7 @@ export class EhrContract extends Contract {
     }
 
     @Transaction()
-    public async updateEhr(ctx: Context, ehrId: string, newValue: string): Promise<void> {
+    public async updateEhr(ctx: Context, ehrId: string, newValue: string): Promise<Boolean> {
         const exists = await this.ehrExists(ctx, ehrId);
         if (!exists) {
             throw new Error(`The ehr ${ehrId} does not exist`);
@@ -76,19 +86,21 @@ export class EhrContract extends Contract {
         
         const buffer = Buffer.from(JSON.stringify(ehr));
         await ctx.stub.putState(ehrId, buffer);
+        return true;
     }
 
     @Transaction()
-    public async deleteEhr(ctx: Context, ehrId: string): Promise<void> {
+    public async deleteEhr(ctx: Context, ehrId: string): Promise<Boolean> {
         const exists = await this.ehrExists(ctx, ehrId);
         if (!exists) {
             throw new Error(`The ehr ${ehrId} does not exist`);
         }
         await ctx.stub.deleteState(ehrId);
+        return true;
     }
 
     @Transaction()
-    public async updateDoctorOnEhr(ctx: Context, args:string): Promise<void> {
+    public async updateDoctorOnEhr(ctx: Context, args:string): Promise<Boolean> {
         let argsJSON=JSON.parse(args);
         const exists = await this.ehrExists(ctx, argsJSON.ehrID);
         if (!exists) {
@@ -96,24 +108,27 @@ export class EhrContract extends Contract {
         }
         let buffer = await ctx.stub.getState(argsJSON.ehrID);
         let newJson=JSON.parse(buffer.toString())
-        newJson.doctorID = argsJSON.doctorID;
+        newJson.doctorId = argsJSON.doctorId;
         buffer = Buffer.from(JSON.stringify(newJson));
         await ctx.stub.putState(argsJSON.ehrID, buffer);
+        return true;
     }
 
 
     @Transaction()
-    public async createDoctor(ctx:Context,args:string){
+    public async createDoctor(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newDoctor=new Doctor(newArgs.doctorID,newArgs.firstName,newArgs.lastName,newArgs.password);
-        await ctx.stub.putState(newDoctor.doctorID, Buffer.from(JSON.stringify(newDoctor)));
+        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password);
+        await ctx.stub.putState(newDoctor.doctorId, Buffer.from(JSON.stringify(newDoctor)));
+        return true;
     }
 
     @Transaction()
-    public async createPatient(ctx:Context,args:string){
+    public async createPatient(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newPatient={patientID:newArgs.patientID,firstname:newArgs.firstname,lastname:newArgs.lastname,password:newArgs.password};
-        await ctx.stub.putState(newPatient.patientID, Buffer.from(JSON.stringify(newPatient)));
+        let newPatient={patientId:newArgs.patientId,firstname:newArgs.firstname,lastname:newArgs.lastname,doctorId:newArgs.doctorId};
+        await ctx.stub.putState(newPatient.patientId, Buffer.from(JSON.stringify(newPatient)));
+        return true;
     }
 
 
@@ -191,11 +206,18 @@ export class EhrContract extends Contract {
       }
 
       @Transaction(false)
-      public async queryByPatientID(ctx:Context, patientID:string) {
-  
+      public async queryByPatientID(ctx:Context, args:string) {
+          let newObj=JSON.parse(args);
+
+
+          let patientId=newObj.patientId;
+
+          let patientExists=await this.patientExists(ctx,args);
+          if(!patientExists)throw new Error('patient does not exist')
+          
           let queryString = {
             selector: {
-              patientID: patientID
+              patientId: patientId
             }
           };
       

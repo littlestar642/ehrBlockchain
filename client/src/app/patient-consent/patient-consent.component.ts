@@ -27,26 +27,36 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCode(){
     let patientId = this.form.get("patientId").value;
-    this.patientService.sendOtpToPatient(patientId).subscribe(res=>console.log(res));
-    //service to send req for otp.
+    let doctorId=localStorage.getItem('doctorId');
+    let args={patientId,doctorId};
+    this.patientService.sendOtpToPatient(args).subscribe(data=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        this.flag=true;
+      }
+    });
   }
 
   verifyCode(){
     let patientId = this.form.get("patientId").value;
     let otp = this.form.get("code").value
+    let args={patientId,otp};
     console.log("pid : "+ patientId);
     console.log("otp : "+ otp);
 
-    this.patientService.checkOtp(otp).subscribe(
+    this.patientService.checkOtp(args).subscribe(
       res => {
-        console.log("verifyCode res : "+JSON.stringify(res));
+        if(res){
         this.alertService.success("Patient consent verified successfully !!!");
         localStorage.setItem("patientId",this.form.get("patientId").value);
-        this.router.navigate(['/doctorOption']);
-      },
-      error => {
-        console.log("verifyCode error : "+JSON.stringify(error));
-        this.alertService.error("error while checking otp :(");
+        this.router.navigate(['/doctorOption/']);
+        }
+        else{
+          this.alertService.error('some error in obtaining otp');
+        }
+        
       }
     );
     //service to verifiy

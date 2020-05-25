@@ -34,16 +34,19 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;
     this.doctor.doctorId = this.form.get("doctorId").value;
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
+    console.log(this.doctor);
     this.docotorService.createDoctor(this.doctor).subscribe(
       data => {
+        if(!data.action){
+          this.alertService.error(data.message);
+        }
+        else{
         this.alertService.success("doctor registered successfully !!!");
         console.log("saveDoctor data: "+JSON.stringify(data));
         localStorage.setItem("doctorId",this.doctor.doctorId);
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
-      },
-      error => {
-        this.alertService.error("error while registration :(");
-        console.log("saveDoctor error: "+JSON.stringify(error));
+        }
+
       }
     )
   }

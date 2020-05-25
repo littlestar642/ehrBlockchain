@@ -1,7 +1,7 @@
 import { Ehr } from './../classes/ehr';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { Observable, Subscription, Subscribable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 
@@ -13,46 +13,39 @@ export class DoctorService {
   
   private baseUrl = "http://localhost:8000/";
 
-  constructor(  private http : HttpClient ) { }
+  constructor(  private http : HttpClient) { }
 
-  createEhr(ehr : Ehr) : Observable<Ehr>{
+  createEhr(ehr : Ehr) : Observable<any>{
     let url = this.baseUrl + "createEhr";
-    return this.http.post<Ehr>(url,ehr).pipe(
-      tap(
-        resp => {
-          console.log("doc dervice -> saveDiagnosis resp : "+JSON.stringify(resp));
-        }
-      )
-    );
-    // return this.http.post<Ehr>(url,ehr,{observe:'response'}).pipe(
-    //   tap( resp =>{
-    //     console.log(JSON.stringify(resp));
-    //   })
-    // );
+    let headers=new HttpHeaders();
+    headers.set('Content-Type','application/json');
+    console.log(ehr);
+    return this.http.post(url,JSON.parse(JSON.stringify(ehr)),{headers});
   }
 
   createDoctor(args:any):Observable<any>{
-    let newObj={doctorID:"",firstName:"",lastName:""};
-    newObj.doctorID=args.doctorId;
+    let newObj={"doctorId":"","firstName":"","lastName":"","password":""};
+    newObj.doctorId=args.doctorId;
     newObj.firstName=args.doctorFirstName;
     newObj.lastName=args.doctorLastName;
+    newObj.password=args.doctorPassword;
     let url = this.baseUrl + "createDoctor";
-    return this.http.post(url,newObj).pipe(
-      tap(resp=>{
-        console.log(resp);
-      })
-    )
+    let headers=new HttpHeaders();
+    headers.set('Content-Type','application/json');
+    return this.http.post(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
   
 
-  // verifyPatient( parientId : string, otp : string) : Observable<any>{
-  //   let url = this.baseUrl + "verifyPatient";
-  //   let headers = new HttpHeaders();
-  //   headers.set("patientId",parientId);
-  //   headers.set("otp",otp);
-  //   return this.http.get<any>(url,{headers:headers});
-  // }
+  checkDoctor(doctor:any) : Subscribable<any>{
+    let url = this.baseUrl + "checkDoctor";
+    let headers=new HttpHeaders();
+    let newObj={"doctorId":"","password":""}
+    newObj.doctorId=doctor.doctorId;
+    newObj.password=doctor.doctorPassword;
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
 
   // addPatient( user : User) : Observable<User>{
   //   let url = this.baseUrl + "addPatient";
@@ -65,14 +58,10 @@ export class DoctorService {
   //   );
   // }
 
-  getHistory( patientId:string  ) : Observable<Ehr[]>  {
-    let url = this.baseUrl + "getHistoryForPatient/";
-    return this.http.post<Ehr[]>(this.baseUrl,{patientId}).pipe(
-      tap(
-        resp => {
-          console.log("doc service -> getHistory : "+JSON.stringify(resp));
-        }
-      )
-    );
+  getHistory( args:any) : Observable<any>  {
+    let url = this.baseUrl + "getHistoryForPatient";
+    let headers=new HttpHeaders();
+    headers.set('Content-Type','application/json');
+    return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
   }
 }

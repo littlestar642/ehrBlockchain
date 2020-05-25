@@ -11,13 +11,13 @@ import {Utils} from "./properties/Util"
 export class Ehr {
 
     @Property()
-    public ehrID:string;
+    public ehrId:string;
 
     @Property()
-    public doctorID:string;
+    public doctorId:string;
 
     @Property()
-    public patientID:string;
+    public patientId:string;
 
     @Property()
     public Symptoms:Symptoms;

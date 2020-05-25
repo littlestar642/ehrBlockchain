@@ -48,7 +48,7 @@ exports.connectToNetwork = async function (userName) {
 
     console.log('Connected to mychannel. ');
     // Get the contract we have installed on the peer
-    const contract = await network.getContract('finalProj7');
+    const contract = await network.getContract('finalProj');
 
 
     let networkObj = {
@@ -97,7 +97,6 @@ exports.invoke = async function (networkObj, isQuery, func, args) {
 
       if (args) {
         args=JSON.stringify(args[0]);
-        args=JSON.parse(args);
         let response = await networkObj.contract.evaluateTransaction(func, args);
         await networkObj.gateway.disconnect();
         return response;
@@ -109,9 +108,9 @@ exports.invoke = async function (networkObj, isQuery, func, args) {
         return response;
       }
     } else {
+
       if (args) {
-        args = JSON.stringify(args[0]);
-        args=JSON.parse(args);
+        args=JSON.stringify(args[0]);
         let response = await networkObj.contract.submitTransaction(func, args);
         await networkObj.gateway.disconnect();
         return response;
@@ -129,7 +128,7 @@ exports.invoke = async function (networkObj, isQuery, func, args) {
   }
 };
 
-exports.registerDoctor = async function (doctorID, firstName, lastName) {
+exports.registerDoctor = async function (doctorID, firstName, lastName,password) {
 
   if (!doctorID || !firstName || !lastName) {
     let response = {};
