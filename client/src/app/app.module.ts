@@ -45,7 +45,7 @@ import { HistoryDetailComponent } from './history-detail/history-detail.componen
     FormsModule,
     HttpClientModule
   ],
-  providers: [ AlertService ],
+  providers: [AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

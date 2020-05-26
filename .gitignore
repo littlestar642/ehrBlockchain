@@ -79,3 +79,5 @@ typings/
 # Compiled TypeScript files
 dist
 
+# vsix
+IBMBlockchain.ibm-blockchain-platform-1.0.28.vsix

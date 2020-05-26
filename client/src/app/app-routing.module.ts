@@ -11,19 +11,20 @@ import { DoctorLoginComponent } from './doctor-login/doctor-login.component';
 import { DoctorOptionComponent} from './doctor-option/doctor-option.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path : "doctorLogin", component : DoctorLoginComponent },
   { path : "homepage", component : HomepageComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
   { path : "patientLogin", component : PatientLoginComponent },
-  { path : "doctorHome/:doctorId", component : DoctorHomeComponent },
+  { path : "doctorHome/:doctorId", component : DoctorHomeComponent, canActivate : [AuthGuardService] },
   { path : "patientHome/:patientId", component : PatientHomeComponent },
-  { path : "patientOnboarding", component : PatientOnboardingComponent },
-  { path : "patientConsent", component : PatientConsentComponent },
-  { path : "doctorOption", component : DoctorOptionComponent },
-  { path: "history", component : HistoryComponent},
-  { path : "historyDetail/:recordNumber", component: HistoryDetailComponent }
+  { path : "patientOnboarding", component : PatientOnboardingComponent, canActivate : [AuthGuardService] },
+  { path : "patientConsent", component : PatientConsentComponent, canActivate : [AuthGuardService] },
+  { path : "doctorOption", component : DoctorOptionComponent, canActivate : [AuthGuardService] },
+  { path: "history", component : HistoryComponent, canActivate : [AuthGuardService]},
+  { path : "historyDetail/:recordNumber", component: HistoryDetailComponent, canActivate : [AuthGuardService] }
 ];
 
 @NgModule({
