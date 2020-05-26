@@ -49,8 +49,8 @@ mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const msg = {
-  to: 'sameer13041998@gmail.com', // receiver's email id
-  from: 'rgkss13@gmail.com',  // sender's email id (new email ids will have to be added to sendgrid profile)
+  to: 'rgkss13@gmail.com', // receiver's email id
+  from: 'doctordappapp@gmail.com',  // sender's email id (new email ids will have to be added to sendgrid profile)
   subject: 'Otp for patient',
   text: 'otp needed to be sent', //change to actual otp
 };
