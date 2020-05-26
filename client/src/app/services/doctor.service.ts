@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, Subscription, Subscribable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
+//import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable({
@@ -63,5 +63,21 @@ export class DoctorService {
     let headers=new HttpHeaders();
     headers.set('Content-Type','application/json');
     return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
+  }
+
+  isLoggedIn(){
+    //let jwtHelper = new JwtHelperService();
+    let token = localStorage.getItem('token');
+    if(!token)
+    {
+      return false;
+    }
+    // if(token) {
+
+    //   let expierationDate = jwtHelper.getTokenExpirationDate(token);
+    //   let isExpired = jwtHelper.isTokenExpired(token);
+    //   return !isExpired;
+    // }
+    return true;
   }
 }
