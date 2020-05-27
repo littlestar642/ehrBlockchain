@@ -46,6 +46,9 @@
                         <div class = "navlink">
                             <a [routerLink]="['/patientConsent']" class="btn btn-primary">New patient</a>
                         </div>
+                        <div *ngIf = "isLoggedIn">
+                            <button class="btn btn-md btn-primary btn-style"  (click)="logout()">Logout</button>  
+                        </div>
                     </div>
                 </div>
             </div>

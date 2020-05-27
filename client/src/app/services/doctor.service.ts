@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, Subscription, Subscribable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 //import { JwtHelperService } from '@auth0/angular-jwt';
 
 
@@ -13,7 +14,7 @@ export class DoctorService {
   
   private baseUrl = "http://localhost:8000/";
 
-  constructor(  private http : HttpClient) { }
+  constructor( private http : HttpClient, private router : Router ) { }
 
   createEhr(ehr : Ehr) : Observable<any>{
     let url = this.baseUrl + "createEhr";
@@ -79,5 +80,10 @@ export class DoctorService {
     //   return !isExpired;
     // }
     return true;
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    this.router.navigate(['/homepage']);
   }
 }

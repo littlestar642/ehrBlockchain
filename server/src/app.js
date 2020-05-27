@@ -125,7 +125,8 @@ app.post('/checkDoctor',async (req,res)=>{
   let networkObj = await network.connectToNetwork(args.doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
   let doctorExist=await network.invoke(networkObj,true,'doctorExists',[args]);
-  console.log(doctorExist.toString());
+
+
   if(doctorExist.toString()=="false"){
     res.send({action:false,message:"doctor is not registered in blockchain"});
   }
