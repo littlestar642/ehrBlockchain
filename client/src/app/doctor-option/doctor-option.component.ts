@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-doctor-option',
@@ -11,7 +12,7 @@ export class DoctorOptionComponent implements OnInit {
   isHistoryActive = false;
   private patientId : string;
   private doctorId : string;
-  constructor() { }
+  constructor( private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.patientId = localStorage.getItem("patientId");
@@ -19,6 +20,12 @@ export class DoctorOptionComponent implements OnInit {
   }
 
   activateDiagnosis(){
+    this.spinner.show();
+ 
+     setTimeout(() => {
+     //spinner ends after 2 seconds 
+       this.spinner.hide();
+    }, 2000);
     this.isDiagnosisActive = true;
     this.isHistoryActive = false;
     console.log("Status diag : "+this.isDiagnosisActive);
@@ -26,6 +33,12 @@ export class DoctorOptionComponent implements OnInit {
   }
 
   activateHistory(){
+    this.spinner.show();
+ 
+     setTimeout(() => {
+     //spinner ends after 2 seconds 
+       this.spinner.hide();
+    }, 2000);
     this.isHistoryActive = true;
     this.isDiagnosisActive = false;
     console.log("Status diag : "+this.isDiagnosisActive);

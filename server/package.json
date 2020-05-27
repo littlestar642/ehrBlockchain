@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "fabric-ca-client": "^1.4.5",
-    "fabric-client": "^1.4.5",
+    "fabric-client": "^1.4.8",
     "fabric-network": "^1.4.5",
     "mongoose": "^5.9.2",
     "morgan": "^1.9.1",

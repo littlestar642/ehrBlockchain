@@ -4,6 +4,7 @@ import { PatientService } from './../services/patient.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-patient-consent',
@@ -20,7 +21,8 @@ export class PatientConsentComponent implements OnInit {
   constructor(  private location : Location,
                 private patientService : PatientService, 
                 private router : Router,
-                private alertService : AlertService ) { }
+                private alertService : AlertService,
+                private spinner :NgxSpinnerService ) { }
 
   ngOnInit() {
   }
@@ -40,6 +42,7 @@ export class PatientConsentComponent implements OnInit {
   }
 
   verifyCode(){
+    this.spinner.show();
     let patientId = this.form.get("patientId").value;
     let otp = this.form.get("code").value
     let args={patientId,otp};
@@ -49,11 +52,13 @@ export class PatientConsentComponent implements OnInit {
     this.patientService.checkOtp(args).subscribe(
       res => {
         if(res){
+          this.spinner.hide();
         this.alertService.success("Patient consent verified successfully !!!");
         localStorage.setItem("patientId",this.form.get("patientId").value);
         this.router.navigate(['/doctorOption/']);
         }
         else{
+          this.spinner.hide();
           this.alertService.error('some error in obtaining otp');
         }
         
