@@ -4,7 +4,9 @@ import { DoctorService } from './../services/doctor.service';
 import { Doctor } from '../classes/Doctor';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';  
+import { NgxSpinnerService } from "ngx-spinner";
 import { SHA256, enc } from "crypto-js";
+
 
 @Component({
   selector: 'app-doctor-registration',
@@ -25,11 +27,19 @@ export class DoctorRegistrationComponent implements OnInit {
 
   constructor(  private docotorService : DoctorService,
                 private alertService : AlertService,
-                private router : Router ) { }
+                private router : Router,
+                private spinner: NgxSpinnerService ) { }
 
   ngOnInit() {
   }
-
+  startSpin(){
+  this.spinner.show();
+ 
+     setTimeout(() => {
+     //spinner ends after 2 seconds 
+       this.spinner.hide();
+    }, 2000);
+  }
   saveDoctor(doctorInformation){
     this.doctor.doctorFirstName = this.form.get("doctorFirstName").value;
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;

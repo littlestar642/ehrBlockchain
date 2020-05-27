@@ -3,7 +3,14 @@
         <div class = "col-10">
                 <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
+                            <ngx-spinner
+                            bdColor="rgba(51,51,51,0.8)"
+                            size="medium"
+                            color="#fff"
+                            type="square-jelly-box">
+                            <p style="font-size: 20px; color: black"><b>Loading...</b></p>
+                            </ngx-spinner> 
+                        <li class="nav-item active">                                 
                             <button class="btn btn-light" (click)="activateDiagnosis()">Diagnose</button>
                         </li>
                         <li class="nav-item">
