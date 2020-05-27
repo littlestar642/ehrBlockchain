@@ -48,7 +48,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
     NgxSpinnerModule ,
     BrowserAnimationsModule
   ],
-  providers: [ AlertService ],
+  providers: [AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

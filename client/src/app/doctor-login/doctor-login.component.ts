@@ -51,7 +51,9 @@ export class DoctorLoginComponent implements OnInit {
       }
       else{
         this.spinner.hide();
+        console.log("token : ",data.token);
         localStorage.setItem('doctorId',this.doctor.doctorId);
+        localStorage.setItem('token',data.token);
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
         
       }

@@ -51,8 +51,13 @@ export class DoctorRegistrationComponent implements OnInit {
         }
         else{
         this.alertService.success("doctor registered successfully !!!");
+        
         console.log("saveDoctor data: "+JSON.stringify(data));
+        console.log("token: ",data.token);
+        
+        localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
+        
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
         }
 

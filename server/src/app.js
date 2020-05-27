@@ -10,6 +10,11 @@ const fs = require('fs');
 const uuid=require('uuid');
 const nodemailer=require('nodemailer');
 const mongoose=require('mongoose');
+const jwt = require("jsonwebtoken")
+
+const jwtKey = "secret_key"
+const jwtExpirySeconds = 3000
+
 
 let network = require('./fabric/network.js');
 
@@ -41,7 +46,14 @@ mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.
     .catch(e=>console.log(e));
 
 
-
+function generateToken(doctorId){
+  let token = jwt.sign({ doctorId }, jwtKey, {
+		algorithm: "HS256",
+		expiresIn: jwtExpirySeconds,
+	});
+	console.log("token: ", token);
+  return String(token);
+}
 
 app.post('/createDoctor', async (req, res) => {
     let args=req.body;
@@ -67,7 +79,8 @@ app.post('/createDoctor', async (req, res) => {
               res.send({action:false,message:"doctor already exists"});
             }
             else{
-              res.send({action:true,message:"succesfully created doctor"})
+              let token = generateToken(doctorId);
+              res.send({action:true,message:"succesfully created doctor", token:token});
             }
     }
   }});
@@ -117,7 +130,8 @@ app.post('/checkDoctor',async (req,res)=>{
     res.send({action:false,message:"doctor is not registered in blockchain"});
   }
   else if(doctorExist.toString()=="true"){
-    res.send({action:true,message:"successfully fetched doctor"});
+    let token = generateToken(args.doctorId);
+    res.send({ action:true, message:"successfully fetched doctor", token:token });
   } 
   else{
     res.send({action:false,message:"error due to unknown reasons"})
