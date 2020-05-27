@@ -45,6 +45,26 @@ const otpModel=require("./models/otp");
 mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.mongodb.net/blockchain?retryWrites=true&w=majority', {useNewUrlParser: true,useUnifiedTopology: true }).then(res=>console.log('connected'))
     .catch(e=>console.log(e));
 
+// Code for sending email
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const msg = {
+  to: 'rgkss13@gmail.com', // receiver's email id
+  from: 'doctordappapp@gmail.com',  // sender's email id (new email ids will have to be added to sendgrid profile)
+  subject: 'Otp for patient',
+  text: 'otp needed to be sent', //change to actual otp
+};
+
+/* ADD this piece of code wherever u need to send email 
+
+sgMail.send(msg).then(() => { 
+    console.log('Message sent') 
+}).catch((error) => {
+    console.log(error.response.body)
+    // console.log(error.response.body.errors[0].message)
+})
+*/
+
 
 function generateToken(doctorId){
   let token = jwt.sign({ doctorId }, jwtKey, {

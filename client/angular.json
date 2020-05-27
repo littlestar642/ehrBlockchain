@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "fyp1"
+    }
+  },
+  "defaultProject": "fyp1",
+  "cli": {
+    "analytics": false
+  }
 }
