@@ -4,6 +4,7 @@ import { DoctorService } from './../services/doctor.service';
 import { Doctor } from '../classes/Doctor';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';  
+import { SHA256, enc } from "crypto-js";
 
 @Component({
   selector: 'app-doctor-registration',
@@ -34,7 +35,9 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;
     this.doctor.doctorId = this.form.get("doctorId").value;
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
-    console.log(this.doctor);
+    const hashedPass = SHA256(this.doctor.doctorPassword).toString(enc.Hex);
+    this.doctor.doctorPassword = hashedPass;
+    console.log(this.doctor.doctorPassword);
     this.docotorService.createDoctor(this.doctor).subscribe(
       data => {
         if(!data.action){
@@ -42,9 +45,6 @@ export class DoctorRegistrationComponent implements OnInit {
         }
         else{
         this.alertService.success("doctor registered successfully !!!");
-        
-        console.log("saveDoctor data: "+JSON.stringify(data));
-        console.log("token: ",data.token);
         
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);

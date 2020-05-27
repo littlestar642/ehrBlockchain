@@ -30,10 +30,30 @@ export class EhrContract extends Contract {
 
     @Transaction(false)
     @Returns('boolean')
+    public async checkPatientPass(ctx: Context, args:string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.doctorId);
+        let doctor=JSON.parse(buffer.toString());
+        return doctor.password==newObj.password;
+    }
+
+    @Transaction(false)
+    @Returns('boolean')
     public async doctorExists(ctx: Context, args:string): Promise<boolean> {
         let newObj=JSON.parse(args);
         const buffer = await ctx.stub.getState(newObj.doctorId);
+        if(!this.checkDoctorPass(ctx,args))throw new Error('password does not match');
+
         return (!!buffer && buffer.length > 0);
+    }
+
+    @Transaction(false)
+    @Returns('boolean')
+    public async checkDoctorPass(ctx: Context, args:string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.doctorId);
+        let doctor=JSON.parse(buffer.toString());
+        return doctor.password==newObj.password;
     }
 
     @Transaction()
