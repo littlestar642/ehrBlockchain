@@ -20,6 +20,7 @@ export class PatientOnboardingComponent implements OnInit {
     patientFirstName : new FormControl('',Validators.required),
     patientLastName : new FormControl('',Validators.required),
     patientId : new FormControl('',Validators.required),
+    emailId : new FormControl('',Validators.required),
   })
 
   constructor(  private patientService : PatientService,
@@ -34,6 +35,7 @@ export class PatientOnboardingComponent implements OnInit {
     this.patient.patientLastName = this.form.get("patientLastName").value;
     this.patient.patientId = this.form.get("patientId").value;
     this.patient.doctorId = localStorage.getItem('doctorId');
+    this.patient.emailId=this.form.get('emailId').value;
 
     console.log("name : "+JSON.stringify(this.patient));
     //service to send this data
@@ -43,9 +45,10 @@ export class PatientOnboardingComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
+        let thisPlaceDoctor=localStorage.getItem('doctorId');
         this.alertService.success("patient registered successfully !!!");
         localStorage.setItem("patientId",this.patient.patientId);
-        this.router.navigate(['/patientHome/'+this.patient.patientId])
+        this.router.navigate(['/doctorHome/'+thisPlaceDoctor])
         }
 
       }

@@ -12,9 +12,11 @@ import { DoctorOptionComponent} from './doctor-option/doctor-option.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
+import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
 
 const routes: Routes = [
   { path : "doctorLogin", component : DoctorLoginComponent },
+  { path : "patientChoice", component : PatientChoiceComponent },
   { path : "homepage", component : HomepageComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
   { path : "patientLogin", component : PatientLoginComponent },

@@ -30,6 +30,14 @@ export class EhrContract extends Contract {
 
     @Transaction(false)
     @Returns('boolean')
+    public async getPatient(ctx: Context, args: string): Promise<string> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.patientId);
+        return buffer.toString();
+    }
+
+    @Transaction(false)
+    @Returns('boolean')
     public async checkPatientPass(ctx: Context, args:string): Promise<boolean> {
         let newObj=JSON.parse(args);
         const buffer = await ctx.stub.getState(newObj.doctorId);
@@ -54,6 +62,34 @@ export class EhrContract extends Contract {
         const buffer = await ctx.stub.getState(newObj.doctorId);
         let doctor=JSON.parse(buffer.toString());
         return doctor.password==newObj.password;
+    }
+
+    @Transaction(false)
+    @Returns('boolean')
+    public async getMailIdOfPatient(ctx: Context, args:string): Promise<string> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.patientId);
+        let patient=JSON.parse(buffer.toString());
+        let mail=patient.emailId;
+        return mail;
+    }
+
+    @Transaction(false)
+    @Returns('boolean')
+    public async checkPatientPassword(ctx: Context, args:string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.patientId);
+        let patient=JSON.parse(buffer.toString());
+        return newObj.password==patient.password;
+    }
+
+    @Transaction(false)
+    @Returns('boolean')
+    public async patientHasPassword(ctx: Context, args:string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.patientId);
+        let patient=JSON.parse(buffer.toString());
+        return typeof patient.password=="string";
     }
 
     @Transaction()
@@ -146,8 +182,19 @@ export class EhrContract extends Contract {
     @Transaction()
     public async createPatient(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newPatient={patientId:newArgs.patientId,firstname:newArgs.firstname,lastname:newArgs.lastname,doctorId:newArgs.doctorId};
+        let newPatient={patientId:newArgs.patientId,firstname:newArgs.firstname,lastname:newArgs.lastname,doctorId:newArgs.doctorId,emailId:newArgs.emailId,password:newArgs.password};
         await ctx.stub.putState(newPatient.patientId, Buffer.from(JSON.stringify(newPatient)));
+        return true;
+    }
+
+    @Transaction()
+    public async setPatientPassword(ctx:Context,args:string):Promise<Boolean>{
+        let newArgs=JSON.parse(args);
+
+        let patient=await ctx.stub.getState(newArgs.patientId)
+        let patientJson=JSON.parse(patient.toString());
+        patientJson.password=newArgs.password;
+        await ctx.stub.putState(newArgs.patientId, Buffer.from(JSON.stringify(patientJson)));
         return true;
     }
 

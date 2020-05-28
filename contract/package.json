@@ -1,6 +1,6 @@
 {
     "name": "finalProj",
-    "version": "0.0.4",
+    "version": "0.0.9",
     "description": "My Smart Contract",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",

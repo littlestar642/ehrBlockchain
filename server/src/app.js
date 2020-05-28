@@ -48,22 +48,7 @@ mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.
 // Code for sending email
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const msg = {
-  to: 'rgkss13@gmail.com', // receiver's email id
-  from: 'doctordappapp@gmail.com',  // sender's email id (new email ids will have to be added to sendgrid profile)
-  subject: 'Otp for patient',
-  text: 'otp needed to be sent', //change to actual otp
-};
 
-/* ADD this piece of code wherever u need to send email 
-
-sgMail.send(msg).then(() => { 
-    console.log('Message sent') 
-}).catch((error) => {
-    console.log(error.response.body)
-    // console.log(error.response.body.errors[0].message)
-})
-*/
 
 
 function generateToken(doctorId){
@@ -109,14 +94,15 @@ app.post('/createPatient', async (req, res) => {
  
   let doctorId=req.body.doctorId;
   let args=req.body;
+  let patientId=req.body.patientId;
   args=JSON.parse(JSON.stringify(args));
 
-  // let response = await network.registerPatient(patientId, args.firstName, args.lastName);
-  // console.log('response from registerPatient: ');
-  // if (response.error) {
-  //   res.send({action:false,message:"error in patient registration"});
-  // } else {
-
+  let response = await network.registerPatient(patientId, args.firstName, args.lastName);
+  console.log('response from registerPatient: ');
+  if (response.error) {
+    res.send({action:false,message:"error in patient registration"});
+  } else {
+    
       let networkObj = await network.connectToNetwork(doctorId);
       if (networkObj.error) {
         res.send({action:false,message:"error in connecting to network"});
@@ -134,6 +120,7 @@ app.post('/createPatient', async (req, res) => {
               res.send({action:true,message:"succesfully created patient"})
             }
       }
+    }
     });
 
 
@@ -163,7 +150,7 @@ app.post('/checkPatient',async (req,res)=>{
   let args=req.body;
   args=JSON.parse(JSON.stringify(args));
   
-  let networkObj = await network.connectToNetwork(args.doctorId);
+  let networkObj = await network.connectToNetwork(args.patientId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
   let patientExist=await network.invoke(networkObj,true,'patientExists',[args]);
   if(patientExist.toString()=="false"){
@@ -175,6 +162,28 @@ app.post('/checkPatient',async (req,res)=>{
   else{
     res.send({action:false,message:"error due to unknown reasons"})
   }
+});
+
+
+app.post('/checkPatientPassword',async (req,res)=>{
+  let patientId=req.body.patientId;
+  let args=JSON.parse(JSON.stringify(req.body));
+  console.log(args);
+  let networkObj = await network.connectToNetwork(patientId);
+  if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
+
+  let patientExist=await network.invoke(networkObj,true,'checkPatientPassword',[args]);
+
+  if(patientExist.toString()=="false"){
+    res.send({action:false,message:"password entered is wrong"});
+  }
+  else if(patientExist.toString()=="true"){
+    res.send({action:true,message:"successfully fetched password"});
+  } 
+  else{
+    res.send({action:false,message:"error due to unknown reasons"})
+  }
+  
 })
 
 
@@ -188,64 +197,134 @@ app.post('/sendOtpToPatient',async (req,res)=>{
   let emailToSend="avinashjaiswal642@gmail.com"
   let networkObj = await network.connectToNetwork(doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
-  let patientExist=await network.invoke(networkObj,false,'patientExists',[args]);
+  let patientExist=await network.invoke(networkObj,true,'patientExists',[args]);
   if(patientExist.toString()=="false"){
     res.send({action:false,message:"patient is not registered in blockchain"});
   }
   else if(patientExist.toString()=="true"){
     req.session.patientId=patientId;
 
-  let otp=Math.floor(Math.random()*100000);
-  req.session.otp=otp;
+  
+  } 
+  else{
+    res.send({action:false,message:"error due to unknown reasons"})
+  }
+});
 
-  let otpJson=new otpModel({patientId,otp});
-  otpJson.save().then(e=>{
-    res.send({action:true,message:"successfully fetched patient"});
-  });
+app.post('/generateOtp',async (req,res)=>{
+
+
+  let patientId=req.body.patientId;
+  let args=req.body;
+
+  let networkObj = await network.connectToNetwork(patientId);
+  if(networkObj.error){res.send({action:false,message:"could not find patient"})};
+  let patientM=await network.invoke(networkObj,true,'getMailIdOfPatient',[args]);
+  if(!patientM.toString()){
+    res.send({action:false,message:"some error occured"});
+  }
+  else{
+    let patientMail=patientM.toString();
+    let otp=Math.floor(Math.random()*100000);
+    const msg = {
+      to: `avinashjaiswal642@gmail.com`, // receiver's email id
+      from: 'doctordappapp@gmail.com',  // sender's email id (new email ids will have to be added to sendgrid profile)
+      subject: 'Otp for patient',
+      text: `your otp for the present session is ${otp}`, //change to actual otp
+    };
+
+      otpModel.findOne({patientId}).then(resp1=>{
+        if(!resp1){
+          let otpJson=new otpModel({patientId,otp});
+          otpJson.save().then(()=>{
+            sgMail.send(msg).then((ret) => { 
+              res.send({action:true,message:"successfully fetched patient"});
+            });
+          }).catch(e=>{
+              res.send({action:false,message:"error occured in sending mail "+ e})
+          })
+        }
+        else{
+          resp1.otp=otp;
+          otpModel.findOneAndUpdate({patientId},resp1).then(()=>{
+            sgMail.send(msg).then((ret) => { 
+              res.send({action:true,message:"successfully fetched patient"});
+            });
+          }).catch(e=>{
+            res.send({action:false,message:"error occured in sending mail "+ e})
+        })
+        }
+      })
+
+  }
+
+
+ 
+  
+  /* ADD this piece of code wherever u need to send email 
+  
+ 
+  */
+})
+
+app.post('/checkOtp',(req,res)=>{
+  let patientId=req.body.patientId;
+  let otp=req.body.otp;
+
+  console.log(req.body);
+  otpModel.findOne({patientId}).then(resp1=>{
+    if(resp1.otp===otp){
+      res.send({action:true,message:"correct otp provided"});
+    }
+    else{
+      res.send({action:false,message:"incorrect otp provided"})      
+    }
+  })
+})
+
+
+app.post('/patientHasPassword',async (req,res)=>{
+  let patientId=req.body.patientId;
+  let args=JSON.parse(JSON.stringify(req.body));
+  let networkObj = await network.connectToNetwork(patientId);
+  if(networkObj.error){res.send({action:false,message:"could not find patient"})};
+
+  let patientExist=await network.invoke(networkObj,true,'patientHasPassword',[args]);
+
+  if(patientExist.toString()=="false"){
+    res.send({action:false,message:"no password set"});
+  }
+  else if(patientExist.toString()=="true"){
+    res.send({action:true,message:"successfully set password"});
   } 
   else{
     res.send({action:false,message:"error due to unknown reasons"})
   }
   
-
-
-
-  // let emailToSend=req.body.email;
-  // var transporter = nodemailer.createTransport({
-  //   host:"smtp.gmail.com",
-  //   auth: {
-  //     user: 'doctordappapp@gmail.com',
-  //     pass: 'doctordap123'
-  //   },
-  //   secure:false,
-  //   port:587
-  // });
-  
-  // var mailOptions = {
-  //   from: 'doctordappapp@gmail.com',
-  //   to: `${emailToSend}`,
-  //   subject: 'Your OTP for logging into doctor dap is',
-  //   text: `${otp}`
-  // };
-  
-  // transporter.sendMail(mailOptions, function(error, info){
-  //   if (error) {
-  //     console.log(error);
-  //     res.send(error);
-  //   } else {
-  //     res.send('Email sent: ' + info.response);
-  //   }
-  // });
-});
-
-app.post('/checkOtp',(req,res)=>{
-  let patientID=req.body.patientID;
-  let otp=req.body.otp;
-  otpModel.find({patientID}).then(ret=>{
-    if(ret[0].otp===otp)res.send(true);
-    else res.send(false);
-  })
 })
+
+app.post('/setPatientPassword',async (req,res)=>{
+  let patientId=req.body.patientId;
+  let args=JSON.parse(JSON.stringify(req.body));
+
+  let networkObj = await network.connectToNetwork(patientId);
+  if(networkObj.error){res.send({action:false,message:"could not find patient"})};
+  console.log(args);
+  let patientExist=await network.invoke(networkObj,false,'setPatientPassword',[args]);
+
+  if(patientExist.toString()=="false"){
+    res.send({action:false,message:"password entered is wrong"});
+  }
+  else if(patientExist.toString()=="true"){
+    res.send({action:true,message:"successfully set password"});
+  } 
+  else{
+    res.send({action:false,message:"error due to unknown reasons"})
+  }
+  
+})
+
+
 
 
 

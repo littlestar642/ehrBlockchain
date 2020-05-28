@@ -26,13 +26,7 @@ export class PatientLoginComponent implements OnInit {
   ngOnInit() {
   }
   startSpin() {
-   
     this.spinner.show();
- 
-    // setTimeout(() => {
-    // //spinner ends after 5 seconds 
-    //   this.spinner.hide();
-    // }, 5000);
   }
 
   login(patientInformation){
@@ -46,7 +40,7 @@ export class PatientLoginComponent implements OnInit {
       else{
         this.spinner.hide();
         localStorage.setItem('patientId',this.patient.patientId)
-        this.router.navigate(['/patientConsent/'])
+        this.router.navigate(['/patientChoice/'])
       }
     })
   }
