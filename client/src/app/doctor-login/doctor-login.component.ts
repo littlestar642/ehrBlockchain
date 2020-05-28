@@ -45,6 +45,12 @@ export class DoctorLoginComponent implements OnInit {
     this.doctor.doctorId = this.DoctorId.value;
     const hashedPass = SHA256(this.Password.value).toString(enc.Hex);
     this.doctor.doctorPassword = hashedPass;
+    if(this.doctor.doctorPassword==""){
+      this.alertService.error('please enter password');return;
+    }
+    if(this.doctor.doctorId==""){
+      this.alertService.error('please enter username');return;
+    }
     this.doctorService.checkDoctor(this.doctor).subscribe((data)=>{
       if(!data.action){
         this.spinner.hide();

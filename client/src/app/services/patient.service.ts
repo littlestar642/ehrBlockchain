@@ -20,6 +20,14 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
+  checkUsernamePresence(args:any):Observable<any>{
+    let url = this.baseUrl + "checkUsernamePresence";
+    let headers=new HttpHeaders();
+    let newObj={"id":args}
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
 
   checkPatient(patient:any) : Subscribable<any>{
     let url = this.baseUrl + "checkPatient";
