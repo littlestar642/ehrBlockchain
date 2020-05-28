@@ -3,7 +3,7 @@ const mongoose=require('mongoose');
 let Schema=mongoose.Schema;
 
 var otpSchema = new Schema({
-    patientID:String,
+    patientId:String,
     otp:String
   });
 

@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+        <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
+            <div class="card-container">
+                <div class="card text-black bg-light border-primary">
+  
+                  <h2>Choose the method of Login</h2>  
+
+                  <form [formGroup]="form" #patientInformation>  
+                    
+                    <div class="row align-items-center justify-content-center">  
+                      <div class="col-md-10">  
+                          <p>if this is your first login</p>
+                          <button (click)="generateOtp()">Generate OTP </button>
+                      </div>  
+                    </div>
+                    <div *ngIf='otpRecieved' class="row align-items-center justify-content-center">  
+                        <div class="col-md-10">  
+                            <label for="otp">OTP</label>
+                            <input type="password" name="otp" id="otp" formControlName="otp">
+                            <button (click)="checkOtp()">Check</button>
+                        </div>  
+                      </div>
+                    <p>or</p>
+                    <div class="row align-items-center justify-content-center">  
+                        <div class="col-md-10">  
+                            <label for="password"> password </label>  
+                            <input formControlName="password" class="form-control" type="text">   
+                        </div>  
+                      </div>  
+                    <div class="row align-items-center justify-content-center" style="margin: 20px;">  
+                      <div class="col-md-offset-1 col-md-4">
+                          <ngx-spinner
+                          bdColor="rgba(51,51,51,0.8)"
+                          size="medium"
+                          color="#fff"
+                          type="square-jelly-box">
+                          <p style="font-size: 20px; color: black"><b>Loading...</b></p>
+                         </ngx-spinner>  
+                          <button class="btn btn-md btn-primary btn-style" (click)="login()">Login</button>  
+                      </div>  
+                    </div>
+                    
+                  </form>
+                  <a [routerLink] = "['/doctorLogin']"> click here to login as doctor </a>
+                  <a [routerLink] = "['/homepage']"> Go back to home </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

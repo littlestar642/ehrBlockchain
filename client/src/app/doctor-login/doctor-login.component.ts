@@ -5,6 +5,8 @@ import { DoctorService } from '../services/doctor.service';
 import { Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SHA256, enc } from "crypto-js";
+
 
 @Component({
   selector: 'app-doctor-login',
@@ -41,8 +43,8 @@ export class DoctorLoginComponent implements OnInit {
   login(doctorInformation){
 
     this.doctor.doctorId = this.DoctorId.value;
-    this.doctor.doctorPassword = this.Password.value;
-
+    const hashedPass = SHA256(this.Password.value).toString(enc.Hex);
+    this.doctor.doctorPassword = hashedPass;
     this.doctorService.checkDoctor(this.doctor).subscribe((data)=>{
       if(!data.action){
         this.spinner.hide();

@@ -77,4 +77,8 @@ typings/
 .serverless
 
 #wallet
-wallet
+wallet/
+walletsendgrid.env
+sendgrid.env
+sendgrid.env
+sendgrid.env
