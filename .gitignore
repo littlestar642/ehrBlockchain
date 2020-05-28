@@ -83,4 +83,4 @@ dist
 IBMBlockchain.ibm-blockchain-platform-1.0.28.vsixsendgrid.env
 
 #wallet
-.server/wallet/*
+./server/wallet/*
