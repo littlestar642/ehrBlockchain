@@ -54,13 +54,13 @@ export class DoctorRegistrationComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
-        this.alertService.success("doctor registered successfully !!!");
         
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
         
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
-        }
+        this.alertService.success("doctor registered successfully !!!");
+      }
 
       }
     )

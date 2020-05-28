@@ -35,7 +35,6 @@ export class PatientChoiceComponent implements OnInit {
         this.alertService.error(data.message);
       }else{
         this.otpRecieved=true;
-
       }
     })
   }
