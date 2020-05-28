@@ -19,7 +19,9 @@ import { DoctorRegistrationComponent } from './doctor-registration/doctor-regist
 import { HomepageComponent } from './homepage/homepage.component';
 import { AlertComponent } from './alert/alert.component';
 import { HistoryDetailComponent } from './history-detail/history-detail.component';
-
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
 
 @NgModule({
   declarations: [
@@ -36,14 +38,17 @@ import { HistoryDetailComponent } from './history-detail/history-detail.componen
     DoctorRegistrationComponent,
     HomepageComponent,
     AlertComponent,
-    HistoryDetailComponent
+    HistoryDetailComponent,
+    PatientChoiceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSpinnerModule ,
+    BrowserAnimationsModule
   ],
   providers: [AlertService],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DoctorService } from '../services/doctor.service';
 
 @Component({
   selector: 'app-doctor-home',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoctorHomeComponent implements OnInit {
 
-  constructor() { }
+  isLoggedIn: boolean;
+  
+  constructor( private doctorService : DoctorService ) { 
+  }
 
   ngOnInit() {
+    this.isLoggedIn = this.doctorService.isLoggedIn();
+  }
+
+  logout(){
+    this.doctorService.logout();
   }
 
 }

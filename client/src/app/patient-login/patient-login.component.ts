@@ -4,6 +4,7 @@ import { Patient } from '../classes/patient';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../services/alert.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-patient-login',
@@ -15,7 +16,8 @@ export class PatientLoginComponent implements OnInit {
   private patient = new Patient();
 
   constructor(  private patientService : PatientService,
-                private router : Router, private alertService:AlertService ) { }
+                private router : Router, private alertService:AlertService,
+                private spinner: NgxSpinnerService ) { }
 
   form = new FormGroup({
     patientId : new FormControl('',Validators.required),
@@ -23,17 +25,22 @@ export class PatientLoginComponent implements OnInit {
 
   ngOnInit() {
   }
+  startSpin() {
+    this.spinner.show();
+  }
 
   login(patientInformation){
     this.patient.patientId = this.PatientId.value;
 
     this.patientService.checkPatient(this.patient).subscribe((data)=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }
       else{
+        this.spinner.hide();
         localStorage.setItem('patientId',this.patient.patientId)
-        this.router.navigate(['/patientConsent/'])
+        this.router.navigate(['/patientChoice/'])
       }
     })
   }
