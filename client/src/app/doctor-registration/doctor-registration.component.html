@@ -24,7 +24,7 @@
                     <div class="row justify-content-center align-items-center">  
                             <div class="col-md-8">  
                             <label for="docotorId"> Username </label>  
-                            <input formControlName="doctorId" class="form-control" type="text" placeholder="Enter unique username">   
+                            <input formControlName="doctorId" class="form-control" type="text" placeholder="Enter unique username" (blur)="checkUsername()">   
                         </div>  
                     </div>  
                     
@@ -44,7 +44,8 @@
                                 type="square-jelly-box">
                                 <p style="font-size: 20px; color: black"><b>Loading...</b></p>
                                 </ngx-spinner> 
-                            <button class="btn btn-md btn-primary btn-style" click="startSpin()" >Save</button>  
+                            <button class="btn btn-md btn-primary btn-style" (click)="startSpin()" >Save</button>  
+                              
                         </div>  
                     </div>  
                     

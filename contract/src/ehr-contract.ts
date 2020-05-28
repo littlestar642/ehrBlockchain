@@ -50,8 +50,6 @@ export class EhrContract extends Contract {
     public async doctorExists(ctx: Context, args:string): Promise<boolean> {
         let newObj=JSON.parse(args);
         const buffer = await ctx.stub.getState(newObj.doctorId);
-        if(!this.checkDoctorPass(ctx,args))throw new Error('password does not match');
-
         return (!!buffer && buffer.length > 0);
     }
 
@@ -92,6 +90,15 @@ export class EhrContract extends Contract {
         return typeof patient.password=="string";
     }
 
+    @Transaction(false)
+    @Returns('boolean')
+    public async checkUsernamePresence(ctx: Context, args:string): Promise<string> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.id);
+        let user=buffer.toString();
+        return user;
+    }
+
     @Transaction()
     public async createEhr(ctx: Context,args:string): Promise<Boolean> {
       let argsJSON=JSON.parse(args) as Ehr;
@@ -100,7 +107,8 @@ export class EhrContract extends Contract {
         if(!patientExists)throw new Error("patient does not exist");
 
         let ehrExists=await this.ehrExists(ctx,args);
-        if(ehrExists)throw new Error("Ehr with the same ID already exists");
+        if(
+          ehrExists)throw new Error("Ehr with the same ID already exists");
 
         let doctorExists=await this.doctorExists(ctx,args);
         if(!doctorExists)throw new Error('doctor does not exist');
@@ -158,15 +166,15 @@ export class EhrContract extends Contract {
     @Transaction()
     public async updateDoctorOnEhr(ctx: Context, args:string): Promise<Boolean> {
         let argsJSON=JSON.parse(args);
-        const exists = await this.ehrExists(ctx, argsJSON.ehrID);
+        const exists = await this.ehrExists(ctx, argsJSON.ehrId);
         if (!exists) {
-            throw new Error(`The ehr ${argsJSON.ehrID} does not exist`);
+            throw new Error(`The ehr ${argsJSON.ehrId} does not exist`);
         }
-        let buffer = await ctx.stub.getState(argsJSON.ehrID);
+        let buffer = await ctx.stub.getState(argsJSON.ehrId);
         let newJson=JSON.parse(buffer.toString())
         newJson.doctorId = argsJSON.doctorId;
         buffer = Buffer.from(JSON.stringify(newJson));
-        await ctx.stub.putState(argsJSON.ehrID, buffer);
+        await ctx.stub.putState(argsJSON.ehrId, buffer);
         return true;
     }
 

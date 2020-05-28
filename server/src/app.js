@@ -10,7 +10,8 @@ const fs = require('fs');
 const uuid=require('uuid');
 const nodemailer=require('nodemailer');
 const mongoose=require('mongoose');
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const {v4} =require('uuid')
 
 const jwtKey = "secret_key"
 const jwtExpirySeconds = 3000
@@ -130,11 +131,11 @@ app.post('/checkDoctor',async (req,res)=>{
 
   let networkObj = await network.connectToNetwork(args.doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
-  let doctorExist=await network.invoke(networkObj,true,'doctorExists',[args]);
-
+  let doctorExist=await network.invoke(networkObj,true,'checkDoctorPass',[args]);
+  if (doctorExist.error) {res.send({action:false,message:"wrong credentials"});}
 
   if(doctorExist.toString()=="false"){
-    res.send({action:false,message:"doctor is not registered in blockchain"});
+    res.send({action:false,message:"wrong credentials"});
   }
   else if(doctorExist.toString()=="true"){
     let token = generateToken(args.doctorId);
@@ -152,6 +153,7 @@ app.post('/checkPatient',async (req,res)=>{
   let networkObj = await network.connectToNetwork(args.patientId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
   let patientExist=await network.invoke(networkObj,true,'patientExists',[args]);
+  if (patientExist.error) {res.send({action:false,message:"wrong credentials"});}
   if(patientExist.toString()=="false"){
     res.send({action:false,message:"patient is not registered in blockchain"});
   }
@@ -163,6 +165,23 @@ app.post('/checkPatient',async (req,res)=>{
   }
 });
 
+app.post('/checkUsernamePresence',async (req,res)=>{
+  let args=req.body;
+  args=JSON.parse(JSON.stringify(args));
+  
+  let networkObj = await network.connectToNetwork(args.id);
+  if(networkObj.error){res.send({action:true,message:"username available"})};
+  let userExist=await network.invoke(networkObj,true,'checkUsernamePresence',[args]);
+  if (userExist.error) {res.send({action:false,message:"wrong credentials"});}
+  let user=JSON.parse(userExist.toString());
+  if(user.doctorId){
+    res.send({action:false,message:"username already used"});
+  }
+  else{
+    res.send({action:true,message:"username available"});
+  } 
+});
+
 
 app.post('/checkPatientPassword',async (req,res)=>{
   let patientId=req.body.patientId;
@@ -172,6 +191,7 @@ app.post('/checkPatientPassword',async (req,res)=>{
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
 
   let patientExist=await network.invoke(networkObj,true,'checkPatientPassword',[args]);
+  if (patientExist.error) {res.send({action:false,message:"wrong credentials"});}
 
   if(patientExist.toString()=="false"){
     res.send({action:false,message:"password entered is wrong"});
@@ -332,10 +352,11 @@ app.post('/createEhr', async (req, res) => {
   let patientId=req.body.patientId;
   let doctorId=req.body.doctorId;
   let args=req.body;
-  let ehrId=req.body.ehrId;
+  let ehrId=v4()
   args=JSON.parse(JSON.stringify(args));
+  args.ehrId=ehrId;
   fs.writeFileSync('yewalajson.txt',JSON.stringify(args));
-  
+  console.log(args);
   let networkObj = await network.connectToNetwork(doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
 

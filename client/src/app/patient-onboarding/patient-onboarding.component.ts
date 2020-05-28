@@ -5,6 +5,7 @@ import { PatientService } from './../services/patient.service';
 import { User } from './../classes/user';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';  
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-patient-onboarding',
@@ -25,9 +26,31 @@ export class PatientOnboardingComponent implements OnInit {
 
   constructor(  private patientService : PatientService,
                 private router : Router,
-                private alertService : AlertService ) { }
+                private alertService : AlertService,
+                private spinner :  NgxSpinnerService) { }
 
   ngOnInit() {
+    
+    
+  }
+
+  startSpin()
+  {
+    this.spinner.show();
+
+  }
+
+  checkUsername(){
+    console.log('here');
+    let username=this.form.get('patientId').value;
+    this.patientService.checkUsernamePresence(username).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+      this.alertService.info(data.message);
+      }
+    })
   }
 
   savePatient(patientInormation){
@@ -42,9 +65,11 @@ export class PatientOnboardingComponent implements OnInit {
     this.patientService.createPatient(this.patient).subscribe(
       data => {
         if(!data.action){
+          this.spinner.hide();
           this.alertService.error(data.message);
         }
         else{
+          this.spinner.hide();
         let thisPlaceDoctor=localStorage.getItem('doctorId');
         localStorage.setItem("patientId",this.patient.patientId);
         this.router.navigate(['/doctorHome/'+thisPlaceDoctor])

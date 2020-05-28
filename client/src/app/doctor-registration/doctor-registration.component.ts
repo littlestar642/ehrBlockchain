@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';  
 import { NgxSpinnerService } from "ngx-spinner";
 import { SHA256, enc } from "crypto-js";
+import { windowCount } from 'rxjs/operators';
 
 
 @Component({
@@ -33,12 +34,20 @@ export class DoctorRegistrationComponent implements OnInit {
   ngOnInit() {
   }
   startSpin(){
-  this.spinner.show();
- 
-     setTimeout(() => {
-     //spinner ends after 2 seconds 
-       this.spinner.hide();
-    }, 2000);
+  this.spinner.show(); 
+  }
+
+
+  checkUsername(){
+    let username=this.form.get('doctorId').value;
+    this.docotorService.checkUsernamePresence(username).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+      this.alertService.info(data.message);
+      }
+    })
   }
   saveDoctor(doctorInformation){
     this.doctor.doctorFirstName = this.form.get("doctorFirstName").value;
@@ -47,20 +56,23 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
     const hashedPass = SHA256(this.doctor.doctorPassword).toString(enc.Hex);
     this.doctor.doctorPassword = hashedPass;
-    console.log(this.doctor.doctorPassword);
+    //console.log(this.doctor.doctorPassword);
     this.docotorService.createDoctor(this.doctor).subscribe(
       data => {
         if(!data.action){
+          //console.log("data : ",JSON.stringify(data));
+          this.spinner.hide();
           this.alertService.error(data.message);
         }
         else{
         
+          this.spinner.hide();
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
         
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
         this.alertService.success("doctor registered successfully !!!");
-      }
+        }
 
       }
     )
