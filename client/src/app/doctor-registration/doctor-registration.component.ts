@@ -47,19 +47,21 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
     const hashedPass = SHA256(this.doctor.doctorPassword).toString(enc.Hex);
     this.doctor.doctorPassword = hashedPass;
-    console.log(this.doctor.doctorPassword);
+    //console.log(this.doctor.doctorPassword);
     this.docotorService.createDoctor(this.doctor).subscribe(
       data => {
         if(!data.action){
+          //console.log("data : ",JSON.stringify(data));
           this.alertService.error(data.message);
         }
         else{
-        this.alertService.success("doctor registered successfully !!!");
+        
         
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
         
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
+        this.alertService.success("doctor registered successfully !!!");
         }
 
       }
