@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';  
 import { NgxSpinnerService } from "ngx-spinner";
 import { SHA256, enc } from "crypto-js";
+import { windowCount } from 'rxjs/operators';
 
 
 @Component({
@@ -33,12 +34,7 @@ export class DoctorRegistrationComponent implements OnInit {
   ngOnInit() {
   }
   startSpin(){
-  this.spinner.show();
- 
-     setTimeout(() => {
-     //spinner ends after 2 seconds 
-       this.spinner.hide();
-    }, 2000);
+  this.spinner.show(); 
   }
 
 
@@ -65,11 +61,12 @@ export class DoctorRegistrationComponent implements OnInit {
       data => {
         if(!data.action){
           //console.log("data : ",JSON.stringify(data));
+          this.spinner.hide();
           this.alertService.error(data.message);
         }
         else{
         
-        
+          this.spinner.hide();
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
         

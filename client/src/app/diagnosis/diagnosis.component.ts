@@ -6,6 +6,7 @@ import { Symptoms } from './../classes/symptoms';
 import { Ehr } from './../classes/ehr';
 import { BloodTest } from './../classes/blood-test';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from "ngx-spinner";
 import { FormControl } from '@angular/forms';
 
 
@@ -41,13 +42,17 @@ export class DiagnosisComponent implements OnInit {
     }
   }
   constructor(  private doctorService : DoctorService,
-                private alertService : AlertService ) { }
+                private alertService : AlertService,
+                private spinner: NgxSpinnerService ) { }
 
   ngOnInit() {
     this.patientId = localStorage.getItem("patientId");
     this.doctorId = localStorage.getItem("doctorId");
   }
 
+  startSpin(){
+    this.spinner.show(); 
+    }
   recordData(){
     
     let ehr=new Ehr(
@@ -64,9 +69,11 @@ export class DiagnosisComponent implements OnInit {
     this.doctorService.createEhr(ehr).subscribe( 
       data=>{
         if(!data.action){
+          this.spinner.hide();
           this.alertService.error(data.message);
         }
         else{
+          this.spinner.hide();
           // localStorage.setItem('doctorId',this.doctor.doctorId);
           // this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
           this.alertService.success(data.message);
