@@ -51,7 +51,6 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
-
 function generateToken(doctorId){
   let token = jwt.sign({ doctorId }, jwtKey, {
 		algorithm: "HS256",
