@@ -31,7 +31,7 @@ export class DoctorLoginComponent implements OnInit {
   }
 
   startSpin() {
-    
+
     this.spinner.show();
  
     // setTimeout(() => {
