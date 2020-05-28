@@ -40,6 +40,19 @@ export class DoctorRegistrationComponent implements OnInit {
        this.spinner.hide();
     }, 2000);
   }
+
+
+  checkUsername(){
+    let username=this.form.get('doctorId').value;
+    this.docotorService.checkUsernamePresence(username).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+      this.alertService.info(data.message);
+      }
+    })
+  }
   saveDoctor(doctorInformation){
     this.doctor.doctorFirstName = this.form.get("doctorFirstName").value;
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;

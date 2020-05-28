@@ -13,7 +13,7 @@ export class Ehr {
         public bloodtest:BloodTest,
         public medicines:String,
         public util:Utils,
-        public patientFeedback:String
+        public reviewOfDoctor:String
     ){}
     
 }
