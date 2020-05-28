@@ -7,6 +7,7 @@ import { Ehr } from './../classes/ehr';
 import { BloodTest } from './../classes/blood-test';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -18,14 +19,15 @@ export class DiagnosisComponent implements OnInit {
 
   private patientId : string;
   private doctorId : string;
-  title = 'forms';
+
+
+  // patient data variables
+
   paymentMethods=['Cash','Cheque'];
   paymentDones=['Yes','No'];
-  userModel=new User('random','rob@test.com',9456454455,511241);
   bloodTest=new BloodTest(30,30,30,30,30,30);
   symptoms=new Symptoms(true,65,true,true,80);
   utils=new Utils("2020-12-30",3000,true,"default");
-  ehr =new Ehr(this.doctorId,this.patientId,"E001",this.symptoms,"Other Problems",this.bloodTest,"List of Medicines",this.utils,"Review of doctor");
   TrueValue=true;
   FalseValue=false;
   paymentMethodHasError=true;
@@ -53,9 +55,18 @@ export class DiagnosisComponent implements OnInit {
     }
   recordData(){
     
-    this.ehr.doctorId=this.doctorId;
-    this.ehr.patientId=this.patientId;
-    this.doctorService.createEhr(this.ehr).subscribe( 
+    let ehr=new Ehr(
+      this.doctorId,
+      this.patientId,
+      "",
+      this.symptoms,
+      "",
+      this.bloodTest,
+      "",
+      this.utils,
+      ""
+    )
+    this.doctorService.createEhr(ehr).subscribe( 
       data=>{
         if(!data.action){
           this.spinner.hide();

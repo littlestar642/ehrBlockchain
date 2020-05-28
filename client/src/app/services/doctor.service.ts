@@ -48,6 +48,14 @@ export class DoctorService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
+  checkUsernamePresence(args:any):Observable<any>{
+    let url = this.baseUrl + "checkUsernamePresence";
+    let headers=new HttpHeaders();
+    let newObj={"id":args}
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
   // addPatient( user : User) : Observable<User>{
   //   let url = this.baseUrl + "addPatient";
   //   return this.http.post<User>(url,user).pipe(

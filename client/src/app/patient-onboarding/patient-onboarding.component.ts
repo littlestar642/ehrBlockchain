@@ -40,6 +40,19 @@ export class PatientOnboardingComponent implements OnInit {
 
   }
 
+  checkUsername(){
+    console.log('here');
+    let username=this.form.get('patientId').value;
+    this.patientService.checkUsernamePresence(username).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+      this.alertService.info(data.message);
+      }
+    })
+  }
+
   savePatient(patientInormation){
     this.patient.patientFirstName = this.form.get("patientFirstName").value;
     this.patient.patientLastName = this.form.get("patientLastName").value;
