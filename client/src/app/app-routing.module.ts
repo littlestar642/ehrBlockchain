@@ -13,9 +13,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
 import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
+import { AuthGuardLoginService } from './services/auth-guard-login.service';
 
 const routes: Routes = [
-  { path : "doctorLogin", component : DoctorLoginComponent },
+  { path : "doctorLogin", component : DoctorLoginComponent, canActivate : [AuthGuardLoginService] },
   { path : "patientChoice", component : PatientChoiceComponent },
   { path : "homepage", component : HomepageComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
