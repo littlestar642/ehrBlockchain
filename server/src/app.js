@@ -459,5 +459,5 @@ app.post('/getOtp',(req,res)=>{
 })
 
 app.listen(8000, () => {
-    console.log('listening at port 8001');
+    console.log('listening at port 8000');
 });
