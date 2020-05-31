@@ -1,5 +1,5 @@
 import { AlertService } from './../services/alert.service';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { PatientService } from './../services/patient.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +14,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class PatientConsentComponent implements OnInit {
 
   private flag = false;
+  patientId: string;
   form = new FormGroup({
     patientId : new FormControl('',Validators.required),
     code : new FormControl('',Validators.required)
@@ -22,9 +23,15 @@ export class PatientConsentComponent implements OnInit {
                 private patientService : PatientService, 
                 private router : Router,
                 private alertService : AlertService,
-                private spinner :NgxSpinnerService ) { }
+                private spinner :NgxSpinnerService,
+                // private rout :RouterStateSnapshot
+                private rout: ActivatedRoute
+                ) { }
+    
 
   ngOnInit() {
+    this.patientId=this.rout.snapshot.url[1].path;
+    // console.log("masala", this.rout.snapshot.url[1].path);
   }
 
   sendVerificationCode(){
