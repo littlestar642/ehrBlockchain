@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -7,9 +9,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private spinner : NgxSpinnerService,
+              private router : Router) { }
 
   ngOnInit() {
+  }
+
+  startSpin1()
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      //spinner ends after 2 seconds 
+        this.spinner.hide();
+        this.router.navigate(['/doctorLogin/']);
+      }, 1000);   
+  }
+  startSpin2()
+  {
+    this.spinner.show();
+    setTimeout(() => {
+      //spinner ends after 2 seconds 
+        this.spinner.hide();
+        this.router.navigate(['/patientLogin/']);
+      }, 1000);   
   }
 
 }

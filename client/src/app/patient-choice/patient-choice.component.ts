@@ -29,13 +29,15 @@ export class PatientChoiceComponent implements OnInit {
   }
 
   generateOtp(){
+    
     let patientId=localStorage.getItem('patientId');
     this.patientService.generateOtp(patientId).subscribe((data)=>{
       if(!data.action){
+        
         this.alertService.error(data.message);
       }else{
+        
         this.otpRecieved=true;
-
       }
     })
   }
@@ -47,8 +49,10 @@ export class PatientChoiceComponent implements OnInit {
     let newObj={"patientId":patientId,"password":password};
     this.patientService.checkPatientPassword(JSON.stringify(newObj)).subscribe((data)=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }else{
+        this.spinner.hide();
         this.router.navigate(['/patientHome/'+patientId]);                
       }
     })
@@ -61,8 +65,10 @@ export class PatientChoiceComponent implements OnInit {
     let newObj={"otp":otp,"patientId":patientId};
     this.patientService.checkOtp(JSON.stringify(newObj)).subscribe((data)=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }else{
+        this.spinner.hide();
         this.router.navigate(['/patientHome/'+patientId]);        
       }
     })

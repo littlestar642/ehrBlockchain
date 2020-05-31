@@ -174,9 +174,16 @@
     <small class="text-danger" [class.d-none]="!paymentMethodHasError || paymentMethod.untouched">Please select a payment method</small>
   </div>
 
-
-  <button [disabled]="patientForm.form.invalid || paymentMethodHasError" class="btn-primary btn" style="margin-top: 2%;margin-bottom: 2%;">Submit</button>
-
+  <div>
+      <ngx-spinner
+      bdColor="rgba(51,51,51,0.8)"
+      size="medium"
+      color="#fff"
+      type="square-jelly-box">
+      <p style="font-size: 20px; color: black"><b>Submitting...</b></p>
+      </ngx-spinner> 
+  <button [disabled]="patientForm.form.invalid || paymentMethodHasError" class="btn-primary btn" style="margin-top: 2%;margin-bottom: 2%;" (click)="startSpin()">Submit</button>
+  </div>
 
 
 </form>
