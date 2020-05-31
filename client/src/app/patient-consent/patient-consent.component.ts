@@ -30,7 +30,7 @@ export class PatientConsentComponent implements OnInit {
   sendVerificationCode(){
     let patientId = this.form.get("patientId").value;
     let doctorId=localStorage.getItem('doctorId');
-    let args={patientId,doctorId};
+    let args={"patientId":patientId,"doctorId":doctorId};
     this.patientService.sendOtpToPatient(args).subscribe(data=>{
       if(!data.action){
         this.alertService.error(data.message);
