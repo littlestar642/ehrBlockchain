@@ -40,12 +40,14 @@ export class HistoryComponent implements OnInit {
           this.alertService.error(res.message);
         }
         else{
+
           let newObj=JSON.parse(res.message);
           newObj.forEach(r=>{
-            this.records.push(r.Record);
+            this.records.push(r);
             this.show.push(false);
           })
           console.log(this.records);
+
         } 
       }
     )
