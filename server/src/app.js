@@ -143,7 +143,7 @@ app.post('/checkDoctor',async (req,res)=>{
 
   let networkObj = await network.connectToNetwork(args.doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
-  let doctorExist=await network.invoke(networkObj,true,'checkDoctorPassword',[args]);
+  let doctorExist=await network.invoke(networkObj,true,'checkDoctorPass',[args]);
   if (doctorExist.error) {res.send({action:false,message:"wrong credentials"});}
 
   if(doctorExist.toString()=="false"){
