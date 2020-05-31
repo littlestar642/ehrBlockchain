@@ -71,9 +71,9 @@ export class PatientOnboardingComponent implements OnInit {
         else{
           this.spinner.hide();
         let thisPlaceDoctor=localStorage.getItem('doctorId');
-        this.alertService.success("patient registered successfully !!!");
         localStorage.setItem("patientId",this.patient.patientId);
         this.router.navigate(['/doctorHome/'+thisPlaceDoctor])
+        this.alertService.success("patient registered successfully !!!");
         }
 
       }

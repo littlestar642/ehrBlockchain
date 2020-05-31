@@ -41,6 +41,7 @@ export class PatientLoginComponent implements OnInit {
         this.spinner.hide();
         localStorage.setItem('patientId',this.patient.patientId)
         this.router.navigate(['/patientChoice/'])
+        this.alertService.success("Logged in successfully !!!");
       }
     })
   }

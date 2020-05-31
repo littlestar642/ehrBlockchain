@@ -63,7 +63,7 @@ export class DoctorLoginComponent implements OnInit {
         localStorage.setItem('doctorId',this.doctor.doctorId);
         localStorage.setItem('token',data.token);
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
-        
+        this.alertService.success("Logged in successfully !!!");
       }
       
 

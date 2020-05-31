@@ -38,7 +38,6 @@ export class PatientChoiceComponent implements OnInit {
       }else{
         
         this.otpRecieved=true;
-
       }
     })
   }
