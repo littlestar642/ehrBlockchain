@@ -13,6 +13,11 @@ export class HistoryComponent implements OnInit {
   private patientId : string;
   private doctorId : string;
   private records : Ehr[];
+  show:boolean[];
+  recordNumber: number;
+  rec:Ehr;
+  
+
   constructor(  private doctorService : DoctorService,
                 private alertService : AlertService ) {}
 
@@ -21,6 +26,8 @@ export class HistoryComponent implements OnInit {
     this.doctorId = localStorage.getItem("doctorId");
     this.records=[];
     this.getHistory();
+    this.show=[];
+  
   }
 
   getHistory(){
@@ -35,12 +42,26 @@ export class HistoryComponent implements OnInit {
         else{
           let newObj=JSON.parse(res.message);
           newObj.forEach(r=>{
-            this.records.push(r.Record)
+            this.records.push(r.Record);
+            this.show.push(false);
           })
           console.log(this.records);
         } 
       }
     )
+  }
+
+  showRecord(recordNumber){
+    // this.show = !this.show;
+    // if(this.show){
+    //   this.recordNumber=recordNumber;
+    //   this.rec = this.records[recordNumber];
+    // }
+    this.show[recordNumber]=true;
+  }
+
+  hideRecord(recordNumber){
+    this.show[recordNumber]=false;
   }
 
 }
