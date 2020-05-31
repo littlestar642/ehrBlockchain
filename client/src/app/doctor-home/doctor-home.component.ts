@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DoctorService } from '../services/doctor.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-doctor-home',
@@ -14,12 +15,26 @@ export class DoctorHomeComponent implements OnInit {
   
   constructor( private doctorService : DoctorService,
                private spinner : NgxSpinnerService,
-               private router : Router ) { 
+               private router : Router,
+               private alertService:AlertService ) { 
   }
 
   ngOnInit() {
     
     this.isLoggedIn = this.doctorService.isLoggedIn();
+    this.getPatientsAlignedToDoctor()
+  }
+
+  getPatientsAlignedToDoctor(){
+    let doctorId=localStorage.getItem('doctorId');
+    this.doctorService.getPatientsAlignedToDoctor(doctorId).subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        console.log(data.message);
+      }
+    });
   }
 
   startSpin1(){

@@ -84,7 +84,7 @@ export class PatientService {
     let headers = new HttpHeaders();
     headers.set('Content-Type','application/json');
     console.log(args);
-    return this.http.post(url,JSON.parse(args));
+    return this.http.post(url,JSON.parse(JSON.stringify(args)));
   }
 
 
