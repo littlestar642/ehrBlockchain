@@ -24,6 +24,7 @@ const routes: Routes = [
   { path : "doctorHome/:doctorId", component : DoctorHomeComponent, canActivate : [AuthGuardService] },
   { path : "patientHome/:patientId", component : PatientHomeComponent },
   { path : "patientOnboarding", component : PatientOnboardingComponent, canActivate : [AuthGuardService] },
+  { path : "patientConsent/:patientId", component : PatientConsentComponent, canActivate : [AuthGuardService] },
   { path : "patientConsent", component : PatientConsentComponent, canActivate : [AuthGuardService] },
   { path : "doctorOption", component : DoctorOptionComponent, canActivate : [AuthGuardService] },
   { path: "history", component : HistoryComponent, canActivate : [AuthGuardService]},
