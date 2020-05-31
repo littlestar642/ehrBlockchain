@@ -58,10 +58,6 @@ const otpModel=require("./models/otp");
 mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.mongodb.net/blockchain?retryWrites=true&w=majority', {useNewUrlParser: true,useUnifiedTopology: true }).then(res=>console.log('connected'))
     .catch(e=>console.log(e));
 
-// Code for sending email
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 
 function generateToken(doctorId){
   let token = jwt.sign({ doctorId }, jwtKey, {
@@ -143,7 +139,7 @@ app.post('/checkDoctor',async (req,res)=>{
 
   let networkObj = await network.connectToNetwork(args.doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
-  let doctorExist=await network.invoke(networkObj,true,'checkDoctorPass',[args]);
+  let doctorExist=await network.invoke(networkObj,true,'checkDoctorPassword',[args]);
   if (doctorExist.error) {res.send({action:false,message:"wrong credentials"});}
 
   if(doctorExist.toString()=="false"){
@@ -436,41 +432,21 @@ app.post("/getHistoryForPatient",async (req,res)=>{
 })
 
 
-app.post('/updateDoctor', async (req, res) => {
-    let newDoctorID = req.body.doctorID;
-    let patientID=req.body.patientID;
-    console.log(newDoctorID)
-    console.log(patientID)
+app.post('/getPatientsForDoctor',async(req,res)=>{
+  let doctorId=req.body.doctorId;
+  let networkObj = await network.connectToNetwork(doctorId);
+  if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
 
-
-    let networkObj = await network.connectToNetwork(newDoctorID);
-
-
-    if (networkObj.error) {
-        res.send(networkObj.error);
-    }
-    let patientExist=await network.invoke(networkObj,true,'patientExists',[{patientID}]);
-  if(!patientExist){
-    res.send("Patient does not exist");
-}
-    
-    let args = [JSON.stringify(req.body)];
-    let invokeResponse = await network.invoke(networkObj,false, 'updateDoctorOnEhr', args);
+  let args =JSON.parse(JSON.stringify(req.body));
+    let invokeResponse = await network.invoke(networkObj,true,'getDoctor',[args]);
     if (invokeResponse.error) {
-      res.send(invokeResponse.error);
+      res.send({action:false,message:"could not invoke chaincode"})
   } else {
-      console.log('after network.invoke ');
-      try{
-        let parsedResponse = JSON.parse(invokeResponse);
-      parsedResponse += 'updated doctor with new ID';
-      res.send(parsedResponse);
-      }
-      catch{
-        res.send(invokeResponse);
-      }
+    let doctor=invokeResponse.toString();
+    let doctorJson=JSON.parse(doctor);
+    res.send({action:true,message:doctorJson.patientList})
       
   }
-
 
 })
 
