@@ -213,17 +213,19 @@ app.post('/sendOtpToPatient',async (req,res)=>{
   let doctorId=req.body.doctorId;
   let args=req.body;
   args=JSON.parse(JSON.stringify(args));
+  console.log("rec args" + JSON.stringify(args));
 
   let emailToSend="avinashjaiswal642@gmail.com"
   let networkObj = await network.connectToNetwork(doctorId);
   if(networkObj.error){res.send({action:false,message:"could not find doctor"})};
   let patientExist=await network.invoke(networkObj,true,'patientExists',[args]);
   if(patientExist.toString()=="false"){
+    console.log("patientExist == false");
     res.send({action:false,message:"patient is not registered in blockchain"});
   }
   else if(patientExist.toString()=="true"){
     req.session.patientId=patientId;
-
+    console.log("patientExist == true");
   
   } 
   else{
