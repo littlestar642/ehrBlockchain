@@ -221,7 +221,7 @@ app.post('/checkPatient', async (req, res) => {
     if (networkObj.error) {
         res.send({
             action: false,
-            message: "could not find doctor"
+            message: "could not find patient"
         })
     };
     let patientExist = await network.invoke(networkObj, true, 'patientExists', [args]);
