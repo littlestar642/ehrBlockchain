@@ -42,7 +42,9 @@ export class PatientConsentComponent implements OnInit {
   }
 
   verifyCode(){
-    this.spinner.show();
+    // this.spinner.show();
+    console.log('here');
+    // return;
     let patientId = this.form.get("patientId").value;
     let otp = this.form.get("code").value
     let args={patientId,otp};

@@ -24,12 +24,21 @@ export class DoctorService {
     return this.http.post(url,JSON.parse(JSON.stringify(ehr)),{headers});
   }
 
+  getPatientsAlignedToDoctor(args:string):Observable<any>{
+    let url = this.baseUrl + "getPatientsForDoctor";
+    let headers=new HttpHeaders();
+    headers.set('Content-Type','application/json');
+    let newObj={"doctorId":args};
+    return this.http.post(url,JSON.parse(JSON.stringify(newObj)),{headers});
+  }
+
   createDoctor(args:any):Observable<any>{
-    let newObj={"doctorId":"","firstName":"","lastName":"","password":""};
+    let newObj={"doctorId":"","firstName":"","lastName":"","password":"","patientList":""};
     newObj.doctorId=args.doctorId;
     newObj.firstName=args.doctorFirstName;
     newObj.lastName=args.doctorLastName;
     newObj.password=args.doctorPassword;
+    newObj.patientList=JSON.stringify([]);
     let url = this.baseUrl + "createDoctor";
     let headers=new HttpHeaders();
     headers.set('Content-Type','application/json');

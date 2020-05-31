@@ -12,6 +12,10 @@ import { Utils } from './properties/Util';
 @Info({title: 'EhrContract', description: 'My Smart Contract' })
 export class EhrContract extends Contract {
 
+
+
+  // methods to check existence
+
     @Transaction(false)
     @Returns('boolean')
     public async ehrExists(ctx: Context, args: string): Promise<boolean> {
@@ -30,6 +34,18 @@ export class EhrContract extends Contract {
 
     @Transaction(false)
     @Returns('boolean')
+    public async doctorExists(ctx: Context, args:string): Promise<boolean> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.doctorId);
+        return (!!buffer && buffer.length > 0);
+    }
+
+
+    // methods to get user i.e doctor or patient
+
+
+    @Transaction(false)
+    @Returns('string')
     public async getPatient(ctx: Context, args: string): Promise<string> {
         let newObj=JSON.parse(args);
         const buffer = await ctx.stub.getState(newObj.patientId);
@@ -37,39 +53,22 @@ export class EhrContract extends Contract {
     }
 
     @Transaction(false)
+    @Returns('string')
+    public async getDoctor(ctx: Context, args: string): Promise<string> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.doctorId);
+        return buffer.toString();
+    }
+
+    // methods for password related queries
+
+    @Transaction(false)
     @Returns('boolean')
-    public async checkPatientPass(ctx: Context, args:string): Promise<boolean> {
+    public async checkDoctorPassword(ctx: Context, args:string): Promise<boolean> {
         let newObj=JSON.parse(args);
         const buffer = await ctx.stub.getState(newObj.doctorId);
         let doctor=JSON.parse(buffer.toString());
         return doctor.password==newObj.password;
-    }
-
-    @Transaction(false)
-    @Returns('boolean')
-    public async doctorExists(ctx: Context, args:string): Promise<boolean> {
-        let newObj=JSON.parse(args);
-        const buffer = await ctx.stub.getState(newObj.doctorId);
-        return (!!buffer && buffer.length > 0);
-    }
-
-    @Transaction(false)
-    @Returns('boolean')
-    public async checkDoctorPass(ctx: Context, args:string): Promise<boolean> {
-        let newObj=JSON.parse(args);
-        const buffer = await ctx.stub.getState(newObj.doctorId);
-        let doctor=JSON.parse(buffer.toString());
-        return doctor.password==newObj.password;
-    }
-
-    @Transaction(false)
-    @Returns('boolean')
-    public async getMailIdOfPatient(ctx: Context, args:string): Promise<string> {
-        let newObj=JSON.parse(args);
-        const buffer = await ctx.stub.getState(newObj.patientId);
-        let patient=JSON.parse(buffer.toString());
-        let mail=patient.emailId;
-        return mail;
     }
 
     @Transaction(false)
@@ -90,14 +89,24 @@ export class EhrContract extends Contract {
         return typeof patient.password=="string";
     }
 
-    @Transaction(false)
-    @Returns('boolean')
-    public async checkUsernamePresence(ctx: Context, args:string): Promise<string> {
-        let newObj=JSON.parse(args);
-        const buffer = await ctx.stub.getState(newObj.id);
-        let user=buffer.toString();
-        return user;
+    @Transaction()
+    public async setPatientPassword(ctx:Context,args:string):Promise<Boolean>{
+        let newArgs=JSON.parse(args);
+
+        let patient=await ctx.stub.getState(newArgs.patientId)
+        let patientJson=JSON.parse(patient.toString());
+        patientJson.password=newArgs.password;
+        await ctx.stub.putState(newArgs.patientId, Buffer.from(JSON.stringify(patientJson)));
+        return true;
     }
+
+    
+
+    // CRUD of ehr
+
+
+
+
 
     @Transaction()
     public async createEhr(ctx: Context,args:string): Promise<Boolean> {
@@ -163,6 +172,27 @@ export class EhrContract extends Contract {
         return true;
     }
 
+    // utility functions
+
+    @Transaction(false)
+    @Returns('string')
+    public async getMailIdOfPatient(ctx: Context, args:string): Promise<string> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.patientId);
+        let patient=JSON.parse(buffer.toString());
+        let mail=patient.emailId;
+        return mail;
+    }
+
+    @Transaction(false)
+    @Returns('string')
+    public async checkUsernamePresence(ctx: Context, args:string): Promise<string> {
+        let newObj=JSON.parse(args);
+        const buffer = await ctx.stub.getState(newObj.id);
+        let user=buffer.toString();
+        return user;
+    }
+
     @Transaction()
     public async updateDoctorOnEhr(ctx: Context, args:string): Promise<Boolean> {
         let argsJSON=JSON.parse(args);
@@ -178,39 +208,50 @@ export class EhrContract extends Contract {
         return true;
     }
 
+    // creation of user
+
 
     @Transaction()
     public async createDoctor(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password);
+        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList);
         await ctx.stub.putState(newDoctor.doctorId, Buffer.from(JSON.stringify(newDoctor)));
         return true;
+    }
+
+   
+
+
+    @Transaction()
+    public async addPatientToDoctorList(ctx:Context,args:string){
+        let newArgs=JSON.parse(args);
+        let doctor=await this.getDoctor(ctx,args);
+        let doctorJson=JSON.parse(doctor);
+        let patientList=JSON.parse(doctorJson.patientList);
+        patientList.push(newArgs.patientId);
+        doctorJson.patientList=JSON.stringify(patientList);
+        await ctx.stub.putState(doctorJson.doctorId, Buffer.from(JSON.stringify(doctorJson)));
     }
 
     @Transaction()
     public async createPatient(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
         let newPatient={patientId:newArgs.patientId,firstname:newArgs.firstname,lastname:newArgs.lastname,doctorId:newArgs.doctorId,emailId:newArgs.emailId,password:newArgs.password};
+        this.addPatientToDoctorList(ctx,args);
         await ctx.stub.putState(newPatient.patientId, Buffer.from(JSON.stringify(newPatient)));
         return true;
     }
-
-    @Transaction()
-    public async setPatientPassword(ctx:Context,args:string):Promise<Boolean>{
-        let newArgs=JSON.parse(args);
-
-        let patient=await ctx.stub.getState(newArgs.patientId)
-        let patientJson=JSON.parse(patient.toString());
-        patientJson.password=newArgs.password;
-        await ctx.stub.putState(newArgs.patientId, Buffer.from(JSON.stringify(patientJson)));
-        return true;
-    }
+  
 
 
 
 
 
+    
 
+
+
+    // rich text queries for presence of Id
     
     @Transaction(false)
     public async queryWithQueryString(ctx:Context, queryString:string) {
@@ -299,6 +340,31 @@ export class EhrContract extends Contract {
           let queryResults = await this.queryWithQueryString(ctx, JSON.stringify(queryString));
           return queryResults;
       
+        }
+
+        // get the history of a patient based on key
+
+        @Transaction(false)
+        public async getHistoryPatientID(ctx:Context, args:string) {
+          let newObj=JSON.parse(args);
+
+          let patientExists=await this.patientExists(ctx,args);
+          if(!patientExists)throw new Error('patient does not exist')
+      
+          let queryResults = await ctx.stub.getHistoryForKey(newObj.patientId);
+          let allRes=[];
+          while(true){
+              let res=await queryResults.next();
+              if(res.value){
+                let val=res.value.value.toString('utf8');
+                allRes.push(val);
+              }
+
+              if(res.done){
+                return allRes;
+              }
+              
+          }
         }
 
 
