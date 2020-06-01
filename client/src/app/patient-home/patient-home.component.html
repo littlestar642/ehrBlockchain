@@ -91,16 +91,16 @@
     
     <div class = "row align-items-center justify-content-center" *ngIf="isMyDoctorsActive">
         <div class = "col-10">
-            <div *ngIf="records.length==0; else doctorList">
+            <div *ngIf="doctorArr.length==0; else doctorList">
               <h2>You havent consulted any doctor yet.</h2>
             </div>
             <ng-template #doctorList>
-              <div *ngFor="let record of records; let i = index">
+              <div *ngFor="let record of doctorArr; let i = index">
                   <div class="card">
                       <div class="card-body">
                           <div class="row align-items-center">
                               <div class="col-8">
-                                  <h2 class="card-title">{{record.doctorId}}</h2>
+                                  <h2 class="card-title">{{record}}</h2>
                               </div>
                           </div>
                       </div>

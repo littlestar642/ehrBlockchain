@@ -18,6 +18,7 @@ export class PatientHomeComponent implements OnInit {
   patientId: string;
   records:Ehr[];
   show: boolean[];
+  doctorArr:string[];
   isHistoryActive : boolean = true;
   isMyDoctorsActive : boolean = false;
 
@@ -37,6 +38,7 @@ export class PatientHomeComponent implements OnInit {
     this.getHistoryForPatient();
     this.records = [];
     this.show = [];
+    this.doctorArr=[];
   }
 
   hasPassword(){
@@ -60,9 +62,10 @@ export class PatientHomeComponent implements OnInit {
           this.alertService.error(res.message);
         }
         else{
-          let arr= JSON.parse(res.message);
-          arr.forEach(r=>{
+            let arr= JSON.parse(res.message);
+            arr.forEach(r=>{
             this.records.push(r);
+            this.doctorArr.push(r.doctorId);
             this.show.push(false);
           });
           console.log("records : ",this.records);
@@ -93,6 +96,8 @@ export class PatientHomeComponent implements OnInit {
   activateMyDoctors(){
     this.isHistoryActive = false;
     this.isMyDoctorsActive = true;
+    let uniqueDoctorArr=[...new Set(this.doctorArr)]
+    this.doctorArr=uniqueDoctorArr;
   }
 
   showRecord(recordNumber){

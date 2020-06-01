@@ -247,7 +247,7 @@ export class EhrContract extends Contract {
     @Transaction()
     public async createDoctor(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList);
+        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList,newArgs.doctorRegNumber);
         await ctx.stub.putState(newDoctor.doctorId, Buffer.from(JSON.stringify(newDoctor)));
         return true;
     }

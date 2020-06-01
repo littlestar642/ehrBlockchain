@@ -842,9 +842,12 @@ app.post('/getPatientsForDoctor', async (req, res) => {
         } else {
             let doctor = invokeResponse.toString();
             let doctorJson = JSON.parse(doctor);
+            let list=JSON.parse(doctorJson.patientList);
+            let uniqueList=[...new Set(list)]
+            
             res.send({
                 action: true,
-                message: doctorJson.patientList
+                message: JSON.stringify(uniqueList)
             })
 
         }

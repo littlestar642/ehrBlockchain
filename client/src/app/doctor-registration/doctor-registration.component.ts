@@ -57,6 +57,7 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;
     this.doctor.doctorId = this.form.get("doctorId").value;
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
+    this.doctor.doctorRegNumber = this.form.get("doctorRegNumber").value;
     const hashedPass = SHA256(this.doctor.doctorPassword).toString(enc.Hex);
     this.doctor.doctorPassword = hashedPass;
     //console.log(this.doctor.doctorPassword);

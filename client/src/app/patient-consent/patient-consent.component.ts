@@ -119,6 +119,7 @@ export class PatientConsentComponent implements OnInit {
     this.patientService.checkOtp(JSON.stringify(args)).subscribe(
       res => {
         if(res){
+          this.spinner.show();
           this.alertService.success("Patient consent verified successfully !!!");
           //localStorage.setItem("patientId",this.form.get("patientId").value);
           localStorage.setItem("patientId",this.patientId);
