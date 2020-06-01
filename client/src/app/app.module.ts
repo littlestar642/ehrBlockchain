@@ -22,7 +22,7 @@ import { HistoryDetailComponent } from './history-detail/history-detail.componen
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
-import { TestComponent } from './test/test.component';
+
 
 @NgModule({
   declarations: [
@@ -40,8 +40,8 @@ import { TestComponent } from './test/test.component';
     HomepageComponent,
     AlertComponent,
     HistoryDetailComponent,
-    PatientChoiceComponent,
-    TestComponent
+    PatientChoiceComponent
+    
   ],
   imports: [
     BrowserModule,
