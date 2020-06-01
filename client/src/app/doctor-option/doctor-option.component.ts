@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-doctor-option',
@@ -12,7 +14,9 @@ export class DoctorOptionComponent implements OnInit {
   isHistoryActive = false;
   private patientId : string;
   private doctorId : string;
-  constructor( private spinner: NgxSpinnerService) { }
+  constructor(  private spinner: NgxSpinnerService,
+                private router: Router,
+                private location: Location) { }
 
   ngOnInit() {
     this.patientId = localStorage.getItem("patientId");
@@ -43,6 +47,12 @@ export class DoctorOptionComponent implements OnInit {
     this.isDiagnosisActive = false;
     console.log("Status diag : "+this.isDiagnosisActive);
     console.log("Status hist : "+this.isHistoryActive);
+  }
+
+  goHome(){
+    console.log("stuff");
+    //this.router.navigate["/doctorHome/"+localStorage.getItem("doctorId")];
+    this.location.back();
   }
 
 }

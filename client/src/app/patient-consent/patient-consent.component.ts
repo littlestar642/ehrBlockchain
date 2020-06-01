@@ -95,7 +95,7 @@ export class PatientConsentComponent implements OnInit {
     let patientId=this.patientId;
     console.log("funny shit ",this.patientId);
     let doctorId=localStorage.getItem('doctorId');
-    let args={patientId,doctorId};
+    let args={"patientId":patientId,"doctorId":doctorId};
     
     console.log("this is args ",args);
   
