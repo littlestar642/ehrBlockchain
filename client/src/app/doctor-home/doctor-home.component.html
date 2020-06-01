@@ -49,9 +49,9 @@
                         <div class = "navlink">                                                                                         
                             <a   class="btn btn-primary" (click)="startSpin1()">Onboard a patient</a>
                         </div>
-                        <div class = "navlink">                            
+                        <!-- <div class = "navlink">                            
                             <a (click)="startSpin2()" class="btn btn-primary">Old patient</a>
-                        </div>
+                        </div> -->
                         <div class = "navlink">
                             <a (click)="startSpin2()"class="btn btn-primary">New patient</a>
                         </div>
@@ -62,5 +62,21 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row align-items-center justify-content-center"> 
+    <div *ngFor="let patient of patientList; let i = index">
+        <div class="card">
+            <div class="card-body">
+                
+                
+                    <a routerLink="/patientConsent/{{patient}}" class="btn btn-primary">
+                        <h2 class="card-title">{{patient}}</h2>
+                    </a>
+                
+                <!-- <a class="stretched-link" routerLink = "/historyDetail/{{i}}"></a> -->
+                <!-- <app-history-detail []='record' style=""></app-history-detail> -->
+            </div>
+        </div>
+    </div>
     </div>
 </div>

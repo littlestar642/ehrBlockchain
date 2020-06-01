@@ -8,6 +8,7 @@ import { Doctor } from './doctor';
 import { Symptoms } from './properties/Symptoms';
 import { Bloodtest } from './properties/BloodTest';
 import { Utils } from './properties/Util';
+import { Patient } from './patient';
 
 @Info({title: 'EhrContract', description: 'My Smart Contract' })
 export class EhrContract extends Contract {
@@ -132,18 +133,30 @@ export class EhrContract extends Contract {
         ehr.util=JSON.parse(JSON.stringify(argsJSON.util)) as Utils;
         ehr.patientFeedback=argsJSON.patientFeedback;
         ehr.ehrId=argsJSON.ehrId;
+
+        await this.addEhrToPatient(ctx,args);
+
         const buffer = Buffer.from(JSON.stringify(ehr));
         await ctx.stub.putState(argsJSON.ehrId, buffer);
         return true;
     }
 
+    @Transaction()
+    public async addEhrToPatient(ctx: Context, args: string){
+      let newArgs=JSON.parse(args);
+      let patient=await this.getPatient(ctx,args);
+      let patientJson=JSON.parse(patient);
+      let ehrList=JSON.parse(patientJson.ehrList);
+      ehrList.push(newArgs.ehrId);
+      patientJson.ehrList=JSON.stringify(ehrList);
+      await ctx.stub.putState(patientJson.patientId, Buffer.from(JSON.stringify(patientJson)));
+    }
+
+    
+
     @Transaction(false)
     @Returns('Ehr')
     public async readEhr(ctx: Context, ehrId: string): Promise<Ehr> {
-        const exists = await this.ehrExists(ctx, ehrId);
-        if (!exists) {
-            throw new Error(`The ehr ${ehrId} does not exist`);
-        }
         const buffer = await ctx.stub.getState(ehrId);
         const ehr = JSON.parse(buffer.toString()) as Ehr;
         return ehr;
@@ -178,10 +191,17 @@ export class EhrContract extends Contract {
     @Returns('string')
     public async getMailIdOfPatient(ctx: Context, args:string): Promise<string> {
         let newObj=JSON.parse(args);
-        const buffer = await ctx.stub.getState(newObj.patientId);
-        let patient=JSON.parse(buffer.toString());
-        let mail=patient.emailId;
-        return mail;
+        let patient=await this.patientExists(ctx,args);
+        if(!patient){throw new Error("patient not registered")}
+        else
+        {
+          const buffer = await ctx.stub.getState(newObj.patientId);
+          let patientJson=JSON.parse(buffer.toString());
+          let mail=patientJson.emailId;
+          return mail;
+        }
+        
+        
     }
 
     @Transaction(false)
@@ -207,6 +227,8 @@ export class EhrContract extends Contract {
         await ctx.stub.putState(argsJSON.ehrId, buffer);
         return true;
     }
+
+    
 
     // creation of user
 
@@ -236,7 +258,7 @@ export class EhrContract extends Contract {
     @Transaction()
     public async createPatient(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newPatient={patientId:newArgs.patientId,firstname:newArgs.firstname,lastname:newArgs.lastname,doctorId:newArgs.doctorId,emailId:newArgs.emailId,password:newArgs.password};
+        let newPatient=new Patient(newArgs.patientId,newArgs.firstName,newArgs.lastName,newArgs.emailId,newArgs.doctorId,newArgs.password,newArgs.ehrList);
         this.addPatientToDoctorList(ctx,args);
         await ctx.stub.putState(newPatient.patientId, Buffer.from(JSON.stringify(newPatient)));
         return true;
@@ -341,6 +363,27 @@ export class EhrContract extends Contract {
           return queryResults;
       
         }
+
+
+        @Transaction(false)
+        public async queryAllEhrOfPatient(ctx:Context, args:string) {
+
+          let patientExists=await this.patientExists(ctx,args);
+          if(!patientExists)throw new Error('patient does not exist')
+      
+          let patient=await this.getPatient(ctx,args);
+          let patientJson=JSON.parse(patient);
+          let ehrList=JSON.parse(patientJson.ehrList);
+          let allEhrs=[];
+          for(let i of ehrList){
+            let ehr=await this.readEhr(ctx,i);
+            allEhrs.push(ehr);
+          }
+
+          return allEhrs;
+        }
+
+
 
         // get the history of a patient based on key
 

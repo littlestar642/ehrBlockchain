@@ -43,12 +43,13 @@ export class PatientService {
   constructor( private http : HttpClient) { }
 
   createPatient(args:any):Observable<any>{
-    let newObj={"patientId":"","firstName":"","lastName":"","doctorId":"","emailId":""};
+    let newObj={"patientId":"","firstName":"","lastName":"","doctorId":"","emailId":"","ehrList":""};
     newObj.patientId=args.patientId;
     newObj.firstName=args.patientFirstName;
     newObj.lastName=args.patientLastName;
     newObj.doctorId=args.doctorId;
     newObj.emailId=args.emailId;
+    newObj.ehrList=JSON.stringify([]);
     console.log(newObj);
     let url = this.baseUrl + "createPatient";
     let headers = new HttpHeaders();
@@ -84,7 +85,14 @@ export class PatientService {
     let headers = new HttpHeaders();
     headers.set('Content-Type','application/json');
     console.log(args);
-    return this.http.post(url,JSON.parse(JSON.stringify(args)));
+    return this.http.post(url,JSON.parse(args),{headers});
+  }
+
+  getHistory( args:any) : Observable<any>  {
+    let url = this.baseUrl + "getHistoryForPatientByPatient";
+    let headers=new HttpHeaders();
+    headers.set('Content-Type','application/json');
+    return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
   }
 
 

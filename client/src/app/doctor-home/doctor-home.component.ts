@@ -12,6 +12,7 @@ import { AlertService } from '../services/alert.service';
 export class DoctorHomeComponent implements OnInit {
 
   isLoggedIn: boolean;
+  patientList: string[];
   
   constructor( private doctorService : DoctorService,
                private spinner : NgxSpinnerService,
@@ -23,6 +24,7 @@ export class DoctorHomeComponent implements OnInit {
     
     this.isLoggedIn = this.doctorService.isLoggedIn();
     this.getPatientsAlignedToDoctor()
+    this.patientList=[];
   }
 
   getPatientsAlignedToDoctor(){
@@ -32,7 +34,11 @@ export class DoctorHomeComponent implements OnInit {
         this.alertService.error(data.message);
       }
       else{
-        console.log(data.message);
+        let newObj=JSON.parse(data.message);
+          newObj.forEach(r=>{
+            this.patientList.push(r)
+          })
+          console.log("random shit ",this.patientList);
       }
     });
   }
@@ -52,7 +58,7 @@ export class DoctorHomeComponent implements OnInit {
     setTimeout(() => {
       //spinner ends after 2 seconds 
         this.spinner.hide();
-        this.router.navigate(['/patientConsent/']);
+        this.router.navigate(['/patientConsent/0']);
       }, 2000);               
 }
 

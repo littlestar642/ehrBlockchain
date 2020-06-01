@@ -21,11 +21,11 @@ export class PatientHomeComponent implements OnInit {
       password : new FormControl('',Validators.required),
     });
 
-    noPassword:boolean
+    noPassword:boolean=true;
 
   ngOnInit() {
-    this.noPassword=true;
     this.hasPassword();
+    this.getHistoryForPatient();
   }
 
   hasPassword(){
@@ -40,6 +40,22 @@ export class PatientHomeComponent implements OnInit {
       }
 
     });
+  }
+
+  getHistoryForPatient(){
+    let args={"patientId":""};
+    args.patientId=localStorage.getItem('patientId');
+    this.patientService.getHistory(args).subscribe(
+      res=>{
+        if(!res.action){
+          this.alertService.error(res.message);
+        }
+        else{
+          let arr=res.message
+          console.log(arr)
+        } 
+      }
+    )
   }
 
   setPassword(){
