@@ -5,6 +5,7 @@ import { Patient } from '../classes/patient';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Ehr } from '../classes/ehr';
 
 @Component({
   selector: 'app-patient-home',
@@ -15,6 +16,10 @@ export class PatientHomeComponent implements OnInit {
 
   noPassword:boolean=true;
   patientId: string;
+  records:Ehr[];
+  show: boolean[];
+  isHistoryActive : boolean = true;
+  isMyDoctorsActive : boolean = false;
 
   constructor(  private patientService : PatientService,
                 private router : Router, 
@@ -30,6 +35,8 @@ export class PatientHomeComponent implements OnInit {
     this.patientId = localStorage.getItem("patientId");
     this.hasPassword();
     this.getHistoryForPatient();
+    this.records = [];
+    this.show = [];
   }
 
   hasPassword(){
@@ -53,15 +60,18 @@ export class PatientHomeComponent implements OnInit {
           this.alertService.error(res.message);
         }
         else{
-          let arr=res.message
-          console.log(arr)
+          let arr= JSON.parse(res.message);
+          arr.forEach(r=>{
+            this.records.push(r);
+            this.show.push(false);
+          });
+          console.log("records : ",this.records);
         } 
       }
-    )
+    );
   }
 
   setPassword(){
-    //let patientId=localStorage.getItem('patientId');
     let patientId=this.patientId;
     let password=this.form.get('password').value;
     this.patientService.setPatientPassword({patientId,password}).subscribe((data)=>{
@@ -72,8 +82,25 @@ export class PatientHomeComponent implements OnInit {
         this.alertService.success("password set successfully");
         this.noPassword=false;
       }
-
     });
+  }
+
+  activateHistory(){
+    this.isHistoryActive = true;
+    this.isMyDoctorsActive = false;
+  }
+
+  activateMyDoctors(){
+    this.isHistoryActive = false;
+    this.isMyDoctorsActive = true;
+  }
+
+  showRecord(recordNumber){
+    this.show[recordNumber]=true;
+  }
+
+  hideRecord(recordNumber){
+    this.show[recordNumber]=false;
   }
 
   logout(){
