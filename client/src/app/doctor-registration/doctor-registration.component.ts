@@ -23,8 +23,9 @@ export class DoctorRegistrationComponent implements OnInit {
     doctorFirstName : new FormControl('',Validators.required),
     doctorLastName : new FormControl('',Validators.required),
     doctorId : new FormControl('',Validators.required),
-    doctorPassword : new FormControl('',Validators.required)
-  })
+    doctorPassword : new FormControl('',Validators.required),
+    doctorRegNumber : new FormControl('',Validators.required)
+  });
 
   constructor(  private docotorService : DoctorService,
                 private alertService : AlertService,
@@ -33,6 +34,7 @@ export class DoctorRegistrationComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   startSpin(){
   this.spinner.show(); 
   }
@@ -49,6 +51,7 @@ export class DoctorRegistrationComponent implements OnInit {
       }
     })
   }
+
   saveDoctor(doctorInformation){
     this.doctor.doctorFirstName = this.form.get("doctorFirstName").value;
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;

@@ -64,19 +64,17 @@
         </div>
     </div>
     <div class="row align-items-center justify-content-center"> 
-    <div *ngFor="let patient of patientList; let i = index">
-        <div class="card">
-            <div class="card-body">
-                
-                
+        <div *ngIf="patientList.length==0; else consultingPatients">
+            <h2> No patients consulting you yet.</h2>
+        </div>
+        <ng-template #consultingPatients>
+            <div class="card" *ngFor="let patient of patientList; let i = index">
+                <div class="card-body">
                     <a routerLink="/patientConsent/{{patient}}" class="btn btn-primary">
                         <h2 class="card-title">{{patient}}</h2>
-                    </a>
-                
-                <!-- <a class="stretched-link" routerLink = "/historyDetail/{{i}}"></a> -->
-                <!-- <app-history-detail []='record' style=""></app-history-detail> -->
+                    </a> 
+                </div>
             </div>
-        </div>
-    </div>
+        </ng-template>
     </div>
 </div>
