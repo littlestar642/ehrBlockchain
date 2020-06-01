@@ -4,11 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, Subscribable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ObserveOnMessage } from 'rxjs/internal/operators/observeOn';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
 
+
+  constructor(  private http : HttpClient,
+                private router: Router ) { }
 
   setPatientPassword(args:any): Observable<any> {
     let url = this.baseUrl + "setPatientPassword";
@@ -62,7 +66,7 @@ export class PatientService {
   }
   private baseUrl = "http://localhost:8000/";
 
-  constructor( private http : HttpClient) { }
+  
 
   createPatient(args:any):Observable<any>{
     let newObj={"patientId":"","firstName":"","lastName":"","doctorId":"","emailId":"","ehrList":""};
@@ -125,4 +129,20 @@ export class PatientService {
     let newObj={"patientId":args.patientId}
     return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers:headers});
   }
+
+  isLoggedIn(){
+    
+    let token = localStorage.getItem('patient_token');
+    if(!token)
+    {
+      return false;
+    }
+    return true;
+  }
+
+  logout(){
+    localStorage.removeItem('patient_token');
+    this.router.navigate(['/homepage']);
+  }
+
 }
