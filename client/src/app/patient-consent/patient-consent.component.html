@@ -16,12 +16,14 @@
                                             <label for="patientId"> Patient ID : </label>  
                                             <div *ngIf="patientId!=0; else zero">
                                                 <input formControlName="patientId" class="form-control" type="text" value="{{patientId}}" placeholder="{{patientId}}" readonly>
+                                                <button class="btn btn-primary"  (click)="sendVerificationCode()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">Send code</button>
                                             </div>
                                             <ng-template #zero>
-                                                    <input formControlName="patientId" class="form-control" type="text">
+                                                    <input formControlName="patientId" class="form-control" type="text" placeholder="New Patient Id" >
+                                                <button class="btn btn-primary"  (click)="sendVerificationCodeNewPatient()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">Send code</button>
                                             </ng-template>
                                             
-                                            <button class="btn btn-primary"  (click)="sendVerificationCode()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">Send code</button>
+                                            
                                         </div>
                                     </div>  
                                 </div>    

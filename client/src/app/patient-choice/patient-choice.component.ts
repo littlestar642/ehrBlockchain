@@ -69,7 +69,8 @@ export class PatientChoiceComponent implements OnInit {
         this.alertService.error(data.message);
       }else{
         this.spinner.hide();
-        this.router.navigate(['/patientHome/'+patientId]);        
+        this.router.navigate(['/patientHome/'+patientId]);    
+        this.alertService.success("Logged in successfully !!!");
       }
     })
 
