@@ -64,25 +64,21 @@ export class PatientConsentComponent implements OnInit {
     console.log("Value of checkval",checkVal)
     if(checkVal==1)
     {
-      console.log("Inside required shit");
       this.alertService.error("Patient Already an old patient!");
       this.flag=false;
+      localStorage.setItem("isNewPatient","false");
     }
     else if(checkVal==0)
     {
-      console.log("funny shit ",this.patientId);
       let doctorId=localStorage.getItem('doctorId');
-      let args={patientId,doctorId};
-      
-      console.log("this is args ",args);
-    
+      let args={"patientId":patientId,"doctorId":doctorId}; 
       this.patientService.sendOtpToPatient(args).subscribe(data=>{
         if(!data.action){
           this.alertService.error(data.message);
         }
         else{
           this.flag=true;
-          
+          localStorage.setItem("isNewPatient","true");
         }
       }); 
     }
@@ -113,9 +109,7 @@ export class PatientConsentComponent implements OnInit {
 }
 
   verifyCode(){
-    // this.spinner.show();
-    console.log('here');
-    // return;
+    
     let patientId = this.form.get("patientId").value;
     let otp = this.form.get("code").value
     let args={patientId,otp};
@@ -126,9 +120,9 @@ export class PatientConsentComponent implements OnInit {
       res => {
         if(res){
           this.spinner.hide();
-        this.alertService.success("Patient consent verified successfully !!!");
-        localStorage.setItem("patientId",this.form.get("patientId").value);
-        this.router.navigate(['/doctorOption/']);
+          this.alertService.success("Patient consent verified successfully !!!");
+          localStorage.setItem("patientId",this.form.get("patientId").value);
+          this.router.navigate(['/doctorOption/']);
         }
         else{
           this.spinner.hide();
