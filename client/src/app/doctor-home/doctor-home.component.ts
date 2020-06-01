@@ -39,6 +39,7 @@ export class DoctorHomeComponent implements OnInit {
             this.patientList.push(r)
           })
           console.log("random shit ",this.patientList);
+          localStorage.setItem("patientList",JSON.stringify(this.patientList));
       }
     });
   }
