@@ -1,9 +1,24 @@
 <div *ngFor="let record of records; let i = index">
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title">Record {{i+1}}</h2>
-            <!-- <a class="stretched-link" routerLink = "/historyDetail/{{i}}"></a> -->
-            <app-history-detail [record]='record' style=""></app-history-detail>
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <h2 class="card-title">Record {{i+1}}</h2>
+                </div>
+                <div class="col-4 align-self-center">
+                        <div *ngIf="show[i]; else showbtn">
+                            <button class="btn btn-primary" (click)="hideRecord(i)">hide</button>
+                        </div>
+                        <ng-template #showbtn>
+                            <button class="btn btn-primary" (click)="showRecord(i)">show</button>
+                        </ng-template>
+                </div>
+
+            </div>
+            
+            <div *ngIf="show[i]">
+                <app-history-detail [record]="record"></app-history-detail>
+            </div>
         </div>
     </div>
 </div>
