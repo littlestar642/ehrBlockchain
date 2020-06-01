@@ -39,6 +39,17 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
+  addPatientToDoctorList(){
+    let patientId=localStorage.getItem('patientId');
+    let url = this.baseUrl + "addPatientToDoctorList";
+    let headers=new HttpHeaders();
+    let newObj={"patientId":"","doctorId":""}
+    newObj.patientId=patientId;
+    newObj.doctorId=localStorage.getItem('doctorId');
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
 
   checkPatient(patient:any) : Subscribable<any>{
     let url = this.baseUrl + "checkPatient";
@@ -96,7 +107,7 @@ export class PatientService {
     let headers = new HttpHeaders();
     headers.set('Content-Type','application/json');
     console.log(args);
-    return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
+    return this.http.post(url,JSON.parse(args),{headers});
   }
 
   getHistory( args:any) : Observable<any>  {
