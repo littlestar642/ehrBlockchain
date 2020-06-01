@@ -28,6 +28,17 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
+  updateDoctorForPatient(){
+    let patientId=localStorage.getItem('patientId');
+    let url = this.baseUrl + "updateDoctorForPatient";
+    let headers=new HttpHeaders();
+    let newObj={"patientId":"","doctorId":""}
+    newObj.patientId=patientId;
+    newObj.doctorId=localStorage.getItem('doctorId');
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
 
   checkPatient(patient:any) : Subscribable<any>{
     let url = this.baseUrl + "checkPatient";

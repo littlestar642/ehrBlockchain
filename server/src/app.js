@@ -283,6 +283,41 @@ app.post('/checkUsernamePresence', async (req, res) => {
 
 });
 
+app.post('/updateDoctorForPatient',async (req,res)=>{
+    let doctorId = req.body.doctorId;
+    let args = JSON.parse(JSON.stringify(req.body));
+
+    let networkObj = await network.connectToNetwork(doctorId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find doctor"
+        })
+    };
+
+    let invokeResponse= await network.invoke(networkObj, true, 'updateDoctorForPatient', [args]);
+    if(invokeResponse.error) {
+        res.send({
+            action: false,
+            message: "error in updating patient"
+        });
+    }
+    else{
+        if (invokeResponse.toString() != "true") {
+            res.send({
+                action: false,
+                message: "some error occured"
+            });
+        } else{
+            res.send({
+                action: true,
+                message: "successfully updated Patient"
+            });
+        }
+    }
+    
+})
+
 
 
 app.post('/checkPatientPassword', async (req, res) => {
