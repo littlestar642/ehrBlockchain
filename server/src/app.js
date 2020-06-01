@@ -244,11 +244,12 @@ app.post('/sendOtpToPatient',async (req,res)=>{
               if (error) {
               res.send({action:false,message:"error occured in sending mail "+ error})
               }
-              res.send({action:true,message:"mail sent successfully"})
-            });
+              else{
+              res.send({action:true,message:"mail sent successfully"}) }
+            }); 
           }).catch(e=>{
               res.send({action:false,message:"error occured in sending mail "+ e})
-          })
+          }) 
         }
         else{
           resp1.otp=otp;
@@ -257,7 +258,10 @@ app.post('/sendOtpToPatient',async (req,res)=>{
               if (error) {
               res.send({action:false,message:"error occured in sending mail "+ error})                  
               }
-              res.send({action:true,message:"mail sent successfully"})
+              else{
+                res.send({action:true,message:"mail sent successfully"})
+              }
+              
             });
           }).catch(e=>{
             res.send({action:false,message:"error occured in sending mail "+ e})
@@ -298,7 +302,10 @@ app.post('/generateOtp',async (req,res)=>{
               if (error) {
               res.send({action:false,message:"error occured in sending mail "+ error})
               }
-              res.send({action:true,message:"mail sent successfully"})
+              else{
+                res.send({action:true,message:"mail sent successfully"})
+              }
+              
             });
           }).catch(e=>{
               res.send({action:false,message:"error occured in sending mail "+ e})
@@ -311,7 +318,10 @@ app.post('/generateOtp',async (req,res)=>{
               if (error) {
               res.send({action:false,message:"error occured in sending mail "+ error})                  
               }
-              res.send({action:true,message:"mail sent successfully"})
+              else{
+                res.send({action:true,message:"mail sent successfully"})
+              }
+              
             });
           }).catch(e=>{
             res.send({action:false,message:"error occured in sending mail "+ e})

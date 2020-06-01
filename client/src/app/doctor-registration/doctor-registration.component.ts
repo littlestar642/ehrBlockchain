@@ -42,9 +42,11 @@ export class DoctorRegistrationComponent implements OnInit {
     let username=this.form.get('doctorId').value;
     this.docotorService.checkUsernamePresence(username).subscribe((data)=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }
       else{
+        this.spinner.hide();
       this.alertService.info(data.message);
       }
     })
