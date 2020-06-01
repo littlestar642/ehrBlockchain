@@ -63,6 +63,7 @@ export class PatientChoiceComponent implements OnInit {
     let otp=this.form.get('otp').value;
     let patientId=localStorage.getItem('patientId');
     let newObj={"otp":otp,"patientId":patientId};
+    console.log("new obj : ",newObj);
     this.patientService.checkOtp(JSON.stringify(newObj)).subscribe((data)=>{
       if(!data.action){
         this.spinner.hide();
