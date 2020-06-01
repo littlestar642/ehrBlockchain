@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { PatientService } from '../services/patient.service';
 
 @Component({
   selector: 'app-doctor-option',
@@ -16,12 +17,17 @@ export class DoctorOptionComponent implements OnInit {
   private doctorId : string;
   constructor(  private spinner: NgxSpinnerService,
                 private router: Router,
-                private location: Location) { }
+                private location: Location,
+                private patientService:PatientService) { }
 
   ngOnInit() {
     this.patientId = localStorage.getItem("patientId");
     this.doctorId = localStorage.getItem("doctorId");
+
+    // updating patient for doctor- new function
+    this.patientService.updateDoctorForPatient(); 
   }
+
 
   activateDiagnosis(){
     this.spinner.show();

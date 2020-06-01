@@ -176,6 +176,18 @@ export class EhrContract extends Contract {
     }
 
     @Transaction()
+    public async updateDoctorForPatient(ctx: Context,args:string): Promise<Boolean> {
+        let patient= await this.getPatient(ctx,args);
+
+        let patientJson=JSON.parse(patient);
+        let argsJSON=JSON.parse(args);
+        patientJson.doctorId=argsJSON.doctorId;
+        const buffer = Buffer.from(JSON.stringify(patientJson));
+        await ctx.stub.putState(argsJSON.patientId, buffer);
+        return true;
+    }
+
+    @Transaction()
     public async deleteEhr(ctx: Context, ehrId: string): Promise<Boolean> {
         const exists = await this.ehrExists(ctx, ehrId);
         if (!exists) {
