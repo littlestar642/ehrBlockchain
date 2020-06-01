@@ -14,15 +14,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
 import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
 import { AuthGuardLoginService } from './services/auth-guard-login.service';
+import { PatientAuthGuardService } from './services/patient-auth-guard.service';
+import { PatientAuthGuardLoginService } from './services/patient-auth-guard-login.service';
 
 const routes: Routes = [
   { path : "doctorLogin", component : DoctorLoginComponent, canActivate : [AuthGuardLoginService] },
-  { path : "patientChoice", component : PatientChoiceComponent },
+  { path : "patientChoice", component : PatientChoiceComponent, canActivate: [PatientAuthGuardLoginService] },
   { path : "homepage", component : HomepageComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
-  { path : "patientLogin", component : PatientLoginComponent },
+  { path : "patientLogin", component : PatientLoginComponent, canActivate: [PatientAuthGuardLoginService] },
   { path : "doctorHome/:doctorId", component : DoctorHomeComponent, canActivate : [AuthGuardService] },
-  { path : "patientHome/:patientId", component : PatientHomeComponent },
+  { path : "patientHome/:patientId", component : PatientHomeComponent, canActivate: [PatientAuthGuardService] },
   { path : "patientOnboarding", component : PatientOnboardingComponent, canActivate : [AuthGuardService] },
   { path : "patientConsent/:patientId", component : PatientConsentComponent, canActivate : [AuthGuardService] },
   { path : "patientConsent", component : PatientConsentComponent, canActivate : [AuthGuardService] },

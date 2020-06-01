@@ -1,8 +1,8 @@
-<div class="container">
+<div *ngIf="noPassword" class="container">
     <div class="row align-items-center justify-content-center">
         <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
             <div class="card-container">
-                <div *ngIf="noPassword" class="card text-black bg-light border-primary">
+                <div class="card text-black bg-light border-primary">
   
                   <h2>SetPassword</h2>  
 
@@ -27,7 +27,6 @@
                     </div>
                     
                   </form>
-                  <a [routerLink] = "['/doctorLogin']"> click here to login as doctor </a>
                   <a [routerLink] = "['/homepage']"> Go back to home </a>
                 </div>
             </div>
@@ -35,3 +34,4 @@
     </div>
 </div>
 <p>patient home works!</p>
+<button class="btn btn-primary" (click)="logout()">logout</button>

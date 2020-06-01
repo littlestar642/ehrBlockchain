@@ -32,14 +32,12 @@ export class PatientChoiceComponent implements OnInit {
     
     let patientId=localStorage.getItem('patientId');
     this.patientService.generateOtp(patientId).subscribe((data)=>{
-      if(!data.action){
-        
+      if(!data.action){        
         this.alertService.error(data.message);
       }else{
-        
         this.otpRecieved=true;
       }
-    })
+    });
   }
 
   login() {
@@ -53,6 +51,7 @@ export class PatientChoiceComponent implements OnInit {
         this.alertService.error(data.message);
       }else{
         this.spinner.hide();
+        localStorage.setItem("patient_token",data.token);
         this.router.navigate(['/patientHome/'+patientId]);                
       }
     })
@@ -70,6 +69,7 @@ export class PatientChoiceComponent implements OnInit {
         this.alertService.error(data.message);
       }else{
         this.spinner.hide();
+        localStorage.setItem("patient_token",data.token);
         this.router.navigate(['/patientHome/'+patientId]);    
         this.alertService.success("Logged in successfully !!!");
       }

@@ -78,9 +78,9 @@ mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.
 
 
 // method to generate Token
-function generateToken(doctorId) {
+function generateToken(entityId) {
     let token = jwt.sign({
-        doctorId
+        entityId
     }, jwtKey, {
         algorithm: "HS256",
         expiresIn: jwtExpirySeconds,
@@ -473,7 +473,8 @@ app.post('/checkPatientPassword', async (req, res) => {
     } else if (patientExist.toString() == "true") {
         res.send({
             action: true,
-            message: "successfully fetched password"
+            message: "successfully fetched password",
+            token: generateToken(patientId)
         });
     } else {
         res.send({
@@ -677,12 +678,14 @@ app.post('/checkOtp', (req, res) => {
         if (resp1.otp === otp) {
             res.send({
                 action: true,
-                message: "correct otp provided"
+                message: "correct otp provided",
+                token: generateToken(patientId)
             });
         } else {
             res.send({
                 action: false,
-                message: "incorrect otp provided"
+                message: "incorrect otp provided",
+                token: "token_absent"
             })
         }
     })

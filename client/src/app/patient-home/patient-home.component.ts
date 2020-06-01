@@ -13,24 +13,27 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class PatientHomeComponent implements OnInit {
 
-  constructor(private patientService : PatientService,
-    private router : Router, private alertService:AlertService,
-    private spinner: NgxSpinnerService) { }
+  noPassword:boolean=true;
+  patientId: string;
 
-    form = new FormGroup({
-      password : new FormControl('',Validators.required),
-    });
+  constructor(  private patientService : PatientService,
+                private router : Router, 
+                private alertService:AlertService,
+                private spinner: NgxSpinnerService) { }
 
-    noPassword:boolean=true;
+  form = new FormGroup({
+    password : new FormControl('',Validators.required),
+  });
+
 
   ngOnInit() {
+    this.patientId = localStorage.getItem("patientId");
     this.hasPassword();
     this.getHistoryForPatient();
   }
 
   hasPassword(){
-    let patientId=localStorage.getItem('patientId');
-
+    let patientId=this.patientId;
     this.patientService.patientHasPassword({patientId}).subscribe((data)=>{
       if(!data.action){
         this.alertService.error(data.message);
@@ -43,8 +46,7 @@ export class PatientHomeComponent implements OnInit {
   }
 
   getHistoryForPatient(){
-    let args={"patientId":""};
-    args.patientId=localStorage.getItem('patientId');
+    let args={"patientId":this.patientId};
     this.patientService.getHistory(args).subscribe(
       res=>{
         if(!res.action){
@@ -59,7 +61,8 @@ export class PatientHomeComponent implements OnInit {
   }
 
   setPassword(){
-    let patientId=localStorage.getItem('patientId');
+    //let patientId=localStorage.getItem('patientId');
+    let patientId=this.patientId;
     let password=this.form.get('password').value;
     this.patientService.setPatientPassword({patientId,password}).subscribe((data)=>{
       if(!data.action){
@@ -71,6 +74,10 @@ export class PatientHomeComponent implements OnInit {
       }
 
     });
+  }
+
+  logout(){
+    this.patientService.logout();
   }
 
 }
