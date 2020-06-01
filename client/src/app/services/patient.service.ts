@@ -96,7 +96,7 @@ export class PatientService {
     let headers = new HttpHeaders();
     headers.set('Content-Type','application/json');
     console.log(args);
-    return this.http.post(url,JSON.parse(args),{headers});
+    return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
   }
 
   getHistory( args:any) : Observable<any>  {
