@@ -680,7 +680,7 @@ app.post('/createEhr', async (req, res) => {
 });
 
 
-app.post('/getPatientDoctorHistory',(req,res)=>{
+app.post('/getPatientDoctorHistory',async (req,res)=>{
     let patientId = req.body.patientId;
      let networkObj = await network.connectToNetwork(patientId);
     if (networkObj.error) {
