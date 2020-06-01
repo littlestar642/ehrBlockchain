@@ -15,12 +15,25 @@ const {
     v4
 } = require('uuid')
 
+const app = express();
+var session = require('express-session')
+
+let network = require('./fabric/network.js');
+
+
+// session related variable
 const jwtKey = "secret_key"
 const jwtExpirySeconds = 3000
 
-let fromMail = 'doctordappapp@gmail.com';
+// middleware for body parser and cors
+app.use(morgan('combined'));
+app.use(bodyParser.json());
+app.use(cors());
 
-let subject = 'Otp for login';
+
+// mail related variables
+const fromMail = 'doctordappapp@gmail.com';
+const subject = 'Otp for login';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -31,15 +44,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
-let network = require('./fabric/network.js');
-
-const app = express();
-var session = require('express-session')
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-app.use(cors());
-
-app.set('trust proxy', 1)
+// middleware for sessioning
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -48,16 +53,22 @@ app.use(session({
         secure: true
     }
 }))
+app.set('trust proxy', 1)
 
+// configuration related variables
 const configPath = path.join(process.cwd(), './config.json');
 const configJSON = fs.readFileSync(configPath, 'utf8');
 const config = JSON.parse(configJSON);
+
+
+
+
 
 //use this identity to query
 const appAdmin = config.appAdmin;
 
 
-
+// database related variables
 const otpModel = require("./models/otp");
 mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.mongodb.net/blockchain?retryWrites=true&w=majority', {
         useNewUrlParser: true,
@@ -66,6 +77,7 @@ mongoose.connect('mongodb+srv://m001-student:mBVI3SbOLiX22EPT@avinash-001-q92dl.
     .catch(e => console.log(e));
 
 
+// method to generate Token
 function generateToken(doctorId) {
     let token = jwt.sign({
         doctorId
@@ -73,18 +85,20 @@ function generateToken(doctorId) {
         algorithm: "HS256",
         expiresIn: jwtExpirySeconds,
     });
-    console.log("token: ", token);
     return String(token);
 }
+
+
+
+// handlers for creating user i.e doctor/patient
+
 
 app.post('/createDoctor', async (req, res) => {
     let args = req.body;
     let doctorId = req.body.doctorId;
     args = JSON.parse(JSON.stringify(args));
 
-
     let response = await network.registerDoctor(doctorId, args.firstName, args.lastName, args.password);
-    console.log('response from registerDoctor: ');
     if (response.error) {
         res.send({
             action: false,
@@ -131,7 +145,6 @@ app.post('/createPatient', async (req, res) => {
     args = JSON.parse(JSON.stringify(args));
 
     let response = await network.registerPatient(patientId, args.firstName, args.lastName);
-    console.log('response from registerPatient: ');
     if (response.error) {
         res.send({
             action: false,
@@ -169,6 +182,50 @@ app.post('/createPatient', async (req, res) => {
         }
     }
 });
+
+
+
+app.post('/createEhr', async (req, res) => {
+    let patientId = req.body.patientId;
+    let doctorId = req.body.doctorId;
+    let args = req.body;
+    let ehrId = v4()
+    args = JSON.parse(JSON.stringify(args));
+    args.ehrId = ehrId;
+    let networkObj = await network.connectToNetwork(doctorId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find doctor"
+        })
+    };
+
+
+    let invokeResponse = await network.invoke(networkObj, false, 'createEhr', [args]);
+    if (invokeResponse.error) {
+        res.send({
+            action: false,
+            message: "error in invoking chaincode"
+        });
+
+    } else {
+        if (invokeResponse.toString() == "true")
+            res.send({
+                action: true,
+                message: "succesfully created ehr"
+            })
+        else {
+            res.send({
+                action: false,
+                message: "some error occured"
+            })
+        }
+    }
+});
+
+
+
+// handlers to check presence of user
 
 
 app.post('/checkDoctor', async (req, res) => {
@@ -249,6 +306,111 @@ app.post('/checkPatient', async (req, res) => {
     }
 });
 
+
+
+
+// handlers to change the doctor patient relationships
+
+app.post('/updateDoctorForPatient', async (req, res) => {
+    let doctorId = req.body.doctorId;
+    let args = JSON.parse(JSON.stringify(req.body));
+    let networkObj = await network.connectToNetwork(doctorId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find doctor"
+        })
+    };
+
+    let invokeResponse = await network.invoke(networkObj, true, 'updateDoctorForPatient', [args]);
+    if (invokeResponse.error) {
+        res.send({
+            action: false,
+            message: "error in updating patient"
+        });
+    } else {
+        if (invokeResponse.toString() != "true") {
+            res.send({
+                action: false,
+                message: "some error occured"
+            });
+        } else {
+            res.send({
+                action: true,
+                message: "successfully updated Patient"
+            });
+        }
+    }
+
+})
+
+app.post('/addPatientToDoctorList', async (req, res) => {
+    let doctorId = req.body.doctorId;
+    let args = JSON.parse(JSON.stringify(req.body));
+    let networkObj = await network.connectToNetwork(doctorId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find doctor"
+        })
+    };
+
+    let invokeResponse = await network.invoke(networkObj, false, 'addPatientToDoctorList', [args]);
+    if (invokeResponse.error) {
+        res.send({
+            action: false,
+            message: "error in updating doctor list"
+        });
+    } else {
+        if (invokeResponse.toString() != "true") {
+            res.send({
+                action: false,
+                message: "some error occured"
+            });
+        } else {
+            res.send({
+                action: true,
+                message: "successfully updated doctor list"
+            });
+        }
+    }
+
+});
+
+
+
+
+app.post('/getPatientDoctorHistory', async (req, res) => {
+    let patientId = req.body.patientId;
+    let networkObj = await network.connectToNetwork(patientId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find patient"
+        })
+    };
+
+
+    let args = JSON.parse(JSON.stringify(req.body));
+    let invokeResponse = await network.invoke(networkObj, true, 'getHistoryPatientID', [args]);
+    if (invokeResponse.error) {
+        res.send({
+            action: false,
+            message: "could not invoke chaincode"
+        })
+    } else {
+        res.send({
+            action: true,
+            message: invokeResponse.toString()
+        })
+
+    }
+});
+
+
+
+// utility handlers
+
 app.post('/checkUsernamePresence', async (req, res) => {
     let args = req.body;
     args = JSON.parse(JSON.stringify(args));
@@ -283,47 +445,10 @@ app.post('/checkUsernamePresence', async (req, res) => {
 
 });
 
-app.post('/updateDoctorForPatient',async (req,res)=>{
-    let doctorId = req.body.doctorId;
-    let args = JSON.parse(JSON.stringify(req.body));
-
-    let networkObj = await network.connectToNetwork(doctorId);
-    if (networkObj.error) {
-        res.send({
-            action: false,
-            message: "could not find doctor"
-        })
-    };
-
-    let invokeResponse= await network.invoke(networkObj, true, 'updateDoctorForPatient', [args]);
-    if(invokeResponse.error) {
-        res.send({
-            action: false,
-            message: "error in updating patient"
-        });
-    }
-    else{
-        if (invokeResponse.toString() != "true") {
-            res.send({
-                action: false,
-                message: "some error occured"
-            });
-        } else{
-            res.send({
-                action: true,
-                message: "successfully updated Patient"
-            });
-        }
-    }
-    
-})
-
-
 
 app.post('/checkPatientPassword', async (req, res) => {
     let patientId = req.body.patientId;
     let args = JSON.parse(JSON.stringify(req.body));
-    console.log(args);
     let networkObj = await network.connectToNetwork(patientId);
     if (networkObj.error) {
         res.send({
@@ -359,13 +484,13 @@ app.post('/checkPatientPassword', async (req, res) => {
 
 })
 
+// handler to generate otp for old patient login
 
 app.post('/sendOtpToPatient', async (req, res) => {
     let patientId = req.body.patientId;
     let args = req.body;
     let doctorId = req.body.doctorId;
-    console.log(req.body);
-    args=JSON.parse(JSON.stringify(args));
+    args = JSON.parse(JSON.stringify(args));
     let networkObj = await network.connectToNetwork(doctorId);
     if (networkObj.error) {
         res.send({
@@ -387,7 +512,6 @@ app.post('/sendOtpToPatient', async (req, res) => {
             });
         } else {
             let patientMail = patientM.toString();
-            console.log(patientM);
             let otp = Math.floor(Math.random() * 100000);
             let mailOptions = {
                 from: fromMail,
@@ -453,6 +577,8 @@ app.post('/sendOtpToPatient', async (req, res) => {
     }
 
 });
+
+// handler to generate otp for patient logini
 
 app.post('/generateOtp', async (req, res) => {
 
@@ -537,13 +663,14 @@ app.post('/generateOtp', async (req, res) => {
         })
 
     }
-})
+});
+
+
+// handler to check otp
 
 app.post('/checkOtp', (req, res) => {
     let patientId = req.body.patientId;
     let otp = req.body.otp;
-    console.log(req.body);
-    console.log(req.body);
     otpModel.findOne({
         patientId
     }).then(resp1 => {
@@ -561,6 +688,7 @@ app.post('/checkOtp', (req, res) => {
     })
 })
 
+// handler to know if the patient has already set password
 
 app.post('/patientHasPassword', async (req, res) => {
     let patientId = req.body.patientId;
@@ -592,7 +720,9 @@ app.post('/patientHasPassword', async (req, res) => {
         })
     }
 
-})
+});
+
+// handler to check the patient password for login
 
 app.post('/setPatientPassword', async (req, res) => {
     let patientId = req.body.patientId;
@@ -605,7 +735,6 @@ app.post('/setPatientPassword', async (req, res) => {
             message: "could not find patient"
         })
     };
-    console.log(args);
     let patientExist = await network.invoke(networkObj, false, 'setPatientPassword', [args]);
 
     if (patientExist.toString() == "false") {
@@ -629,78 +758,8 @@ app.post('/setPatientPassword', async (req, res) => {
 
 
 
+// handler to get the entire ledger of ehrs for patient based on requester
 
-
-
-app.post('/createEhr', async (req, res) => {
-    let patientId = req.body.patientId;
-    let doctorId = req.body.doctorId;
-    let args = req.body;
-    let ehrId = v4()
-    args = JSON.parse(JSON.stringify(args));
-    args.ehrId = ehrId;
-    let networkObj = await network.connectToNetwork(doctorId);
-    if (networkObj.error) {
-        res.send({
-            action: false,
-            message: "could not find doctor"
-        })
-    };
-
-
-    let invokeResponse = await network.invoke(networkObj, false, 'createEhr', [args]);
-    if (invokeResponse.error) {
-        res.send({
-            action: false,
-            message: "error in invoking chaincode"
-        });
-
-    } else {
-        if (invokeResponse.toString() == "true")
-            res.send({
-                action: true,
-                message: "succesfully created ehr"
-            })
-        else {
-            res.send({
-                action: false,
-                message: "some error occured"
-            })
-        }
-    }
-
-
-
-
-});
-
-
-app.post('/getPatientDoctorHistory',async (req,res)=>{
-    let patientId = req.body.patientId;
-    let networkObj = await network.connectToNetwork(patientId);
-    if (networkObj.error) {
-        res.send({
-            action: false,
-            message: "could not find patient"
-        })
-    };
-
-
-    let args = JSON.parse(JSON.stringify(req.body));
-    let invokeResponse = await network.invoke(networkObj, true, 'getHistoryPatientID', [args]);
-    if (invokeResponse.error) {
-        res.send({
-            action: false,
-            message: "could not invoke chaincode"
-        })
-    } else {
-        res.send({
-            action: true,
-            message: invokeResponse.toString()
-        })
-
-    }
-})
 
 app.post("/getHistoryForPatient", async (req, res) => {
     let patientId = req.body.patientId;
@@ -758,6 +817,7 @@ app.post("/getHistoryForPatientByPatient", async (req, res) => {
     }
 })
 
+// handlet to get all the patients aligned with the doctor
 
 app.post('/getPatientsForDoctor', async (req, res) => {
     let doctorId = req.body.doctorId;
@@ -785,21 +845,7 @@ app.post('/getPatientsForDoctor', async (req, res) => {
             })
 
         }
-
     }
-
-
-
-})
-
-
-app.post('/getOtp', (req, res) => {
-    let patientID = req.body.patientID;
-    otpModel.find({
-        patientID
-    }).then(ret => {
-        res.send(ret.otp);
-    })
 })
 
 app.listen(8000, () => {

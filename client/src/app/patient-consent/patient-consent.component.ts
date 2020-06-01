@@ -116,14 +116,21 @@ export class PatientConsentComponent implements OnInit {
     // console.log("pid : "+ pId);
     // console.log("otp : "+ otp);
 
-    this.patientService.checkOtp(args).subscribe(
+    this.patientService.checkOtp(JSON.stringify(args)).subscribe(
       res => {
         if(res){
-          this.spinner.hide();
           this.alertService.success("Patient consent verified successfully !!!");
           //localStorage.setItem("patientId",this.form.get("patientId").value);
           localStorage.setItem("patientId",this.patientId);
-          this.router.navigate(['/doctorOption/']);
+          this.patientService.addPatientToDoctorList().subscribe((data)=>{
+            this.spinner.hide();
+            if(!data.action){
+              this.alertService.error(data.message);
+            }
+            else{
+              this.router.navigate(['/doctorOption/']);
+            }
+          })
         }
         else{
           this.spinner.hide();
