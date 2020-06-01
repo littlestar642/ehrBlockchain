@@ -679,6 +679,34 @@ app.post('/createEhr', async (req, res) => {
 
 });
 
+
+app.post('/getPatientDoctorHistory',(req,res)=>{
+    let patientId = req.body.patientId;
+    let networkObj = await network.connectToNetwork(patientId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find patient"
+        })
+    };
+
+
+    let args = JSON.parse(JSON.stringify(req.body));
+    let invokeResponse = await network.invoke(networkObj, true, 'getHistoryPatientID', [args]);
+    if (invokeResponse.error) {
+        res.send({
+            action: false,
+            message: "could not invoke chaincode"
+        })
+    } else {
+        res.send({
+            action: true,
+            message: invokeResponse.toString()
+        })
+
+    }
+})
+
 app.post("/getHistoryForPatient", async (req, res) => {
     let patientId = req.body.patientId;
     let doctorId = req.body.doctorId;
