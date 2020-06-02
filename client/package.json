@@ -51,7 +51,7 @@
     "tslint": "~5.15.0",
     "typescript": "~3.8.3"
   },
-  "browser":{
-    "crypto" : false
+  "browser": {
+    "crypto": false
   }
 }

@@ -3,7 +3,7 @@
         <div class = "col-6 text-center" style="margin-top: 100px; margin-bottom: 100px;">
 
             <div class="card-container">
-                <div class="card text-black bg-light border-primary">
+                
                     <div class="card-body text-center">
                         <h5 class="card-title">Patient Consent</h5>
                         
@@ -16,11 +16,18 @@
                                             <label for="patientId"> Patient ID : </label>  
                                             <div *ngIf="patientId!=0; else zero">
                                                 <input formControlName="patientId" class="form-control" type="text" value="{{patientId}}" placeholder="{{patientId}}" readonly>
+                                                <ngx-spinner
+                                            bdColor="rgba(51,51,51,0.8)"
+                                            size="medium"
+                                            color="#fff"
+                                            type="square-jelly-box">
+                                            <p style="font-size: 20px; color: black"><b>Loading...</b></p>
+                                            </ngx-spinner> 
                                                 <button class="btn btn-primary"  (click)="sendVerificationCode()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">Send code</button>
                                             </div>
                                             <ng-template #zero>
                                                     <input formControlName="patientId" class="form-control" type="text" placeholder="New Patient Id" >
-                                                <button class="btn btn-primary"  (click)="sendVerificationCodeNewPatient()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">Send code</button>
+                                                <button class="btn btn-primary"  (click)="sendVerificationCodeNewPatient()" >Send code</button>
                                             </ng-template>
                                         </div>
                                     </div>  
@@ -34,26 +41,20 @@
                                         <div style="display: inline;">
                                             <label for="verificationCode"> OTP : </label>  
                                             <input formControlName="code" class="form-control" type="text">
-                                            <ngx-spinner
-                                            bdColor="rgba(51,51,51,0.8)"
-                                            size="medium"
-                                            color="#fff"
-                                            type="square-jelly-box">
-                                            <p style="font-size: 20px; color: black"><b>Loading...</b></p>
-                                            </ngx-spinner> 
-                                            <button class="btn btn-primary"  (click)="verifyCode()" style="display: inline; padding: 1px; height: 35px; margin-left: 15px;">verify</button>
+                                            
+                                            <button class="btn btn-primary"  (click)="verifyCode()" >verify</button>
                                         </div>
                                     </div>  
                                 </div>
                             </div>
                             
-                            <div class = "navlink">
-                                <button (click)= "goBack()" class="btn btn-primary">Go back</button>
-                            </div>
+                           
+                                <button (click)= "goBack()" class="btn btn-primary" >Go back</button>
+                            
                             
                         </form>
                     </div>
-                </div>
+                
             </div>
 
         </div>

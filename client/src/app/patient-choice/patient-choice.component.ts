@@ -29,12 +29,14 @@ export class PatientChoiceComponent implements OnInit {
   }
 
   generateOtp(){
-    
+    this.spinner.show();
     let patientId=localStorage.getItem('patientId');
     this.patientService.generateOtp(patientId).subscribe((data)=>{
-      if(!data.action){        
+      if(!data.action){     
+        this.spinner.hide();   
         this.alertService.error(data.message);
       }else{
+        this.spinner.hide();
         this.otpRecieved=true;
       }
     });

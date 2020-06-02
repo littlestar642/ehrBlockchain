@@ -1,17 +1,25 @@
 .card{
     height: 200px;
     margin: 10px;
+    background-color: #aaabb8;
+    border-radius: 25px;
 }
 
 .card:hover{
     font-size: 150%;
     box-shadow: 2px 2px rgba(50,50,50,0.9);
 }
+
+.card-img{
+    border-radius: 25px;
+}
 .card-img-overlay{
-    text-align: center;
+    color: BLACK;
+    border-radius: 25px;
 }
 
 .card-img-overlay h2{
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 250px;
+    margin-bottom: 200px;
+    text-align: center;
 }

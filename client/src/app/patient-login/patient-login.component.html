@@ -1,16 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand">DR. DAPP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+            <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#fff"
+            type="square-jelly-box">
+            <p style="font-size: 20px; color: black"><b>Loading...</b></p>
+            </ngx-spinner> 
+        <li class="nav-item ">
+          <a class="nav-link"  [routerLink] = "['/doctorLogin']" >Login as Doctor<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink] = "['/homepage']" >Back to Home</a>
+        </li>
+        
+
+      </ul>
+    </div>
+</nav>
 <div class="container">
     <div class="row align-items-center justify-content-center">
         <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
             <div class="card-container">
-                <div class="card text-black bg-light border-primary">
+                
   
-                  <h2>Patient Login</h2>  
+                  <h2><b>Patient Login</b></h2>  
 
                   <form [formGroup]="form" #patientInformation (ngSubmit)="login(patientInformation)">  
                     
                     <div class="row align-items-center justify-content-center">  
                       <div class="col-md-10">  
-                          <label for="patientId"> Patient ID : </label>  
+                          <label for="patientId"><h5> Patient ID : </h5></label>  
                           <input formControlName="patientId" class="form-control" type="text">   
                       </div>  
                     </div>  
@@ -29,9 +54,7 @@
                     </div>
                     
                   </form>
-                  <a [routerLink] = "['/doctorLogin']"> click here to login as doctor </a>
-                  <a [routerLink] = "['/homepage']"> Go back to home </a>
-                </div>
+                                  
             </div>
         </div>
     </div>

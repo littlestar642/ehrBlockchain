@@ -1,16 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand">DR. DAPP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+            <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#fff"
+            type="square-jelly-box">
+            <p style="font-size: 20px; color: black"><b>Loading...</b></p>
+            </ngx-spinner> 
+        <li class="nav-item ">
+          <a class="nav-link"  [routerLink] = "['/patientLogin']" >Login as Patient<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink] = "['/doctorRegistration']" >Doctor Registration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink] = "['/homepage']" >Back to Home</a>
+        </li>
+        
 
+      </ul>
+    </div>
+</nav>
 <div class="container">
   <div class="row align-items-center justify-content-center">
       <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
           <div class="card-container">
-              <div class="card text-black bg-light border-primary">
-                <h2>Doctor Login</h2>  
-
+              <div >
+                <br>
+                <h2><b>Doctor Login</b></h2>  
+                
                 <form [formGroup]="form" #doctorInformation (ngSubmit)="login(doctorInformation)">  
                   
                   <div class="row align-items-center justify-content-center">  
                     <div class= "col-md-10" >
-                        
+                                                 
                           <label for="doctorId">Username :  </label>  
                           <input formControlName="doctorId" class="form-control" type="text">
                         
@@ -39,11 +67,7 @@
                     </div>  
                   </div>
                   
-                </form>
-
-                <a [routerLink] = "['/patientLogin']"> click here to login as a patient </a>
-                <a [routerLink] = "['/doctorRegistration']"> click here to register </a>
-                <a [routerLink] = "['/homepage']"> Go back to home </a>
+                </form>    
               </div>
           </div>
       </div>

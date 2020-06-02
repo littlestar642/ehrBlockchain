@@ -23,6 +23,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { PatientChoiceComponent } from './patient-choice/patient-choice.componen
     AlertComponent,
     HistoryDetailComponent,
     PatientChoiceComponent
+    
   ],
   imports: [
     BrowserModule,

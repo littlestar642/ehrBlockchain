@@ -625,11 +625,13 @@ app.post('/generateOtp', async (req, res) => {
                                 action: false,
                                 message: "error occured in sending mail " + error
                             })
+                        }else{
+                            res.send({
+                                action: true,
+                                message: "mail sent successfully"
+                            })
                         }
-                        res.send({
-                            action: true,
-                            message: "mail sent successfully"
-                        })
+                        
                     });
                 }).catch(e => {
                     res.send({
@@ -649,10 +651,13 @@ app.post('/generateOtp', async (req, res) => {
                                 message: "error occured in sending mail " + error
                             })
                         }
-                        res.send({
-                            action: true,
-                            message: "mail sent successfully"
-                        })
+                        else{
+                            res.send({
+                                action: true,
+                                message: "mail sent successfully"
+                            })
+                        }
+                        
                     });
                 }).catch(e => {
                     res.send({

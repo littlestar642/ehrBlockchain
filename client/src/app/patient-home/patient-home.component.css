@@ -11,3 +11,41 @@ button {
 .card:hover{
     box-shadow: 2px 2px rgba(0,0,0,0.3);
 }
+.navbar{
+	
+	width : auto;
+}
+
+.nav-item a{
+	float: left;
+	display: block;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+.nav-item a:hover {
+	background-color: #ddd;
+	color: black;
+  }
+  
+.nav-item a.active {
+	background-color: #4CAF50;
+	color: white;
+  }
+  .card{
+      background: none;
+  }
+  .card-container{
+    max-width: 500px;
+	padding: 10px 20px;
+	background: #f4f7f8;
+	margin: 10px auto;
+	padding: 20px;
+	background: #6db4b2;
+	border-radius: 25px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+    
+
+}

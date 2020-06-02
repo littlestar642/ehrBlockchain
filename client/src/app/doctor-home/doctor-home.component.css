@@ -1,17 +1,89 @@
-.row{
-    min-height: 10rem;        
-    margin-top: 1rem;
-}
+
 .col{
     padding: 10px 15px;
     border: 1px solid rgba(0,0,0,0.5)
+    
 }
 
+.navbar{
+	
+	width : auto;
+}
+
+.nav-item a{
+	float: left;
+	display: block;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+.nav-item a:hover {
+	background-color: #ddd;
+	color: black;
+  }
+  
+.nav-item a.active {
+	background-color: #4CAF50;
+	color: white;
+  }
 .card-container{
-    margin: 20px;        
+    max-width: 500px;
+	padding: 10px 20px;
+	margin: 10px auto;
+	padding: 20px;
+	background: #6db4b2;
+	border-radius: 25px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.card-body{
+	background:#6db4b2;
+	width: 500px auto;
 }
 
-.navlink{
-    margin: 10px;
-    padding: 2px;
+.btn{
+	background-color: #6db4b2;
+	
+	width: fit-content;
+}	
+h2{
+	margin: 10px;
+	color: oldlace;
 }
+
+.scrollbar {
+	max-width: 500px;
+	padding: 10px 20px;
+	margin: 10px auto;
+	padding: 20px;
+	height: 330px;
+	background: #2a2c2c;
+	border-radius: 25px;
+	
+	overflow-y: scroll;
+
+	}
+	.force-overflow {
+	min-height: 500px;
+	}
+	
+	
+	.scrollbar-default::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+	background-color: #F5F5F5;
+	border-radius: 10px; }
+	
+	.scrollbar-default::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5; }
+	
+	.scrollbar-default::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+	background-color: #2BBBAD; }
+	
+	.scrollbar-default {
+	scrollbar-color: #2BBBAD #F5F5F5;
+	}
+	
