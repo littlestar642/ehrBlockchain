@@ -2,13 +2,15 @@
     <div class="row align-items-center justify-content-center">
         <div class = "col-6 text-center" style="margin-top: 100px; margin-bottom: 100px;">
             <div class="card-container">
-                <div class="card text-black bg-light border-primary">
-                    <h2>Doctor Registraion form</h2>  
+                <div class="form-style-5">
+                    <br>
+                    <h2><b>Doctor Registraion form</b></h2>  
                     
                     <form [formGroup]="form" #doctorInformation (ngSubmit)="saveDoctor(doctorInformation)">  
                     
                     <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-8">  
+                        <div class="col-md-8">
+                            
                             <label for="doctorFirstName">First name </label>  
                             <input formControlName="doctorFirstName" class="form-control" type="text">   
                         </div>  
@@ -52,6 +54,7 @@
                     </form>
                     <a [routerLink] = "['/doctorLogin']"> click here to Login </a>
                     <a [routerLink] = "['/homepage']"> Go back to home </a>
+                    <br>
                 </div>
             </div>
         </div>

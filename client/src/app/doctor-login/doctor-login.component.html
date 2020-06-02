@@ -3,14 +3,15 @@
   <div class="row align-items-center justify-content-center">
       <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
           <div class="card-container">
-              <div class="card text-black bg-light border-primary">
-                <h2>Doctor Login</h2>  
-
+              <div >
+                <br>
+                <h2><b>Doctor Login</b></h2>  
+                <div class="form-style-5">
                 <form [formGroup]="form" #doctorInformation (ngSubmit)="login(doctorInformation)">  
                   
                   <div class="row align-items-center justify-content-center">  
                     <div class= "col-md-10" >
-                        
+                                                 
                           <label for="doctorId">Username :  </label>  
                           <input formControlName="doctorId" class="form-control" type="text">
                         
@@ -40,10 +41,12 @@
                   </div>
                   
                 </form>
-
+                
                 <a [routerLink] = "['/patientLogin']"> click here to login as a patient </a>
                 <a [routerLink] = "['/doctorRegistration']"> click here to register </a>
                 <a [routerLink] = "['/homepage']"> Go back to home </a>
+              </div>
+              
               </div>
           </div>
       </div>

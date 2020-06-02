@@ -2,15 +2,15 @@
     <div class="row align-items-center justify-content-center">
         <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
             <div class="card-container">
-                <div class="card text-black bg-light border-primary">
+                <div class="form-style-5">
   
-                  <h2>Patient Login</h2>  
+                  <h2><b>Patient Login</b></h2>  
 
                   <form [formGroup]="form" #patientInformation (ngSubmit)="login(patientInformation)">  
                     
                     <div class="row align-items-center justify-content-center">  
                       <div class="col-md-10">  
-                          <label for="patientId"> Patient ID : </label>  
+                          <label for="patientId"><h5> Patient ID : </h5></label>  
                           <input formControlName="patientId" class="form-control" type="text">   
                       </div>  
                     </div>  
