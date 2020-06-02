@@ -857,7 +857,39 @@ app.post('/getPatientsForDoctor', async (req, res) => {
 
         }
     }
-})
+});
+
+// handler to get the details of the doctor
+
+app.post('/getDoctor', async (req, res) => {
+    let doctorId = req.body.doctorId;
+    let networkObj = await network.connectToNetwork(doctorId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find doctor"
+        })
+    } else {
+
+        let args = JSON.parse(JSON.stringify(req.body));
+        let invokeResponse = await network.invoke(networkObj, true, 'getDoctor', [args]);
+        if (invokeResponse.error) {
+            res.send({
+                action: false,
+                message: "could not invoke chaincode"
+            })
+        } else {
+            let doctor = invokeResponse.toString();
+            
+            res.send({
+                action: true,
+                message: doctor
+            })
+
+        }
+    }
+});
+
 
 app.listen(8000, () => {
     console.log('listening at port 8000');

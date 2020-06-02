@@ -41,6 +41,17 @@ export class PatientHomeComponent implements OnInit {
     this.doctorArr=[];
   }
 
+  getDoctorDetails(){
+    this.patientService.getDoctor().subscribe(data=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        console.log(JSON.parse(data.message));
+      }
+    })
+  }
+
   hasPassword(){
     let patientId=this.patientId;
     this.patientService.patientHasPassword({patientId}).subscribe((data)=>{
