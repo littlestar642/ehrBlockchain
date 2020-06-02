@@ -3,7 +3,7 @@
   <div class="row align-items-center justify-content-center">
     <div class="col-6 text-center" style="margin-top: 100px; margin-bottom: 100px;">
       <div class="card-container">
-        <div class="card text-black bg-light border-primary">
+        
           <h2>Patient on-boarding form</h2>
           <form [formGroup]="form" #patientInformation (ngSubmit)="savePatient(patientInformation)">
 
@@ -61,7 +61,7 @@
           </form>
           <a [routerLink]="['/patientLogin']"> click here to Login </a>
           <a [routerLink]="['/doctorHome/1']"> Go back to main </a>
-        </div>
+        
       </div>
     </div>
   </div>

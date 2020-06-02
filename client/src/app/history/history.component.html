@@ -7,10 +7,10 @@
                 </div>
                 <div class="col-4 align-self-center">
                         <div *ngIf="show[i]; else showbtn">
-                            <button class="btn btn-primary" (click)="hideRecord(i)">hide</button>
+                            <button class="btn btn-primary" (click)="hideRecord(i)">Hide the Records</button>
                         </div>
                         <ng-template #showbtn>
-                            <button class="btn btn-primary" (click)="showRecord(i)">show</button>
+                            <button class="btn btn-primary" (click)="showRecord(i)">Show the Records</button>
                         </ng-template>
                 </div>
 

@@ -9,8 +9,13 @@
     font-size: 150%;
     box-shadow: 2px 2px rgba(50,50,50,0.9);
 }
+
+.card-img{
+    border-radius: 25px;
+}
 .card-img-overlay{
     color: BLACK;
+    border-radius: 25px;
 }
 
 .card-img-overlay h2{

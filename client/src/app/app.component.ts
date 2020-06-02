@@ -8,5 +8,6 @@ import { DoctorService } from './services/doctor.service';
 })
 export class AppComponent {
   title = 'fyp1';
-  
+
+
 }

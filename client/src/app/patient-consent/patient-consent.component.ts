@@ -57,6 +57,7 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCodeNewPatient()
   {
+    this.spinner.show();
     this.patientId = this.form.get("patientId").value;
     
     let checkVal=this.checkPatientId();
@@ -73,9 +74,11 @@ export class PatientConsentComponent implements OnInit {
       let args={"patientId":this.patientId,"doctorId": this.doctorId}; 
       this.patientService.sendOtpToPatient(args).subscribe(data=>{
         if(!data.action){
+          this.spinner.hide();
           this.alertService.error(data.message);
         }
         else{
+          this.spinner.hide();
           this.flag=true;
           localStorage.setItem("isNewPatient","true");
         }
@@ -87,16 +90,18 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCode(){
     
-    
+    this.spinner.show();
     let args={"patientId": this.patientId,"doctorId": this.doctorId};
     
     console.log("this is args ",args);
   
     this.patientService.sendOtpToPatient(args).subscribe(data=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }
       else{
+        this.spinner.hide();
         this.flag=true;
         
       }
