@@ -178,7 +178,6 @@ export class EhrContract extends Contract {
     @Transaction()
     public async updateDoctorForPatient(ctx: Context,args:string): Promise<Boolean> {
         let patient= await this.getPatient(ctx,args);
-
         let patientJson=JSON.parse(patient);
         let argsJSON=JSON.parse(args);
         patientJson.doctorId=argsJSON.doctorId;
@@ -248,7 +247,7 @@ export class EhrContract extends Contract {
     @Transaction()
     public async createDoctor(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList);
+        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList,newArgs.doctorRegNumber);
         await ctx.stub.putState(newDoctor.doctorId, Buffer.from(JSON.stringify(newDoctor)));
         return true;
     }
@@ -265,6 +264,7 @@ export class EhrContract extends Contract {
         patientList.push(newArgs.patientId);
         doctorJson.patientList=JSON.stringify(patientList);
         await ctx.stub.putState(doctorJson.doctorId, Buffer.from(JSON.stringify(doctorJson)));
+        return true;
     }
 
     @Transaction()

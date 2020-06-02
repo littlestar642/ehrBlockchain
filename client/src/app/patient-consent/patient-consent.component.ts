@@ -15,9 +15,10 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class PatientConsentComponent implements OnInit {
 
   private flag = false;
-  private flag2=false;
-  private flag3=false;
+  
   public patientId: string;
+  public doctorId : string;
+
   form = new FormGroup({
     patientId : new FormControl('',Validators.required),
     code : new FormControl('',Validators.required)
@@ -35,20 +36,17 @@ export class PatientConsentComponent implements OnInit {
 
   ngOnInit() {
     this.patientId=this.rout.snapshot.url[1].path;
-    // console.log("masala", this.rout.snapshot.url[1].path);
+    this.doctorId = localStorage.getItem("doctorId");
   }
 
   checkPatientId():number
   {
     let username=this.form.get("patientId").value;
     let patientList=JSON.parse(localStorage.getItem("patientList"));
-    console.log("kalsekar chutiya banaya hai ",patientList);
     for(let i in patientList)
     {
-      console.log("not inside",patientList[i]);
       if(patientList[i]==username)
       {
-        console.log("inside If statement ",patientList[i]);
         return 1;
       }
     }
@@ -59,30 +57,27 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCodeNewPatient()
   {
-    let patientId=this.form.get("patientId").value;
+    this.patientId = this.form.get("patientId").value;
+    
     let checkVal=this.checkPatientId();
-    console.log("Value of checkval",checkVal)
+    
     if(checkVal==1)
     {
-      console.log("Inside required shit");
       this.alertService.error("Patient Already an old patient!");
       this.flag=false;
+      localStorage.setItem("isNewPatient","false");
     }
     else if(checkVal==0)
     {
-      console.log("funny shit ",this.patientId);
-      let doctorId=localStorage.getItem('doctorId');
-      let args={patientId,doctorId};
-      
-      console.log("this is args ",args);
-    
+      //let doctorId=localStorage.getItem('doctorId');
+      let args={"patientId":this.patientId,"doctorId": this.doctorId}; 
       this.patientService.sendOtpToPatient(args).subscribe(data=>{
         if(!data.action){
           this.alertService.error(data.message);
         }
         else{
           this.flag=true;
-          
+          localStorage.setItem("isNewPatient","true");
         }
       }); 
     }
@@ -92,10 +87,8 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCode(){
     
-    let patientId=this.patientId;
-    console.log("funny shit ",this.patientId);
-    let doctorId=localStorage.getItem('doctorId');
-    let args={"patientId":patientId,"doctorId":doctorId};
+    
+    let args={"patientId": this.patientId,"doctorId": this.doctorId};
     
     console.log("this is args ",args);
   
@@ -113,22 +106,32 @@ export class PatientConsentComponent implements OnInit {
 }
 
   verifyCode(){
-    // this.spinner.show();
-    console.log('here');
-    // return;
-    let patientId = this.form.get("patientId").value;
-    let otp = this.form.get("code").value
-    let args={patientId,otp};
-    console.log("pid : "+ patientId);
-    console.log("otp : "+ otp);
+    
+    // let pId = this.patientId;
+    // if(this.form.get("patientId").value){
+    //   pId = this.form.get("patientId").value;
+    // }
+    let otp = this.form.get("code").value;
+    let args = {"patientId": this.patientId,"otp":otp};
+    // console.log("pid : "+ pId);
+    // console.log("otp : "+ otp);
 
-    this.patientService.checkOtp(args).subscribe(
+    this.patientService.checkOtp(JSON.stringify(args)).subscribe(
       res => {
         if(res){
-          this.spinner.hide();
-        this.alertService.success("Patient consent verified successfully !!!");
-        localStorage.setItem("patientId",this.form.get("patientId").value);
-        this.router.navigate(['/doctorOption/']);
+          this.spinner.show();
+          this.alertService.success("Patient consent verified successfully !!!");
+          //localStorage.setItem("patientId",this.form.get("patientId").value);
+          localStorage.setItem("patientId",this.patientId);
+          this.patientService.addPatientToDoctorList().subscribe((data)=>{
+            this.spinner.hide();
+            if(!data.action){
+              this.alertService.error(data.message);
+            }
+            else{
+              this.router.navigate(['/doctorOption/']);
+            }
+          })
         }
         else{
           this.spinner.hide();

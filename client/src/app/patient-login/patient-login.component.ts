@@ -40,8 +40,7 @@ export class PatientLoginComponent implements OnInit {
       else{
         this.spinner.hide();
         localStorage.setItem('patientId',this.patient.patientId)
-        this.router.navigate(['/patientChoice/'])
-        // this.alertService.success("Logged in successfully !!!");
+        this.router.navigate(['/patientChoice/']);
       }
     })
   }

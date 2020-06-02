@@ -5,6 +5,7 @@ import { Patient } from '../classes/patient';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Ehr } from '../classes/ehr';
 
 @Component({
   selector: 'app-patient-home',
@@ -13,24 +14,35 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class PatientHomeComponent implements OnInit {
 
-  constructor(private patientService : PatientService,
-    private router : Router, private alertService:AlertService,
-    private spinner: NgxSpinnerService) { }
+  noPassword:boolean=true;
+  patientId: string;
+  records:Ehr[];
+  show: boolean[];
+  doctorArr:string[];
+  isHistoryActive : boolean = true;
+  isMyDoctorsActive : boolean = false;
 
-    form = new FormGroup({
-      password : new FormControl('',Validators.required),
-    });
+  constructor(  private patientService : PatientService,
+                private router : Router, 
+                private alertService:AlertService,
+                private spinner: NgxSpinnerService) { }
 
-    noPassword:boolean=true;
+  form = new FormGroup({
+    password : new FormControl('',Validators.required),
+  });
+
 
   ngOnInit() {
+    this.patientId = localStorage.getItem("patientId");
     this.hasPassword();
     this.getHistoryForPatient();
+    this.records = [];
+    this.show = [];
+    this.doctorArr=[];
   }
 
   hasPassword(){
-    let patientId=localStorage.getItem('patientId');
-
+    let patientId=this.patientId;
     this.patientService.patientHasPassword({patientId}).subscribe((data)=>{
       if(!data.action){
         this.alertService.error(data.message);
@@ -43,23 +55,27 @@ export class PatientHomeComponent implements OnInit {
   }
 
   getHistoryForPatient(){
-    let args={"patientId":""};
-    args.patientId=localStorage.getItem('patientId');
+    let args={"patientId":this.patientId};
     this.patientService.getHistory(args).subscribe(
       res=>{
         if(!res.action){
           this.alertService.error(res.message);
         }
         else{
-          let arr=res.message
-          console.log(arr)
+            let arr= JSON.parse(res.message);
+            arr.forEach(r=>{
+            this.records.push(r);
+            this.doctorArr.push(r.doctorId);
+            this.show.push(false);
+          });
+          console.log("records : ",this.records);
         } 
       }
-    )
+    );
   }
 
   setPassword(){
-    let patientId=localStorage.getItem('patientId');
+    let patientId=this.patientId;
     let password=this.form.get('password').value;
     this.patientService.setPatientPassword({patientId,password}).subscribe((data)=>{
       if(!data.action){
@@ -69,8 +85,31 @@ export class PatientHomeComponent implements OnInit {
         this.alertService.success("password set successfully");
         this.noPassword=false;
       }
-
     });
+  }
+
+  activateHistory(){
+    this.isHistoryActive = true;
+    this.isMyDoctorsActive = false;
+  }
+
+  activateMyDoctors(){
+    this.isHistoryActive = false;
+    this.isMyDoctorsActive = true;
+    let uniqueDoctorArr=[...new Set(this.doctorArr)]
+    this.doctorArr=uniqueDoctorArr;
+  }
+
+  showRecord(recordNumber){
+    this.show[recordNumber]=true;
+  }
+
+  hideRecord(recordNumber){
+    this.show[recordNumber]=false;
+  }
+
+  logout(){
+    this.patientService.logout();
   }
 
 }

@@ -4,11 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, Subscribable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ObserveOnMessage } from 'rxjs/internal/operators/observeOn';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
 
+
+  constructor(  private http : HttpClient,
+                private router: Router ) { }
 
   setPatientPassword(args:any): Observable<any> {
     let url = this.baseUrl + "setPatientPassword";
@@ -39,6 +43,28 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
+  getPatientDoctorHistory(){
+    let patientId=localStorage.getItem('patientId');
+    let url = this.baseUrl + "getPatientDoctorHistory";
+    let headers=new HttpHeaders();
+    let newObj={"patientId":"","doctorId":""}
+    newObj.patientId=patientId;
+    newObj.doctorId=localStorage.getItem('doctorId');
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
+  addPatientToDoctorList(){
+    let patientId=localStorage.getItem('patientId');
+    let url = this.baseUrl + "addPatientToDoctorList";
+    let headers=new HttpHeaders();
+    let newObj={"patientId":"","doctorId":""}
+    newObj.patientId=patientId;
+    newObj.doctorId=localStorage.getItem('doctorId');
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
 
   checkPatient(patient:any) : Subscribable<any>{
     let url = this.baseUrl + "checkPatient";
@@ -51,7 +77,7 @@ export class PatientService {
   }
   private baseUrl = "http://localhost:8000/";
 
-  constructor( private http : HttpClient) { }
+  
 
   createPatient(args:any):Observable<any>{
     let newObj={"patientId":"","firstName":"","lastName":"","doctorId":"","emailId":"","ehrList":""};
@@ -114,4 +140,20 @@ export class PatientService {
     let newObj={"patientId":args.patientId}
     return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers:headers});
   }
+
+  isLoggedIn(){
+    
+    let token = localStorage.getItem('patient_token');
+    if(!token)
+    {
+      return false;
+    }
+    return true;
+  }
+
+  logout(){
+    localStorage.removeItem('patient_token');
+    this.router.navigate(['/homepage']);
+  }
+
 }

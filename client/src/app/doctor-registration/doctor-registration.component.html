@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row align-items-center justify-content-center">
-        <div class = "col-6 text-center" style="margin-top: 100px; margin-bottom: 100px;">
+        <div class = "col-9 text-center" style="margin-top: 100px; margin-bottom: 100px;">
             <div class="card-container">
                 <div class="form-style-5">
                     <br>
@@ -9,22 +9,28 @@
                     <form [formGroup]="form" #doctorInformation (ngSubmit)="saveDoctor(doctorInformation)">  
                     
                     <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-8">
-                            
+                        <div class="col-md-10">  
                             <label for="doctorFirstName">First name </label>  
-                            <input formControlName="doctorFirstName" class="form-control" type="text">   
+                            <input formControlName="doctorFirstName" class="form-control" type="text" placeholder="Enter First name as in MCI registry">   
+                        </div>  
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">  
+                        <div class="col-md-10">  
+                            <label for="doctorLastName"> Last name </label>  
+                            <input formControlName="doctorLastName" class="form-control" type="text" placeholder="Enter Last name as in MCI registry">   
+                        </div>  
+                    </div>  
+                    
+                    <div class="row justify-content-center align-items-center">  
+                        <div class="col-md-8">  
+                            <label for="doctorRegNumber"> MCI Registeration no. </label>  
+                            <input formControlName="doctorRegNumber" class="form-control" type="text" placeholder="Enter reg no. as in MCI registry">   
                         </div>  
                     </div>
 
                     <div class="row justify-content-center align-items-center">  
                         <div class="col-md-8">  
-                            <label for="doctorLastName"> Last name </label>  
-                            <input formControlName="doctorLastName" class="form-control" type="text">   
-                        </div>  
-                    </div>  
-                    
-                    <div class="row justify-content-center align-items-center">  
-                            <div class="col-md-8">  
                             <label for="docotorId"> Username </label>  
                             <input formControlName="doctorId" class="form-control" type="text" placeholder="Enter unique username" (blur)="checkUsername()">   
                         </div>  

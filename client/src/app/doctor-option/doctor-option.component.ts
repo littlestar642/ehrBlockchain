@@ -13,8 +13,10 @@ export class DoctorOptionComponent implements OnInit {
 
   isDiagnosisActive = true;
   isHistoryActive = false;
+  
   private patientId : string;
   private doctorId : string;
+
   constructor(  private spinner: NgxSpinnerService,
                 private router: Router,
                 private location: Location,
@@ -24,8 +26,9 @@ export class DoctorOptionComponent implements OnInit {
     this.patientId = localStorage.getItem("patientId");
     this.doctorId = localStorage.getItem("doctorId");
 
-    // updating patient for doctor- new function
-    this.patientService.updateDoctorForPatient(); 
+    if(localStorage.getItem("isNewPatient")=="true"){
+      this.patientService.updateDoctorForPatient(); 
+    }
   }
 
 
@@ -56,9 +59,10 @@ export class DoctorOptionComponent implements OnInit {
   }
 
   goHome(){
-    console.log("stuff");
-    //this.router.navigate["/doctorHome/"+localStorage.getItem("doctorId")];
-    this.location.back();
+    //console.log("stuff");
+    console.log("/doctorHome/"+this.doctorId);
+    this.router.navigate(["/doctorHome/"+this.doctorId]);
+    //this.location.back();
   }
 
 }
