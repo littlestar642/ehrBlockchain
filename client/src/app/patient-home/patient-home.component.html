@@ -107,14 +107,27 @@
               <h2>You havent consulted any doctor yet.</h2>
             </div>
             <ng-template #doctorList>
-              <div *ngFor="let record of doctorArr; let i = index">
+              <div *ngFor="let doctor of doctorDetailsList; let i = index">
                   <div class="card">
                       <div class="card-body">
                           <div class="row align-items-center">
                               <div class="col-8">
-                                  <h2 class="card-title">{{record}}</h2>
+                                  <h2 class="card-title">{{doctor.doctorId}}</h2>
+                              </div>
+                              <div class="col-4 align-self-center">
+                                  <div *ngIf="showDoctorBool[i];else showDoc">
+                                    <button class="btn btn-primary" (click)="hideDoctor(i)">Hide Details</button>
+                                  </div>
+                                  <ng-template #showDoc>
+                                    <button class="btn btn-primary" (click)="showDoctor(i)">Show More Details</button>
+                                  </ng-template>
                               </div>
                           </div>
+                    
+                          <div *ngIf="showDoctorBool[i]">
+                            <app-doctor-detail [doctor]="doctor"></app-doctor-detail>
+                        </div>
+
                       </div>
                   </div>
               </div>
