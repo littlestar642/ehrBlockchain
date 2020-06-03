@@ -1,3 +1,6 @@
+<div *ngIf="records.length==0">
+<h2>There are no records to show!</h2>
+</div>
 <div *ngFor="let record of records; let i = index">
     <div class="card">
         <div class="card-body">

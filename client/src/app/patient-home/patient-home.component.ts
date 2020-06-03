@@ -6,19 +6,31 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Ehr } from '../classes/ehr';
+import {Doctor} from '../classes/Doctor';
+
+export interface doctor{
+  doctorId:string;
+  firstName:string;
+  lastName:string;
+  password:string;
+  patientList:string;
+};
 
 @Component({
   selector: 'app-patient-home',
   templateUrl: './patient-home.component.html',
   styleUrls: ['./patient-home.component.css']
 })
+
 export class PatientHomeComponent implements OnInit {
 
   noPassword:boolean=true;
   patientId: string;
   records:Ehr[];
   show: boolean[];
+  showDoctorBool: boolean[];
   doctorArr:string[];
+  doctorDetailsList:doctor[];
   isHistoryActive : boolean = true;
   isMyDoctorsActive : boolean = false;
 
@@ -36,18 +48,22 @@ export class PatientHomeComponent implements OnInit {
     this.patientId = localStorage.getItem("patientId");
     this.hasPassword();
     this.getHistoryForPatient();
+    // this.getDoctorDetails();
+    this.doctorDetailsList=[];
     this.records = [];
     this.show = [];
+    this.showDoctorBool=[];
     this.doctorArr=[];
   }
 
-  getDoctorDetails(){
-    this.patientService.getDoctor().subscribe(data=>{
+  getDoctorDetails(doctorId:string){
+    this.patientService.getDoctor(doctorId).subscribe(data=>{
       if(!data.action){
         this.alertService.error(data.message);
       }
       else{
-        console.log(JSON.parse(data.message));
+        console.log("this is the doctor list ",JSON.parse(data.message));
+        this.doctorDetailsList.push(JSON.parse(data.message));
       }
     })
   }
@@ -77,7 +93,9 @@ export class PatientHomeComponent implements OnInit {
             arr.forEach(r=>{
             this.records.push(r);
             this.doctorArr.push(r.doctorId);
+            this.getDoctorDetails(r.doctorId);
             this.show.push(false);
+            this.showDoctorBool.push(false);
           });
           console.log("records : ",this.records);
         } 
@@ -117,6 +135,15 @@ export class PatientHomeComponent implements OnInit {
 
   hideRecord(recordNumber){
     this.show[recordNumber]=false;
+  }
+
+  showDoctor(recordNumber){
+  
+    this.showDoctorBool[recordNumber]=true;
+  }
+
+  hideDoctor(recordNumber){
+    this.showDoctorBool[recordNumber]=false;
   }
 
   logout(){
