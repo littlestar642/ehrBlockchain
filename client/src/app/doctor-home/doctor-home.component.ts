@@ -3,6 +3,7 @@ import { DoctorService } from '../services/doctor.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-doctor-home',
@@ -13,6 +14,7 @@ export class DoctorHomeComponent implements OnInit {
 
   isLoggedIn: boolean;
   patientList: string[];
+  doctorId="";
   
   constructor( private doctorService : DoctorService,
                private spinner : NgxSpinnerService,
@@ -25,6 +27,12 @@ export class DoctorHomeComponent implements OnInit {
     this.isLoggedIn = this.doctorService.isLoggedIn();
     this.getPatientsAlignedToDoctor()
     this.patientList=[];
+    this.doctorId=localStorage.getItem('doctorId');
+    this.doctorService.addPatientToDoctorList().subscribe((data)=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+    })
   }
 
   getPatientsAlignedToDoctor(){

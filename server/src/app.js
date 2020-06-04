@@ -234,6 +234,8 @@ app.post('/checkDoctor', async (req, res) => {
 
 
     let networkObj = await network.connectToNetwork(args.doctorId);
+    console.log(networkObj);
+
     if (networkObj.error) {
         res.send({
             action: false,

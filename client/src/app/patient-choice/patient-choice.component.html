@@ -1,57 +1,44 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand">DR. DAPP</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-          <ngx-spinner
-          bdColor="rgba(51,51,51,0.8)"
-          size="medium"
-          color="#fff"
-          type="square-jelly-box">
-          <p style="font-size: 20px; color: black"><b>Loading...</b></p>
-          </ngx-spinner> 
-     
-      <li class="nav-item">
-        <a class="nav-link" [routerLink] = "['/doctorLogin']"> Login as Doctor</a>
-      </li>
-      <li class="nav-item">
-              <a class="nav-link" [routerLink] = "['/homepage']"> Go back to home</a>
-      </li>
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="square-jelly-box">
+<p style="font-size: 20px; color: black"><b>Loading...</b></p>
+</ngx-spinner> 
 
-    </ul>
-  </div>
-</nav>
-<div class="container">
-    <div class="row align-items-center justify-content-center">
-        <div class = "col-8 text-center" style="margin-top: 100px; margin-bottom: 100px;">
-            <div class="card-container">
+<nav class="bg-green-500 p-3">
+    <div class="flex justify-evenly flex-wrap">
+        <a class="nav-link btn-primary" [routerLink] = "['/doctorLogin']"> Login as Doctor</a>
+        
+        <a class="nav-link btn-primary" [routerLink] = "['/homepage']"> Go back to home</a>
+        
+    </div>
+  </nav>
+  <app-alert></app-alert>
+
+<div class="container mt-4 text-white flex justify-center">
+            <div class="flex flex-col justify-center align-middle p-16 max-w-xl rounded-md bg-green-500">
                 
   
-                  <h2>Choose the method of Login</h2>  
+                  <h2 class="flex-1 text-3xl text-center">Choose the method of Login</h2>  
 
-                  <form [formGroup]="form" #patientInformation>  
+                  <form [formGroup]="form" class="flex-1 text-center" #patientInformation>  
                     
-                    <div class="row align-items-center justify-content-center">  
+                    <div class="flex justify-center mt-4">  
                       <div class="col-md-10">  
-                          <p>if this is your first login</p>                      
-                          <button (click)="generateOtp()">Generate OTP </button>
+                          <button (click)="generateOtp()" class="btn-primary">Generate OTP </button>
                       </div>  
                     </div>
-                    <div *ngIf='otpRecieved' class="row align-items-center justify-content-center">  
-                        <div class="col-md-10">  
-                            <label for="otp">OTP</label>
-                            <input type="password" name="otp" id="otp" formControlName="otp">
-                            <button (click)="checkOtp()">Check</button>
-                        </div>  
+                    <div *ngIf='otpRecieved' class="flex justify-center flex-col">  
+                            <label for="otp" class="text-xl mt-4">Enter OTP</label>
+                            <input type="password" name="otp" id="otp" class="input-area mt-2" formControlName="otp">
+                            <button (click)="checkOtp()" class="btn-primary mt-4">Check</button>
                       </div>
-                    <p>or</p>
-                    <div class="row align-items-center justify-content-center">  
-                        <div class="col-md-10">  
-                            <label for="password"> password </label>  
-                            <input formControlName="password" class="form-control" type="text">   
-                        </div>  
+                    <p class="m-2">or</p>
+                    <div class="flex justify-center">  
+                            <label for="password" > <span class="text-white text-2xl">Enter Password</span> 
+                            <input formControlName="password" class="form-control input-area" type="text">   
+                            </label>  
                       </div>  
                     <div class="row align-items-center justify-content-center" style="margin: 20px;">  
                       <div class="col-md-offset-1 col-md-4">
@@ -68,7 +55,5 @@
                     
                   </form>
                  
-              </div>
-        </div>
     </div>
 </div>

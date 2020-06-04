@@ -16,6 +16,7 @@ export class PatientOnboardingComponent implements OnInit {
 
   title = "forms";
   private patient = new Patient();  
+  doctorId="";
   
   form = new FormGroup({
     patientFirstName : new FormControl('',Validators.required),
@@ -30,7 +31,7 @@ export class PatientOnboardingComponent implements OnInit {
                 private spinner :  NgxSpinnerService) { }
 
   ngOnInit() {
-    
+    this.doctorId=localStorage.getItem('doctorId');
     
   }
 
