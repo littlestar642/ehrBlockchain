@@ -80,7 +80,7 @@ export class PatientConsentComponent implements OnInit {
           this.spinner.hide();
           this.flag=true;
           localStorage.setItem("isNewPatient","true");
-          this.router.navigate(['/doctorOption/']);
+          this.router.navigate([`/doctorOption/${this.doctorId}`]);
         }
       }); 
     }
@@ -121,7 +121,7 @@ export class PatientConsentComponent implements OnInit {
           this.spinner.hide();
           this.alertService.success("Patient consent verified successfully !!!");
           localStorage.setItem("patientId",this.patientId);
-          this.router.navigate(['/doctorOption/']);
+          this.router.navigate([`/doctorOption/${this.doctorId}`]);
 
         }
         else{

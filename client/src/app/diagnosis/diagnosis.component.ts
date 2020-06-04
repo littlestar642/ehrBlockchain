@@ -52,6 +52,7 @@ export class DiagnosisComponent implements OnInit {
 
   startSpin(){
     this.spinner.show(); 
+    this.recordData();
     }
   recordData(){
     

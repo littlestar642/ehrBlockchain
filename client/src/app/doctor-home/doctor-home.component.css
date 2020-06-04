@@ -52,38 +52,7 @@ h2{
 	color: oldlace;
 }
 
-.scrollbar {
-	max-width: 500px;
-	padding: 10px 20px;
-	margin: 10px auto;
-	padding: 20px;
-	height: 330px;
-	background: #2a2c2c;
-	border-radius: 25px;
-	
-	overflow-y: scroll;
 
-	}
-	.force-overflow {
-	min-height: 500px;
-	}
 	
-	
-	.scrollbar-default::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-	background-color: #F5F5F5;
-	border-radius: 10px; }
-	
-	.scrollbar-default::-webkit-scrollbar {
-	width: 12px;
-	background-color: #F5F5F5; }
-	
-	.scrollbar-default::-webkit-scrollbar-thumb {
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-	background-color: #2BBBAD; }
-	
-	.scrollbar-default {
-	scrollbar-color: #2BBBAD #F5F5F5;
-	}
+
 	
