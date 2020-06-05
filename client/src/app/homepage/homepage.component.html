@@ -1,5 +1,4 @@
-<div class = "container">
-    <div class = "row">
+    <div class="flex justify-center align-middle">
             <ngx-spinner
             bdColor="rgba(51,51,51,0.8)"
             size="medium"
@@ -7,23 +6,20 @@
             type="square-jelly-box">
             <p style="font-size: 20px; color: black"><b>Loading...</b></p>
             </ngx-spinner> 
-        <div class = "col-md-6">
-            <div class="card border-info" style="width: 500px; height: auto;">
-                <img class="card-img" src="../../assets/images/doctor.jpg" alt="Card image" height="330px">
-                <div class="card-img-overlay">
-                    <h2 class="card-text"><b>DOCTOR</b></h2>
-                    <a class="stretched-link" (click)="startSpin1()"></a>
+        <div class="flex-1 mt-6 p-4 max-w-md">
+                <div class="rounded-lg overflow-hidden shadow-lg bg-green-500" (click)="startSpin1()">
+                        <img class="w-full h-64" src="../../assets/images/doctor.jpg" alt="doctor png">
+                        <div class="px-6 py-4">
+                          <div class="font-normal text-3xl mb-2 text-center text-white">Doctor Login</div>
+                        </div>
                 </div>
-            </div>
         </div>
-        <div class = "col-md-6">
-            <div class="card border-info" style="width: 500px; height: auto;">
-                <img class="card-img" src="../../assets/images/patient.svg" alt="Card image" height="330px">
-                <div class="card-img-overlay">
-                    <h2 class="card-text" ><b>PATIENT</b></h2>                    
-                    <a class="stretched-link" (click)="startSpin2()"></a>
+        <div class="flex-1 mt-6 p-4 max-w-md">
+                <div class="rounded-lg overflow-hidden shadow-lg bg-green-500" (click)="startSpin2()">
+                        <img class="w-full h-64 object-cover object-contain" src="../../assets/images/patient.svg" alt="patient png">
+                        <div class="px-6 py-4">
+                          <div class="font-normal text-3xl mb-2 text-center text-white">Patient Login</div>
+                        </div>
                 </div>
-            </div>
         </div>
     </div>
-</div>

@@ -43,13 +43,13 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
-  getDoctor(){
+  getDoctor(doctorIdPassed:string){
     let patientId=localStorage.getItem('patientId');
     let url = this.baseUrl + "getDoctor";
     let headers=new HttpHeaders();
     let newObj={"patientId":"","doctorId":""}
     newObj.patientId=patientId;
-    newObj.doctorId=localStorage.getItem('doctorId');
+    newObj.doctorId=doctorIdPassed;
     headers.set('Content-Type','application/json');
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
@@ -65,16 +65,7 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
-  addPatientToDoctorList(){
-    let patientId=localStorage.getItem('patientId');
-    let url = this.baseUrl + "addPatientToDoctorList";
-    let headers=new HttpHeaders();
-    let newObj={"patientId":"","doctorId":""}
-    newObj.patientId=patientId;
-    newObj.doctorId=localStorage.getItem('doctorId');
-    headers.set('Content-Type','application/json');
-    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
-  }
+ 
 
 
   checkPatient(patient:any) : Subscribable<any>{

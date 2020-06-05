@@ -261,10 +261,14 @@ export class EhrContract extends Contract {
         let doctor=await this.getDoctor(ctx,args);
         let doctorJson=JSON.parse(doctor);
         let patientList=JSON.parse(doctorJson.patientList);
-        patientList.push(newArgs.patientId);
-        doctorJson.patientList=JSON.stringify(patientList);
-        await ctx.stub.putState(doctorJson.doctorId, Buffer.from(JSON.stringify(doctorJson)));
-        return true;
+        if(patientList.includes(newArgs.patientId))return true;
+        else{
+          patientList.push(newArgs.patientId);
+          doctorJson.patientList=JSON.stringify(patientList);
+          await ctx.stub.putState(doctorJson.doctorId, Buffer.from(JSON.stringify(doctorJson)));
+          return true;
+        }
+        
     }
 
     @Transaction()
