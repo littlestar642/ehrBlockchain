@@ -17,6 +17,7 @@ export class PatientHomeComponent implements OnInit {
   noPassword:boolean=true;
   patientId: string;
   records:Ehr[];
+  myDoctors:string[];
   show: boolean[];
   isHistoryActive : boolean = true;
   isMyDoctorsActive : boolean = false;
@@ -37,6 +38,7 @@ export class PatientHomeComponent implements OnInit {
     this.getHistoryForPatient();
     this.records = [];
     this.show = [];
+    this.myDoctors = [];
   }
 
   hasPassword(){
@@ -63,6 +65,9 @@ export class PatientHomeComponent implements OnInit {
           let arr= JSON.parse(res.message);
           arr.forEach(r=>{
             this.records.push(r);
+            if(!this.myDoctors.includes(r.doctorId)){
+              this.myDoctors.push(r.doctorId);
+            }
             this.show.push(false);
           });
           console.log("records : ",this.records);

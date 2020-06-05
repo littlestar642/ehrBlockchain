@@ -11,21 +11,31 @@
                     <div class="row align-items-center justify-content-center">  
                       <div class="col-md-10">  
                           <p>if this is your first login</p>                      
-                          <button (click)="generateOtp()">Generate OTP </button>
+                          <button class="btn btn-primary" (click)="generateOtp()">Generate OTP </button>
                       </div>  
                     </div>
+                    <br>
                     <div *ngIf='otpRecieved' class="row align-items-center justify-content-center">  
-                        <div class="col-md-10">  
-                            <label for="otp">OTP</label>
-                            <input type="password" name="otp" id="otp" formControlName="otp">
-                            <button (click)="checkOtp()">Check</button>
+                        <div class="col-md-2">  
+                            <label for="otp"> OTP : </label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="password" name="otp" id="otp" formControlName="otp" style="margin: 2px;">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary"(click)="checkOtp()">Check</button>
                         </div>  
-                      </div>
+                    </div>
                     <p>or</p>
                     <div class="row align-items-center justify-content-center">  
-                        <div class="col-md-10">  
-                            <label for="password"> password </label>  
+                        <div class="col-md-2">  
+                            <label for="password"> password : </label>  
+                        </div>
+                        <div class="col-md-4">
                             <input formControlName="password" class="form-control" type="text">   
+                        </div>
+                        <div class="col-md-2">
+                          
                         </div>  
                       </div>  
                     <div class="row align-items-center justify-content-center" style="margin: 20px;">  

@@ -1,0 +1,23 @@
+button{
+    margin: 2px;
+    padding: 1px;
+}
+
+p{
+    margin: 2px;
+}
+
+label {
+    /* Other styling... */
+    text-align: right;
+    margin-right:1px;
+    display: inline;
+}
+
+input {
+    height: 30px;
+    width: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+}
