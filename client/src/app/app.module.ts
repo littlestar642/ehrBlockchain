@@ -25,6 +25,7 @@ import { PatientChoiceComponent } from './patient-choice/patient-choice.componen
 import { DoctorDetailComponent } from './doctor-detail/doctor-detail.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
