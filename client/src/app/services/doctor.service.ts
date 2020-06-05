@@ -94,6 +94,8 @@ export class DoctorService {
   logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('doctorId');
+    localStorage.removeItem('isNewPatient');
+    localStorage.removeItem('patientId');
     this.router.navigate(['/homepage']);
   }
 }

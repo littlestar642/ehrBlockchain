@@ -33,12 +33,6 @@ export class DoctorOptionComponent implements OnInit {
 
 
   activateDiagnosis(){
-    this.spinner.show();
- 
-     setTimeout(() => {
-     //spinner ends after 2 seconds 
-       this.spinner.hide();
-    }, 2000);
     this.isDiagnosisActive = true;
     this.isHistoryActive = false;
     console.log("Status diag : "+this.isDiagnosisActive);
@@ -46,12 +40,6 @@ export class DoctorOptionComponent implements OnInit {
   }
 
   activateHistory(){
-    this.spinner.show();
- 
-     setTimeout(() => {
-     //spinner ends after 2 seconds 
-       this.spinner.hide();
-    }, 2000);
     this.isHistoryActive = true;
     this.isDiagnosisActive = false;
     console.log("Status diag : "+this.isDiagnosisActive);

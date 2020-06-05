@@ -79,16 +79,6 @@ export class PatientConsentComponent implements OnInit {
         else{
           this.flag=true;
           localStorage.setItem("isNewPatient","true");
-          localStorage.setItem("patientId",this.patientId);
-          this.patientService.addPatientToDoctorList(this.patientId).subscribe(data=>{
-            if(!data.action){
-              this.alertService.error(data.message)
-            }
-            else{
-              this.spinner.hide();
-              this.router.navigate([`/doctorOption/${this.doctorId}`]);
-            }
-          })
         }
       }); 
     }
@@ -102,7 +92,7 @@ export class PatientConsentComponent implements OnInit {
     let args={"patientId": this.patientId,"doctorId": this.doctorId};
     
     console.log("this is args ",args);
-  
+    localStorage.setItem("isNewPatient","false");
     this.patientService.sendOtpToPatient(args).subscribe(data=>{
       if(!data.action){
         this.spinner.hide();
@@ -126,11 +116,17 @@ export class PatientConsentComponent implements OnInit {
     this.patientService.checkOtp(JSON.stringify(args)).subscribe(
       res => {
         if(res){
-          this.spinner.hide();
-          localStorage.setItem("isNewPatient","false");
           this.alertService.success("Patient consent verified successfully !!!");
           localStorage.setItem("patientId",this.patientId);
-          this.router.navigate([`/doctorOption/${this.doctorId}`]);
+          this.patientService.addPatientToDoctorList(this.patientId).subscribe(data=>{
+            if(!data.action){
+              this.alertService.error(data.message)
+            }
+            else{
+              this.spinner.hide();
+              this.router.navigate([`/doctorOption/${this.doctorId}`]);
+            }
+          })
         }
         else{
           this.spinner.hide();
