@@ -275,7 +275,6 @@ export class EhrContract extends Contract {
     public async createPatient(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
         let newPatient=new Patient(newArgs.patientId,newArgs.firstName,newArgs.lastName,newArgs.emailId,newArgs.doctorId,newArgs.password,newArgs.ehrList);
-        this.addPatientToDoctorList(ctx,args);
         await ctx.stub.putState(newPatient.patientId, Buffer.from(JSON.stringify(newPatient)));
         return true;
     }

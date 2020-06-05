@@ -19,7 +19,6 @@ export class HomepageComponent implements OnInit {
   {
     this.spinner.show();
     setTimeout(() => {
-      //spinner ends after 2 seconds 
         this.spinner.hide();
         this.router.navigate(['/doctorLogin/']);
       }, 1000);   
@@ -28,7 +27,6 @@ export class HomepageComponent implements OnInit {
   {
     this.spinner.show();
     setTimeout(() => {
-      //spinner ends after 2 seconds 
         this.spinner.hide();
         this.router.navigate(['/patientLogin/']);
       }, 1000);   

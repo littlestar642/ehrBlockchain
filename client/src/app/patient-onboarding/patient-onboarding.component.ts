@@ -70,7 +70,7 @@ export class PatientOnboardingComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
-        this.patientService.addPatientToDoctorList().subscribe(res=>{
+        this.patientService.addPatientToDoctorList(this.patient.patientId).subscribe(res=>{
             this.spinner.hide();
             if(!res.action){
             this.alertService.error('error in adding patient to doctor list');return;

@@ -62,6 +62,7 @@ export class DoctorService {
     let headers=new HttpHeaders();
     let newObj={"id":args}
     headers.set('Content-Type','application/json');
+    console.log(newObj);
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
@@ -92,6 +93,7 @@ export class DoctorService {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('doctorId');
     this.router.navigate(['/homepage']);
   }
 }

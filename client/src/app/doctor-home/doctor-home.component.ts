@@ -54,7 +54,7 @@ export class DoctorHomeComponent implements OnInit {
         //spinner ends after 2 seconds 
           this.spinner.hide();
           this.router.navigate(['/patientOnboarding/']);
-        }, 2000);               
+        }, 1000);               
   }
   startSpin2(){
       
@@ -63,7 +63,7 @@ export class DoctorHomeComponent implements OnInit {
       //spinner ends after 2 seconds 
         this.spinner.hide();
         this.router.navigate(['/patientConsent/0']);
-      }, 2000);               
+      }, 1000);               
 }
 
 
@@ -74,7 +74,7 @@ export class DoctorHomeComponent implements OnInit {
     setTimeout(() => {
       //spinner ends after 2 seconds 
         this.spinner.hide();
-      }, 2000);              
+      }, 1000);              
     
   }
 
