@@ -7,7 +7,7 @@ import { Ehr } from './../classes/ehr';
 import { BloodTest } from './../classes/blood-test';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -41,6 +41,18 @@ export class DiagnosisComponent implements OnInit {
       this.paymentMethodHasError=false;
     }
   }
+
+  docReview = "";
+  medicines = "";
+  aop = "";
+
+  form = new FormGroup({
+    docReview : new FormControl(['']),
+    medicines : new FormControl(['']),
+    aop : new FormControl([''])
+  });
+ 
+  
   constructor(  private doctorService : DoctorService,
                 private alertService : AlertService,
                 private spinner: NgxSpinnerService ) { }
@@ -55,17 +67,20 @@ export class DiagnosisComponent implements OnInit {
     this.recordData();
     }
   recordData(){
-    
+    this.docReview = this.form.get("docReview").value;
+    this.medicines = this.form.get("medicines").value;
+    this.aop = this.form.get("aop").value;
+
     let ehr=new Ehr(
       this.doctorId,
       this.patientId,
       "",
       this.symptoms,
-      "",
+      this.aop,
       this.bloodTest,
-      "",
+      this.medicines,
       this.utils,
-      ""
+      this.docReview
     )
     this.doctorService.createEhr(ehr).subscribe( 
       data=>{
