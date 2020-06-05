@@ -6,19 +6,31 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Ehr } from '../classes/ehr';
+import {Doctor} from '../classes/Doctor';
+
+export interface doctor{
+  doctorId:string;
+  firstName:string;
+  lastName:string;
+  password:string;
+  patientList:string;
+};
 
 @Component({
   selector: 'app-patient-home',
   templateUrl: './patient-home.component.html',
   styleUrls: ['./patient-home.component.css']
 })
+
 export class PatientHomeComponent implements OnInit {
 
   noPassword:boolean=true;
   patientId: string;
   records:Ehr[];
-  myDoctors:string[];
   show: boolean[];
+  showDoctorBool: boolean[];
+  doctorArr:string[];
+  doctorDetailsList:doctor[];
   isHistoryActive : boolean = true;
   isMyDoctorsActive : boolean = false;
 
@@ -36,9 +48,24 @@ export class PatientHomeComponent implements OnInit {
     this.patientId = localStorage.getItem("patientId");
     this.hasPassword();
     this.getHistoryForPatient();
+    // this.getDoctorDetails();
+    this.doctorDetailsList=[];
     this.records = [];
     this.show = [];
-    this.myDoctors = [];
+    this.showDoctorBool=[];
+    this.doctorArr=[];
+  }
+
+  getDoctorDetails(doctorId:string){
+    this.patientService.getDoctor(doctorId).subscribe(data=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        console.log("this is the doctor list ",JSON.parse(data.message));
+        this.doctorDetailsList.push(JSON.parse(data.message));
+      }
+    })
   }
 
   hasPassword(){
@@ -62,13 +89,13 @@ export class PatientHomeComponent implements OnInit {
           this.alertService.error(res.message);
         }
         else{
-          let arr= JSON.parse(res.message);
-          arr.forEach(r=>{
+            let arr= JSON.parse(res.message);
+            arr.forEach(r=>{
             this.records.push(r);
-            if(!this.myDoctors.includes(r.doctorId)){
-              this.myDoctors.push(r.doctorId);
-            }
+            this.doctorArr.push(r.doctorId);
+            this.getDoctorDetails(r.doctorId);
             this.show.push(false);
+            this.showDoctorBool.push(false);
           });
           console.log("records : ",this.records);
         } 
@@ -98,6 +125,8 @@ export class PatientHomeComponent implements OnInit {
   activateMyDoctors(){
     this.isHistoryActive = false;
     this.isMyDoctorsActive = true;
+    let uniqueDoctorArr=[...new Set(this.doctorArr)]
+    this.doctorArr=uniqueDoctorArr;
   }
 
   showRecord(recordNumber){
@@ -106,6 +135,15 @@ export class PatientHomeComponent implements OnInit {
 
   hideRecord(recordNumber){
     this.show[recordNumber]=false;
+  }
+
+  showDoctor(recordNumber){
+  
+    this.showDoctorBool[recordNumber]=true;
+  }
+
+  hideDoctor(recordNumber){
+    this.showDoctorBool[recordNumber]=false;
   }
 
   logout(){

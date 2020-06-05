@@ -234,6 +234,8 @@ app.post('/checkDoctor', async (req, res) => {
 
 
     let networkObj = await network.connectToNetwork(args.doctorId);
+    console.log(networkObj);
+
     if (networkObj.error) {
         res.send({
             action: false,
@@ -625,11 +627,13 @@ app.post('/generateOtp', async (req, res) => {
                                 action: false,
                                 message: "error occured in sending mail " + error
                             })
+                        }else{
+                            res.send({
+                                action: true,
+                                message: "mail sent successfully"
+                            })
                         }
-                        res.send({
-                            action: true,
-                            message: "mail sent successfully"
-                        })
+                        
                     });
                 }).catch(e => {
                     res.send({
@@ -649,10 +653,13 @@ app.post('/generateOtp', async (req, res) => {
                                 message: "error occured in sending mail " + error
                             })
                         }
-                        res.send({
-                            action: true,
-                            message: "mail sent successfully"
-                        })
+                        else{
+                            res.send({
+                                action: true,
+                                message: "mail sent successfully"
+                            })
+                        }
+                        
                     });
                 }).catch(e => {
                     res.send({
@@ -842,14 +849,49 @@ app.post('/getPatientsForDoctor', async (req, res) => {
         } else {
             let doctor = invokeResponse.toString();
             let doctorJson = JSON.parse(doctor);
+            let list=JSON.parse(doctorJson.patientList);
+            let uniqueList=[...new Set(list)]
+            
             res.send({
                 action: true,
-                message: doctorJson.patientList
+                message: JSON.stringify(uniqueList)
             })
 
         }
     }
-})
+});
+
+// handler to get the details of the doctor
+
+app.post('/getDoctor', async (req, res) => {
+    let doctorId = req.body.doctorId;
+    let networkObj = await network.connectToNetwork(doctorId);
+    if (networkObj.error) {
+        res.send({
+            action: false,
+            message: "could not find doctor"
+        })
+    } else {
+
+        let args = JSON.parse(JSON.stringify(req.body));
+        let invokeResponse = await network.invoke(networkObj, true, 'getDoctor', [args]);
+        if (invokeResponse.error) {
+            res.send({
+                action: false,
+                message: "could not invoke chaincode"
+            })
+        } else {
+            let doctor = invokeResponse.toString();
+            
+            res.send({
+                action: true,
+                message: doctor
+            })
+
+        }
+    }
+});
+
 
 app.listen(8000, () => {
     console.log('listening at port 8000');

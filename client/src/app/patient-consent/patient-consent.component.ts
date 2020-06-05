@@ -57,6 +57,7 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCodeNewPatient()
   {
+    this.spinner.show();
     this.patientId = this.form.get("patientId").value;
     
     let checkVal=this.checkPatientId();
@@ -69,15 +70,17 @@ export class PatientConsentComponent implements OnInit {
     }
     else if(checkVal==0)
     {
-      //let doctorId=localStorage.getItem('doctorId');
       let args={"patientId":this.patientId,"doctorId": this.doctorId}; 
       this.patientService.sendOtpToPatient(args).subscribe(data=>{
         if(!data.action){
+          this.spinner.hide();
           this.alertService.error(data.message);
         }
         else{
+          this.spinner.hide();
           this.flag=true;
           localStorage.setItem("isNewPatient","true");
+          this.router.navigate([`/doctorOption/${this.doctorId}`]);
         }
       }); 
     }
@@ -87,16 +90,18 @@ export class PatientConsentComponent implements OnInit {
 
   sendVerificationCode(){
     
-    
+    this.spinner.show();
     let args={"patientId": this.patientId,"doctorId": this.doctorId};
     
     console.log("this is args ",args);
   
     this.patientService.sendOtpToPatient(args).subscribe(data=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }
       else{
+        this.spinner.hide();
         this.flag=true;
         
       }
@@ -107,53 +112,24 @@ export class PatientConsentComponent implements OnInit {
 
   verifyCode(){
     
-    // let pId = this.patientId;
-    // if(this.form.get("patientId").value){
-    //   pId = this.form.get("patientId").value;
-    // }
     let otp = this.form.get("code").value;
     let args = {"patientId": this.patientId,"otp":otp};
-    // console.log("pid : "+ pId);
-    // console.log("otp : "+ otp);
-
+    this.spinner.show();
     this.patientService.checkOtp(JSON.stringify(args)).subscribe(
       res => {
         if(res){
+          this.spinner.hide();
           this.alertService.success("Patient consent verified successfully !!!");
-          //localStorage.setItem("patientId",this.form.get("patientId").value);
           localStorage.setItem("patientId",this.patientId);
-          this.patientService.addPatientToDoctorList().subscribe((data)=>{
-            this.spinner.hide();
-            if(!data.action){
-              this.alertService.error(data.message);
-            }
-            else{
-              this.router.navigate(['/doctorOption/']);
-            }
-          })
+          this.router.navigate([`/doctorOption/${this.doctorId}`]);
         }
         else{
           this.spinner.hide();
           this.alertService.error('some error in obtaining otp');
         }
-        
       }
     );
-    //service to verifiy
-    // this.doctorService.verifyPatient(patientId,otp).subscribe(
-    //   data=>{
-    //     console.log(" patient consent resp : "+JSON.stringify(data));
-    //     //localStorage.setItem("patientId",this.form.get("patientId").value);
-    //     //this.router.navigate(['/doctorOption']);
-    //   },
-    //   error=>{
-    //     console.log(" patient consent error : "+JSON.stringify(error));
-    //   }
-    // )
-    // if success redirect to next DoctorOption
-    //if fail same page
   }
-
   goBack(){
     this.location.back();
   }

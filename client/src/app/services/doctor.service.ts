@@ -65,23 +65,14 @@ export class DoctorService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
-  // addPatient( user : User) : Observable<User>{
-  //   let url = this.baseUrl + "addPatient";
-  //   return this.http.post<User>(url,user).pipe(
-  //     tap(
-  //       resp => {
-  //         console.log("doc service -> addPatient : "+JSON.stringify(resp));
-  //       }
-  //     )
-  //   );
-  // }
-
   getHistory( args:any) : Observable<any>  {
     let url = this.baseUrl + "getHistoryForPatient";
     let headers=new HttpHeaders();
     headers.set('Content-Type','application/json');
     return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
   }
+
+  
 
   isLoggedIn(){
     //let jwtHelper = new JwtHelperService();

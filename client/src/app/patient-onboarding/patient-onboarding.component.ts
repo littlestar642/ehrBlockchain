@@ -16,6 +16,7 @@ export class PatientOnboardingComponent implements OnInit {
 
   title = "forms";
   private patient = new Patient();  
+  doctorId="";
   
   form = new FormGroup({
     patientFirstName : new FormControl('',Validators.required),
@@ -30,7 +31,7 @@ export class PatientOnboardingComponent implements OnInit {
                 private spinner :  NgxSpinnerService) { }
 
   ngOnInit() {
-    
+    this.doctorId=localStorage.getItem('doctorId');
     
   }
 
@@ -69,11 +70,18 @@ export class PatientOnboardingComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
-          this.spinner.hide();
-        let thisPlaceDoctor=localStorage.getItem('doctorId');
-        localStorage.setItem("patientId",this.patient.patientId);
-        this.router.navigate(['/doctorHome/'+thisPlaceDoctor])
-        this.alertService.success("patient registered successfully !!!");
+        this.patientService.addPatientToDoctorList().subscribe(res=>{
+            this.spinner.hide();
+            if(!res.action){
+            this.alertService.error('error in adding patient to doctor list');return;
+          }
+          else{
+            let thisPlaceDoctor=localStorage.getItem('doctorId');
+            this.router.navigate(['/doctorHome/'+thisPlaceDoctor])
+            this.alertService.success("patient registered successfully !!!");
+          }
+        })
+        
         }
 
       }

@@ -44,9 +44,11 @@ export class DoctorRegistrationComponent implements OnInit {
     let username=this.form.get('doctorId').value;
     this.docotorService.checkUsernamePresence(username).subscribe((data)=>{
       if(!data.action){
+        this.spinner.hide();
         this.alertService.error(data.message);
       }
       else{
+        this.spinner.hide();
       this.alertService.info(data.message);
       }
     })
@@ -57,6 +59,7 @@ export class DoctorRegistrationComponent implements OnInit {
     this.doctor.doctorLastName = this.form.get("doctorLastName").value;
     this.doctor.doctorId = this.form.get("doctorId").value;
     this.doctor.doctorPassword = this.form.get("doctorPassword").value;
+    this.doctor.doctorRegNumber = this.form.get("doctorRegNumber").value;
     const hashedPass = SHA256(this.doctor.doctorPassword).toString(enc.Hex);
     this.doctor.doctorPassword = hashedPass;
     //console.log(this.doctor.doctorPassword);
@@ -68,11 +71,9 @@ export class DoctorRegistrationComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
-        
-          this.spinner.hide();
+        this.spinner.hide();
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
-        
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
         this.alertService.success("doctor registered successfully !!!");
         }

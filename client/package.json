@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "watch": "npx tailwindcss build tailwind.css -c tailwind.config.js -o src/output.css"
+    "watch": "npx tailwindcss build tailwind.css -c tailwind.config.js -o src/styles.css"
   },
   "private": true,
   "dependencies": {
@@ -51,7 +51,7 @@
     "tslint": "~5.15.0",
     "typescript": "~3.8.3"
   },
-  "browser":{
-    "crypto" : false
+  "browser": {
+    "crypto": false
   }
 }

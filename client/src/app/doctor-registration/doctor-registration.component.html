@@ -1,46 +1,51 @@
-<div class="container-fluid">
-    <div class="row align-items-center justify-content-center">
-        <div class = "col-9 text-center" style="margin-top: 100px; margin-bottom: 100px;">
-            <div class="card-container">
-                <div class="card text-black bg-light border-primary">
-                    <h2>Doctor Registraion form</h2>  
+<nav class="bg-green-500 p-3">
+        <div class="flex justify-center flex-wrap">
+            <a href="#responsive-header" [routerLink] = "['/doctorLogin']" class="btn-primary">
+              Login as Doctor
+            </a>
+            <a href="#responsive-header" [routerLink] = "['/homepage']" class="btn-primary">
+              Return to Home
+            </a>
+        </div>
+      </nav>
+      <app-alert></app-alert>
+
+<div class="container mt-4 text-white flex justify-center">
+            <div class="flex flex-col justify-center align-middle p-16 max-w-xl rounded-md bg-green-500">
+                
+                    <h2 class="flex-1 text-2xl text-center"><b>Doctor Registration form</b></h2>  
                     
-                    <form [formGroup]="form" #doctorInformation (ngSubmit)="saveDoctor(doctorInformation)">  
+                    <form [formGroup]="form" class="flex-1 text-center" #doctorInformation (ngSubmit)="saveDoctor(doctorInformation)">  
                     
-                    <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-10">  
-                            <label for="doctorFirstName">First name </label>  
-                            <input formControlName="doctorFirstName" class="form-control" type="text" placeholder="Enter First name as in MCI registry">   
-                        </div>  
+                    <div class="flex justify-center">  
+                            <label for="doctorFirstName" class="block"> <span class="text-xl">First name :</span> 
+                            <input formControlName="doctorFirstName" class="form-control input-area ml-3" type="text" placeholder="Enter First name as in MCI registry">   
+                            </label>  
                     </div>
 
-                    <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-10">  
-                            <label for="doctorLastName"> Last name </label>  
-                            <input formControlName="doctorLastName" class="form-control" type="text" placeholder="Enter Last name as in MCI registry">   
-                        </div>  
-                    </div>  
+                    <div class="flex justify-center">  
+                            <label for="doctorLastName" class="block"> <span class="text-xl">Last name :</span> 
+                            <input formControlName="doctorLastName" class="form-control input-area ml-3" type="text" placeholder="Enter Last name as in MCI registry">   
+                            </label>  
+                    </div>
                     
-                    <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-8">  
-                            <label for="doctorRegNumber"> MCI Registeration no. </label>  
-                            <input formControlName="doctorRegNumber" class="form-control" type="text" placeholder="Enter reg no. as in MCI registry">   
-                        </div>  
+
+                    <div class="flex justify-center">  
+                            <label for="doctorId" class="block"> <span class="text-xl">Username :</span> 
+                            <input formControlName="doctorId" class="form-control input-area ml-3" (blur)="checkUsername()" type="text" placeholder="A unique username">   
+                            </label>  
+                    </div>
+                    <div class="flex justify-center">  
+                            <label for="doctorPassword" class="block"> <span class="text-xl">Password :</span> 
+                            <input formControlName="doctorPassword" class="form-control input-area ml-3" type="password" placeholder="Enter your password">   
+                            </label>  
                     </div>
 
-                    <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-8">  
-                            <label for="docotorId"> Username </label>  
-                            <input formControlName="doctorId" class="form-control" type="text" placeholder="Enter unique username" (blur)="checkUsername()">   
-                        </div>  
-                    </div>  
-                    
-                    <div class="row justify-content-center align-items-center">  
-                        <div class="col-md-8">
-                            <label for="password"> Password </label>  
-                            <input formControlName="doctorPassword" class="form-control" type="password">   
-                        </div>  
-                    </div>  
+                    <div class="flex justify-center">  
+                            <label for="doctorRegNumber" class="block -ml-10"> <span class="text-xl">Registration No:</span> 
+                            <input formControlName="doctorRegNumber" class="form-control input-area ml-3" type="number" placeholder="Enter reg no. as in MCI registry">   
+                            </label>  
+                    </div>
                     
                     <div class="row justify-content-center align-items-center" style="margin: 10px;">  
                         <div class="col-md-4">  
@@ -51,16 +56,11 @@
                                 type="square-jelly-box">
                                 <p style="font-size: 20px; color: black"><b>Loading...</b></p>
                                 </ngx-spinner> 
-                            <button class="btn btn-md btn-primary btn-style" (click)="startSpin()" >Save</button>  
+                            <button class="btn-primary px-8" (click)="startSpin()" >Save</button>  
                               
                         </div>  
                     </div>  
                     
                     </form>
-                    <a [routerLink] = "['/doctorLogin']"> click here to Login </a>
-                    <a [routerLink] = "['/homepage']"> Go back to home </a>
-                </div>
             </div>
-        </div>
-    </div>
 </div>

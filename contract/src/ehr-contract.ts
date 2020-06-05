@@ -247,7 +247,7 @@ export class EhrContract extends Contract {
     @Transaction()
     public async createDoctor(ctx:Context,args:string):Promise<Boolean>{
         let newArgs=JSON.parse(args);
-        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList);
+        let newDoctor=new Doctor(newArgs.doctorId,newArgs.firstName,newArgs.lastName,newArgs.password,newArgs.patientList,newArgs.doctorRegNumber);
         await ctx.stub.putState(newDoctor.doctorId, Buffer.from(JSON.stringify(newDoctor)));
         return true;
     }
@@ -261,10 +261,14 @@ export class EhrContract extends Contract {
         let doctor=await this.getDoctor(ctx,args);
         let doctorJson=JSON.parse(doctor);
         let patientList=JSON.parse(doctorJson.patientList);
-        patientList.push(newArgs.patientId);
-        doctorJson.patientList=JSON.stringify(patientList);
-        await ctx.stub.putState(doctorJson.doctorId, Buffer.from(JSON.stringify(doctorJson)));
-        return true;
+        if(patientList.includes(newArgs.patientId))return true;
+        else{
+          patientList.push(newArgs.patientId);
+          doctorJson.patientList=JSON.stringify(patientList);
+          await ctx.stub.putState(doctorJson.doctorId, Buffer.from(JSON.stringify(doctorJson)));
+          return true;
+        }
+        
     }
 
     @Transaction()
