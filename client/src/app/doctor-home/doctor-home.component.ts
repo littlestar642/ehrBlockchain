@@ -28,11 +28,6 @@ export class DoctorHomeComponent implements OnInit {
     this.getPatientsAlignedToDoctor()
     this.patientList=[];
     this.doctorId=localStorage.getItem('doctorId');
-    this.doctorService.addPatientToDoctorList().subscribe((data)=>{
-      if(!data.action){
-        this.alertService.error(data.message);
-      }
-    })
   }
 
   getPatientsAlignedToDoctor(){
@@ -59,7 +54,7 @@ export class DoctorHomeComponent implements OnInit {
         //spinner ends after 2 seconds 
           this.spinner.hide();
           this.router.navigate(['/patientOnboarding/']);
-        }, 2000);               
+        }, 1000);               
   }
   startSpin2(){
       
@@ -68,7 +63,7 @@ export class DoctorHomeComponent implements OnInit {
       //spinner ends after 2 seconds 
         this.spinner.hide();
         this.router.navigate(['/patientConsent/0']);
-      }, 2000);               
+      }, 1000);               
 }
 
 
@@ -79,7 +74,7 @@ export class DoctorHomeComponent implements OnInit {
     setTimeout(() => {
       //spinner ends after 2 seconds 
         this.spinner.hide();
-      }, 2000);              
+      }, 1000);              
     
   }
 

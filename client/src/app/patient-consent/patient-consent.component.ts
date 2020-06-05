@@ -77,10 +77,18 @@ export class PatientConsentComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
-          this.spinner.hide();
           this.flag=true;
           localStorage.setItem("isNewPatient","true");
-          this.router.navigate([`/doctorOption/${this.doctorId}`]);
+          localStorage.setItem("patientId",this.patientId);
+          this.patientService.addPatientToDoctorList(this.patientId).subscribe(data=>{
+            if(!data.action){
+              this.alertService.error(data.message)
+            }
+            else{
+              this.spinner.hide();
+              this.router.navigate([`/doctorOption/${this.doctorId}`]);
+            }
+          })
         }
       }); 
     }
@@ -119,21 +127,18 @@ export class PatientConsentComponent implements OnInit {
       res => {
         if(res){
           this.spinner.hide();
+          localStorage.setItem("isNewPatient","false");
           this.alertService.success("Patient consent verified successfully !!!");
           localStorage.setItem("patientId",this.patientId);
           this.router.navigate([`/doctorOption/${this.doctorId}`]);
-
         }
         else{
           this.spinner.hide();
           this.alertService.error('some error in obtaining otp');
         }
-        
       }
     );
-    
   }
-
   goBack(){
     this.location.back();
   }

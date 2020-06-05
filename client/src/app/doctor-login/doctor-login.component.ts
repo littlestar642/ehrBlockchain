@@ -31,19 +31,13 @@ export class DoctorLoginComponent implements OnInit {
   }
 
   startSpin() {
-
     this.spinner.show();
- 
-    // setTimeout(() => {
-    //   /** spinner ends after 5 seconds */
-    //   this.spinner.hide();
-    // }, 5000);
   }
 
-  login(doctorInformation){
+  login(){
 
-    this.doctor.doctorId = this.DoctorId.value;
-    const hashedPass = SHA256(this.Password.value).toString(enc.Hex);
+    this.doctor.doctorId = this.form.get('doctorId').value;
+    const hashedPass = SHA256(this.form.get('password').value).toString(enc.Hex);
     this.doctor.doctorPassword = hashedPass;
     if(this.doctor.doctorPassword==""){
       this.alertService.error('please enter password');return;

@@ -4,7 +4,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const util = require('util');
 const path = require('path');
 const fs = require('fs');
 const uuid = require('uuid');
@@ -16,7 +15,6 @@ const {
 } = require('uuid')
 
 const app = express();
-var session = require('express-session')
 
 let network = require('./fabric/network.js');
 
@@ -45,14 +43,7 @@ const transporter = nodemailer.createTransport({
 
 
 // middleware for sessioning
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: true
-    }
-}))
+
 app.set('trust proxy', 1)
 
 // configuration related variables
@@ -234,7 +225,6 @@ app.post('/checkDoctor', async (req, res) => {
 
 
     let networkObj = await network.connectToNetwork(args.doctorId);
-    console.log(networkObj);
 
     if (networkObj.error) {
         res.send({
@@ -324,7 +314,7 @@ app.post('/updateDoctorForPatient', async (req, res) => {
         })
     };
 
-    let invokeResponse = await network.invoke(networkObj, true, 'updateDoctorForPatient', [args]);
+    let invokeResponse = await network.invoke(networkObj,false, 'updateDoctorForPatient', [args]);
     if (invokeResponse.error) {
         res.send({
             action: false,
@@ -349,6 +339,7 @@ app.post('/updateDoctorForPatient', async (req, res) => {
 app.post('/addPatientToDoctorList', async (req, res) => {
     let doctorId = req.body.doctorId;
     let args = JSON.parse(JSON.stringify(req.body));
+    console.log(args)
     let networkObj = await network.connectToNetwork(doctorId);
     if (networkObj.error) {
         res.send({
@@ -418,6 +409,7 @@ app.post('/checkUsernamePresence', async (req, res) => {
     args = JSON.parse(JSON.stringify(args));
 
     let networkObj = await network.connectToNetwork(args.id);
+    console.log(networkObj);
     if (networkObj.error) {
         res.send({
             action: true,
@@ -425,14 +417,13 @@ app.post('/checkUsernamePresence', async (req, res) => {
         })
     } else {
         let userExist = await network.invoke(networkObj, true, 'checkUsernamePresence', [args]);
-        if (userExist.error) {
+        if (!userExist) {
             res.send({
-                action: false,
-                message: "wrong credentials"
+                action: true,
+                message: "username available"
             });
         }
-        let user = JSON.parse(userExist.toString());
-        if (user.doctorId) {
+        if (userExist.doctorId) {
             res.send({
                 action: false,
                 message: "username already used"

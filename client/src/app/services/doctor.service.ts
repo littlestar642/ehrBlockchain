@@ -62,6 +62,7 @@ export class DoctorService {
     let headers=new HttpHeaders();
     let newObj={"id":args}
     headers.set('Content-Type','application/json');
+    console.log(newObj);
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
@@ -72,16 +73,7 @@ export class DoctorService {
     return this.http.post(url,JSON.parse(JSON.stringify(args)),{headers});
   }
 
-  addPatientToDoctorList(){
-    let patientId=localStorage.getItem('patientId');
-    let url = this.baseUrl + "addPatientToDoctorList";
-    let headers=new HttpHeaders();
-    let newObj={"patientId":"","doctorId":""}
-    newObj.patientId=patientId;
-    newObj.doctorId=localStorage.getItem('doctorId');
-    headers.set('Content-Type','application/json');
-    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
-  }
+  
 
   isLoggedIn(){
     //let jwtHelper = new JwtHelperService();
@@ -101,6 +93,7 @@ export class DoctorService {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('doctorId');
     this.router.navigate(['/homepage']);
   }
 }

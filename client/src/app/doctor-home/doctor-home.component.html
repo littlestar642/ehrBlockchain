@@ -4,17 +4,16 @@
 
 <nav class="bg-green-500 p-3">
   <div class="flex justify-evenly flex-wrap">
-    <a class="nav-link" (click)="startSpin1()" class="btn-primary"> Onboard a patient <span
-        class="sr-only">(current)</span></a>
-    <a class="nav-link" (click)="startSpin2()" class="btn-primary">New Patient Consultation</a>
-    <a class="nav-link" (click)="logout()" class="btn-primary">Logout</a>
+    <a  (click)="startSpin1()" class="btn-primary cursor-pointer"> Onboard a patient</a>
+    <a (click)="startSpin2()" class="btn-primary cursor-pointer">New Patient Consultation</a>
+    <a  (click)="logout()" class="btn-primary cursor-pointer">Logout</a>
 
   </div>
 </nav>
 <app-alert></app-alert>
 
 <div class="mt-4 text-white flex justify-center">
-  <div class="flex justify-evenly align-middle p-16 max-w-6xl rounded-md bg-green-500">
+  <div class="flex justify-center align-middle p-16 max-w-xl rounded-md bg-green-500 ml-4">
     
 
       <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1 m-8">
@@ -31,8 +30,8 @@
             </div>
         </div>
 
-
-    <div class="flex-1 text-center m-8 w-64" style="margin-top: 50px; margin-bottom: 100px;">
+      </div>
+    <div class="flex-1 text-center m-8 mt-0 w-64 bg-green-500">
       <div *ngIf="patientList.length==0; else consultingPatients">
         <h2 class="text-2xl tracking-wider font-bold"> No patients consulting you yet.</h2>
       </div>
@@ -42,7 +41,9 @@
                 <a routerLink="/patientConsent/{{patient}}" class="btn-3d">
                   {{patient}}
                 </a>
-                <hr class="mt-4">
+                <div class="flex justify-center">
+                <hr class="mt-4 w-64">
+                </div>
             </div>
       </ng-template>
     </div>

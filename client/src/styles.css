@@ -8,7 +8,7 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
-html {
+ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -657,8 +657,8 @@ video {
   padding-right: 1rem;
   border-bottom-width: 4px;
   --border-opacity: 1;
-  border-color: #2f855a;
-  border-color: rgba(47, 133, 90, var(--border-opacity));
+  border-color: #22543d;
+  border-color: rgba(34, 84, 61, var(--border-opacity));
   border-radius: 0.25rem;
   margin: 1rem;
 }

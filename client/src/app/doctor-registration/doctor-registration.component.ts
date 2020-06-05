@@ -43,6 +43,7 @@ export class DoctorRegistrationComponent implements OnInit {
   checkUsername(){
     let username=this.form.get('doctorId').value;
     this.docotorService.checkUsernamePresence(username).subscribe((data)=>{
+      console.log(data);
       if(!data.action){
         this.spinner.hide();
         this.alertService.error(data.message);
@@ -71,11 +72,9 @@ export class DoctorRegistrationComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
-        
-          this.spinner.hide();
+        this.spinner.hide();
         localStorage.setItem('token',data.token);
         localStorage.setItem("doctorId",this.doctor.doctorId);
-        
         this.router.navigate(['/doctorHome/'+this.doctor.doctorId]);
         this.alertService.success("doctor registered successfully !!!");
         }
