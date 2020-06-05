@@ -89,7 +89,7 @@ export class PatientHomeComponent implements OnInit {
           this.alertService.error(res.message);
         }
         else{
-            let arr= JSON.parse(res.message);
+            let arr= res.message;
             arr.forEach(r=>{
             this.records.push(r);
             this.doctorArr.push(r.doctorId);

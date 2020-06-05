@@ -423,7 +423,7 @@ app.post('/checkUsernamePresence', async (req, res) => {
                 message: "username available"
             });
         }
-        if (userExist.doctorId) {
+        if (userExist.doctorId || userExist.patientId) {
             res.send({
                 action: false,
                 message: "username already used"
@@ -782,9 +782,12 @@ app.post("/getHistoryForPatient", async (req, res) => {
             message: "could not invoke chaincode"
         })
     } else {
+        let ehrs = invokeResponse.toString();
+            let ehrList = JSON.parse(ehrs);
+            let uniqueList=[...new Set(ehrList)]
         res.send({
             action: true,
-            message: invokeResponse.toString()
+            message: uniqueList
         })
 
     }
@@ -810,9 +813,12 @@ app.post("/getHistoryForPatientByPatient", async (req, res) => {
             message: "could not invoke chaincode"
         })
     } else {
+        let ehrs = invokeResponse.toString();
+            let ehrList = JSON.parse(ehrs);
+            let uniqueList=[...new Set(ehrList)]
         res.send({
             action: true,
-            message: invokeResponse.toString()
+            message:uniqueList
         })
 
     }
