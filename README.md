@@ -4,12 +4,12 @@ A hyperledger fabric blockchain application that is mainly concerened with the m
 
 ## Prerequisites
 
-Ubuntu OS 16.04
-VSCode- version 1.39
-npm- version 6.x
-node- version 10.x.x
-angular- version 9.1.7
-docker extension- version 0.82
+Ubuntu OS 16.04 <br />
+VSCode- version 1.39 <br />
+npm- version 6.x <br />
+node- version 10.x.x <br />
+angular- version 9.1.7 <br />
+docker extension- version 0.82 <br />
 IBM Blockchain Platform- version 1.0.28
 
 ## How to run
@@ -23,11 +23,11 @@ IBM Blockchain Platform- version 1.0.28
 
 3. Now close this VSCode.  Go back to the main folder and open this folder in VSCode.
 
-4. Now again go to the block chain extension. Export the wallet Org1 as shown in figure below by placing it in the server folder and rename it to wallet. 
+4. Now again go to the block chain extension. Export the wallet `Org1` as shown in figure below by placing it in the server folder and rename it to `wallet`. 
 
 ![homepage](/screenshots/exp_wallet.png)
 
-5. You will notice the presence of packaged project from previous step. Now connect to the environment by clicking on 1 Org Local Fabric.  On successful connection the VSCode editor will prompt you a message.
+5. You will notice the presence of packaged project from previous step. Now connect to the environment by clicking on `1 Org Local Fabric`.  On successful connection the VSCode editor will prompt you a message.
 
 6.  On successful connection you will get various options in the environment pane on the left.  Here install the package as shown in figure below:
 
