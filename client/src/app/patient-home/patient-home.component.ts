@@ -57,11 +57,13 @@ export class PatientHomeComponent implements OnInit {
   }
 
   getDoctorDetails(doctorId:string){
+    
     this.patientService.getDoctor(doctorId).subscribe(data=>{
       if(!data.action){
         this.alertService.error(data.message);
       }
       else{
+
         console.log("this is the doctor list ",JSON.parse(data.message));
         this.doctorDetailsList.push(JSON.parse(data.message));
       }
@@ -92,8 +94,13 @@ export class PatientHomeComponent implements OnInit {
             let arr= res.message;
             arr.forEach(r=>{
             this.records.push(r);
+            if(!this.doctorArr.includes(r.doctorId))
+            {
             this.doctorArr.push(r.doctorId);
+            console.log("unique shit ",r.doctorId);
             this.getDoctorDetails(r.doctorId);
+          }
+            
             this.show.push(false);
             this.showDoctorBool.push(false);
           });
