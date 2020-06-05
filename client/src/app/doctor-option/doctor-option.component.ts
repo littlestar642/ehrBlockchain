@@ -48,6 +48,7 @@ export class DoctorOptionComponent implements OnInit {
 
   goHome(){
     //console.log("stuff");
+    localStorage.removeItem("consentedPatient");
     console.log("/doctorHome/"+this.doctorId);
     this.router.navigate(["/doctorHome/"+this.doctorId]);
     //this.location.back();

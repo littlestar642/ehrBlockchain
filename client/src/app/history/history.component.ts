@@ -40,8 +40,8 @@ export class HistoryComponent implements OnInit {
           this.alertService.error(res.message);
         }
         else{
-
-          let newObj=JSON.parse(res.message);
+          console.log(res.message);
+          let newObj=JSON.parse(JSON.stringify(res.message));
           newObj.forEach(r=>{
             this.records.push(r);
             this.show.push(false);
