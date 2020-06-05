@@ -38,7 +38,9 @@ export class AuthGuardService implements CanActivate{
     }
     else if(stateUrl.startsWith("/doctorOption/"))
     { 
-      let accessingPatientId=route.url[1].path;
+      let accessingPatientId=route.url[2].path;
+      // let fun=route.url[2].path;
+      console.log("verify ",accessingPatientId);
       let loggedDoctorId = localStorage.getItem("doctorId")
       let consentedPatientId=localStorage.getItem("consentedPatient");  
       if(accessingPatientId!=consentedPatientId)

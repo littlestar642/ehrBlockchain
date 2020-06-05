@@ -125,7 +125,7 @@ export class PatientConsentComponent implements OnInit {
             else{
               this.spinner.hide();
               localStorage.setItem("consentedPatient",this.patientId);
-              this.router.navigate([`/doctorOption/${this.patientId}`]);
+              this.router.navigate([`/doctorOption/${this.doctorId}/${this.patientId}`]);
             }
           })
         }
