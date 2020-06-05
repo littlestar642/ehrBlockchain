@@ -2,9 +2,46 @@
 
 A hyperledger fabric blockchain application that is mainly concerened with the management of Electronic Health Records (EHR) in a private permissioned blockchain.
 
+## Prerequisites
+
+Ubuntu OS 16.04
+VSCode- version 1.39
+npm- version 6.x
+node- version 10.x.x
+angular- version 9.1.7
+docker extension- version 0.82
+IBM Blockchain Platform- version 1.0.28
+
 ## How to run
 
-<add details here>
+1. Open the Contract folder with VSCode.
+
+2. Go to block chain platform and select package open project as shown in the figure below:
+
+![homepage](/screenshots/pkg_open_proj.png)
+
+
+3. Now close this VSCode.  Go back to the main folder and open this folder in VSCode.
+
+4. Now again go to the block chain extension. Export the wallet Org1 as shown in figure below by placing it in the server folder and rename it to wallet. 
+
+![homepage](/screenshots/exp_wallet.png)
+
+5. You will notice the presence of packaged project from previous step. Now connect to the environment by clicking on 1 Org Local Fabric.  On successful connection the VSCode editor will prompt you a message.
+
+6.  On successful connection you will get various options in the environment pane on the left.  Here install the package as shown in figure below:
+
+![homepage](/screenshots/install_pkg.png)
+
+7. Now instantiate the installed package in the same pane by following the figure:
+
+![homepage](/screenshots/instantiate_pkg.png)
+
+8. Now  open  your  Ubuntu  terminal  in  the server folder  and  run  command `node src/app.js`.  This will run a server listening on port 8000.
+
+9. Open new Ubuntu terminal in the client folder and run command `ng serve`.  This will setup a server listening on port 4200.
+
+10. Access the homepage of our application by going to `https://localhost:4200/homepage`.  This completes run procedure of our system. This system can now be used by the user. 
 
 ## Vision of the Product
 
