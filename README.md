@@ -2,7 +2,11 @@
 
 A hyperledger fabric blockchain application that is mainly concerened with the management of Electronic Health Records (EHR) in a private permissioned blockchain.
 
-## vision of the Product
+## How to run
+
+<add details here>
+
+## Vision of the Product
 
 To create a consortium of worldwide healthcare institutions to record and manipulate the EHRs using our dapp. Later with evolution of blockchain technologies, we can also create a network of networks to easily manage the data for any patient-doctor consultation.
 
