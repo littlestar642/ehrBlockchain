@@ -41,7 +41,7 @@ export class HistoryComponent implements OnInit {
         }
         else{
 
-          let newObj=JSON.parse(res.message);
+          let newObj=res.message;
           newObj.forEach(r=>{
             this.records.push(r);
             this.show.push(false);
