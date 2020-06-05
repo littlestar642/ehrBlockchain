@@ -31,5 +31,19 @@ As of now we are providing cardiology related diagnosis parameters in the applic
 
 ## Screenshots of the Application
 
-![]()
+### homepage
+![homepage](/screenshots/home.png)
+
+### Doctor Dashboard
+![dashboard](/screenshots/doctorHome.png)
+
+### Patient consent through OTP
+![consent](/screenshots/consent.png)
+
+### Diagnosis form for Doctor
+![diagnosis](/screenshots/diagnosis.png)
+
+### EHR record
+![ehr](/screenshots/ehr.png)
+
 
