@@ -25,14 +25,15 @@ type="square-jelly-box">
                   <form [formGroup]="form" class="flex-1 text-center" #patientInformation>  
                     
                     <div class="flex justify-center mt-4">  
-                      <div class="col-md-10">  
+                      <div class="col-md-10"> 
+                        <p>if this is your first login</p> 
                           <button (click)="generateOtp()" class="btn-primary">Generate OTP </button>
                       </div>  
                     </div>
                     <div *ngIf='otpRecieved' class="flex justify-center flex-col">  
                             <label for="otp" class="text-xl mt-4">Enter OTP</label>
                             <input type="password" name="otp" id="otp" class="input-area mt-2" formControlName="otp">
-                            <button (click)="checkOtp()" class="btn-primary mt-4">Check</button>
+                            <button (click)="checkOtp()" class="btn-primary mt-4">Check OTP</button>
                       </div>
                     <p class="m-2">or</p>
                     <div class="flex justify-center">  
