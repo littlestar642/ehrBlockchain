@@ -122,18 +122,14 @@ export class PatientConsentComponent implements OnInit {
           this.alertService.success("Patient consent verified successfully !!!");
           localStorage.setItem("patientId",this.patientId);
           this.router.navigate([`/doctorOption/${this.doctorId}`]);
-
         }
         else{
           this.spinner.hide();
           this.alertService.error('some error in obtaining otp');
         }
-        
       }
     );
-    
   }
-
   goBack(){
     this.location.back();
   }

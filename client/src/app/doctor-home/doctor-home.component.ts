@@ -28,11 +28,6 @@ export class DoctorHomeComponent implements OnInit {
     this.getPatientsAlignedToDoctor()
     this.patientList=[];
     this.doctorId=localStorage.getItem('doctorId');
-    this.doctorService.addPatientToDoctorList().subscribe((data)=>{
-      if(!data.action){
-        this.alertService.error(data.message);
-      }
-    })
   }
 
   getPatientsAlignedToDoctor(){
