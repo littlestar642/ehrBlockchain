@@ -58,7 +58,7 @@ IBM Blockchain Platform- version 1.0.28
  
 ## Vision of the Product
  
-To create a consortium of worldwide healthcare institutions to record and manipulate the EHRs using our Dapp. Later with the evolution of blockchain technologies, we can also create a network of networks to easily manage the data for any patient-doctor consultation.
+To create a *consortium* of worldwide healthcare institutions to record and manipulate the EHRs using our Dapp. To create an ease of access of the data for the patients and doctors as well. We focus over the fact to handle the medical activities in a more efficient and time saving manner. Later with the evolution of blockchain technologies, we can also create a network of networks to easily manage the data for any patient-doctor consultation. 
  
 ## Reason for building the Product
  
@@ -72,7 +72,7 @@ To create a consortium of worldwide healthcare institutions to record and manipu
  
 ## Uniqueness of the Product
  
-The USP of our application model is that we are giving the patients complete control over their data. Using a unique system of generatinng One Time Passwords (OTP) for every patient-doctor consultations we are restricting unwanted data retrieval and access. OTPs provide a trustable method of reconciling to the fact that the patient and doctor are in contact whenever a manipulation to the EHR is made. A doctor cant just changes that on his own.
+The *USP* of our application model is that we are giving the patients complete control over their data. Using a unique system of generating `One Time Password` (OTP) for every **patient-doctor consultations** we are restricting unwanted data retrieval and access. OTPs provide a trustable method of reconciling to the fact that the patient and doctor are in contact whenever a manipulation to the EHR is made. A doctor cant just changes that on his own.
  
 There are very few applications which are actually built for maintaining the EHRs in a blockchain. On top of that, we are also providing a fully-featured angular application that integrated very easily with our backend.
  
@@ -80,10 +80,10 @@ As of now, we are providing cardiology related diagnosis parameters in the appli
  
 ## Building the Platform
  
-1. Frontend - Angular
-2. Backend - NodeJS
-3. Blockchain - Hyperledger fabric
-4. Development - IBM blockchain platform VSCode extension.
+1. ***Frontend** - Angular
+2. **Backend** - NodeJS
+3. **Blockchain** - Hyperledger fabric
+4. **Development** - IBM blockchain platform VSCode extension.
  
 ## Screenshots of the Application
  
