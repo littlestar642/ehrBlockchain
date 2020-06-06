@@ -54,6 +54,7 @@ export class PatientHomeComponent implements OnInit {
     this.show = [];
     this.showDoctorBool=[];
     this.doctorArr=[];
+    this.getPatientDoctorHistory();
   }
 
   getDoctorDetails(doctorId:string){
@@ -88,26 +89,44 @@ export class PatientHomeComponent implements OnInit {
     this.patientService.getHistory(args).subscribe(
       res=>{
         if(!res.action){
-          this.alertService.error(res.message);
+          this.alertService.info("no consultations yet");
         }
         else{
             let arr= res.message;
             arr.forEach(r=>{
             this.records.push(r);
-            if(!this.doctorArr.includes(r.doctorId))
-            {
-            this.doctorArr.push(r.doctorId);
-            console.log("unique shit ",r.doctorId);
-            this.getDoctorDetails(r.doctorId);
-          }
-            
             this.show.push(false);
-            this.showDoctorBool.push(false);
           });
           console.log("records : ",this.records);
         } 
       }
     );
+  }
+
+  getPatientDoctorHistory(){
+    this.patientService.getPatientDoctorHistory().subscribe(data=>{
+      if(!data.action){
+        this.alertService.error(data.message);
+      }
+      else{
+        let arr=JSON.parse(data.message);
+        arr.sort((a,b)=>{
+          if (a.time.low == b.time.low) {
+            return 0;
+        } else {
+            return a.time.low < b.time.low ? 1 : -1;
+        }
+        })
+        arr.forEach(r=>{
+          if(!this.doctorArr.includes(r.doctorId))
+            {
+            this.doctorArr.push(r.doctorId);
+            this.getDoctorDetails(r.doctorId);
+            this.showDoctorBool.push(false);
+            }
+        })
+      }
+    })
   }
 
   setPassword(){

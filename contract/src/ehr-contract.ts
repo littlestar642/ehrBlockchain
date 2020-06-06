@@ -414,8 +414,12 @@ export class EhrContract extends Contract {
           while(true){
               let res=await queryResults.next();
               if(res.value){
-                let val=res.value.value.toString('utf8');
-                allRes.push(val);
+                let val=JSON.parse(res.value.value.toString('utf8'));
+                let time=res.value.timestamp.getSeconds();
+                let histObj={"doctorId":"","time":0};
+                histObj.doctorId=val.doctorId;
+                histObj.time=time;
+                allRes.push(histObj);
               }
 
               if(res.done){

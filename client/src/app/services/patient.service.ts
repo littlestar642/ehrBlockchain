@@ -32,8 +32,7 @@ export class PatientService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
-  updateDoctorForPatient(){
-    let patientId=localStorage.getItem('patientId');
+  updateDoctorForPatient(patientId:any){
     let url = this.baseUrl + "updateDoctorForPatient";
     let headers=new HttpHeaders();
     let newObj={"patientId":"","doctorId":""}

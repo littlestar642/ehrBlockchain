@@ -77,6 +77,7 @@ export class PatientConsentComponent implements OnInit {
           this.alertService.error(data.message);
         }
         else{
+          this.spinner.hide();
           this.flag=true;
           localStorage.setItem("isNewPatient","true");
         }
@@ -123,9 +124,18 @@ export class PatientConsentComponent implements OnInit {
               this.alertService.error(data.message)
             }
             else{
-              this.spinner.hide();
               localStorage.setItem("consentedPatient",this.patientId);
-              this.router.navigate([`/doctorOption/${this.doctorId}/${this.patientId}`]);
+              if(Boolean(localStorage.getItem('isNewPatient'))){
+                this.patientService.updateDoctorForPatient(this.patientId).subscribe(data=>{
+                  this.spinner.hide();                  
+                  if(!data.action){
+                    this.alertService.error(data.message)
+                  }
+                  else{
+                    this.router.navigate([`/doctorOption/${this.doctorId}/${this.patientId}`]);
+                  }
+                });
+              }
             }
           })
         }

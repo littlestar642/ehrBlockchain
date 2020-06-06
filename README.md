@@ -9,10 +9,26 @@ VSCode- version 1.39 <br />
 npm- version 6.x <br />
 node- version 10.x.x <br />
 angular- version 9.1.7 <br />
+docker - version 19.3.8 <br />
+docker-compose 1.24.1 <br />
 docker extension- version 0.82 <br />
 IBM Blockchain Platform- version 1.0.28
 
 ## How to run
+
+### Starting the Client Server
+
+1. `cd client`
+2. `npm install`
+3. `ng serve`
+
+### Starting the Primary NodeJs Server
+
+1. `cd server`
+2. `npm install`
+3. `node src/app.js`
+
+### Starting the Blockchain Server
 
 1. Open the Contract folder with VSCode.
 
@@ -37,11 +53,8 @@ IBM Blockchain Platform- version 1.0.28
 
 ![homepage](/screenshots/instantiate_pkg.png)
 
-8. Now  open  your  Ubuntu  terminal  in  the server folder  and  run  command `node src/app.js`.  This will run a server listening on port 8000.
 
-9. Open new Ubuntu terminal in the client folder and run command `ng serve`.  This will setup a server listening on port 4200.
-
-10. Access the homepage of our application by going to `https://localhost:4200/homepage`.  This completes run procedure of our system. This system can now be used by the user. 
+8. Access the homepage of our application by going to `https://localhost:4200/homepage`.  This completes run procedure of our system. This system can now be used by the user. 
 
 ## Vision of the Product
 

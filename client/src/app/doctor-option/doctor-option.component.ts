@@ -25,10 +25,6 @@ export class DoctorOptionComponent implements OnInit {
   ngOnInit() {
     this.patientId = localStorage.getItem("patientId");
     this.doctorId = localStorage.getItem("doctorId");
-
-    if(localStorage.getItem("isNewPatient")=="true"){
-      this.patientService.updateDoctorForPatient(); 
-    }
   }
 
 
