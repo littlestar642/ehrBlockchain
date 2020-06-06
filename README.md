@@ -58,7 +58,7 @@ IBM Blockchain Platform- version 1.0.28
  
 ## Vision of the Product
  
-To create a *consortium* of worldwide healthcare institutions to record and manipulate the EHRs using our Dapp. To create an ease of access of the data for the patients and doctors as well. We focus over the fact to handle the medical activities in a more efficient and time saving manner. Later with the evolution of blockchain technologies, we can also create a network of networks to easily manage the data for any patient-doctor consultation. 
+To create a *consortium* of worldwide healthcare institutions to record and manipulate the EHRs using our Dapp. We focus over the fact that to handle the medical activities in a more efficient and time saving manner, we need to create an ease of access of medical records for the patients and doctors. Later with the evolution of blockchain technologies, we can also create a network of networks to easily manage the data for any patient-doctor consultation. 
  
 ## Reason for building the Product
  
