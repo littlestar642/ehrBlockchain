@@ -59,6 +59,7 @@ IBM Blockchain Platform- version 1.0.28
 ## Vision of the Product
 
 To create a consortium of worldwide healthcare institutions to record and manipulate the EHRs using our dapp. Later with evolution of blockchain technologies, we can also create a network of networks to easily manage the data for any patient-doctor consultation.
+To create an ease of access of the medical records for the patients and doctors as well. This product clearly focuses over to handle the medical activities in a more efficient and time saving manner.
 
 ## Reason for building the Product
 
@@ -66,7 +67,7 @@ To create a consortium of worldwide healthcare institutions to record and manipu
 
 2. Maintaining health records turns into a huge mess when the volume increases mere 10 to 15 papers. With an electronic health record management system we remove the tangibile nature of such records and hence dematerialise them.
 
-3. Using the hyperledger fabric, we can easily maintain the hisorical records for any user referenced by their userID. This is a great help when it comes to accessing previous records and prevents tampering of the data by any sorts.
+3. Using the hyperledger fabric, we can easily maintain the historical records for any user referenced by their userID. This is a great help when it comes to accessing previous records and prevents tampering of the data by any sorts.
 
 ## Uniqueness of the Product
 
