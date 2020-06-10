@@ -111,11 +111,7 @@ export class PatientHomeComponent implements OnInit {
       else{
         let arr=JSON.parse(data.message);
         arr.sort((a,b)=>{
-          if (a.time.low == b.time.low) {
-            return 0;
-        } else {
-            return a.time.low < b.time.low ? 1 : -1;
-        }
+            return -a.time.low+b.time.low;
         })
         arr.forEach(r=>{
           if(!this.doctorArr.includes(r.doctorId))
