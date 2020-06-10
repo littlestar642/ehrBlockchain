@@ -1,6 +1,6 @@
 import { AlertService } from './services/alert.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PatientChoiceComponent } from './patient-choice/patient-choice.component';
 import { DoctorDetailComponent } from './doctor-detail/doctor-detail.component';
+import { ArCompComponent } from './ar-comp/ar-comp.component';
+import { ClientArComponent } from './client-ar/client-ar.component';
 
 
 
@@ -43,7 +45,9 @@ import { DoctorDetailComponent } from './doctor-detail/doctor-detail.component';
     AlertComponent,
     HistoryDetailComponent,
     PatientChoiceComponent,
-    DoctorDetailComponent
+    DoctorDetailComponent,
+    ArCompComponent,
+    ClientArComponent
     
   ],
   imports: [
@@ -55,6 +59,7 @@ import { DoctorDetailComponent } from './doctor-detail/doctor-detail.component';
     NgxSpinnerModule ,
     BrowserAnimationsModule
   ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers: [AlertService],
   bootstrap: [AppComponent]
 })

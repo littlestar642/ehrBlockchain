@@ -16,11 +16,15 @@ import { PatientChoiceComponent } from './patient-choice/patient-choice.componen
 import { AuthGuardLoginService } from './services/auth-guard-login.service';
 import { PatientAuthGuardService } from './services/patient-auth-guard.service';
 import { PatientAuthGuardLoginService } from './services/patient-auth-guard-login.service';
+import { ArCompComponent } from './ar-comp/ar-comp.component';
+import { ClientArComponent } from './client-ar/client-ar.component';
 
 const routes: Routes = [
   { path : "doctorLogin", component : DoctorLoginComponent, canActivate : [AuthGuardLoginService] },
   { path : "patientChoice", component : PatientChoiceComponent, canActivate: [PatientAuthGuardLoginService] },
   { path : "homepage", component : HomepageComponent },
+  { path : "arPage", component : ArCompComponent },
+  { path : "qrPage", component : ClientArComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
   { path : "patientLogin", component : PatientLoginComponent, canActivate: [PatientAuthGuardLoginService] },
   { path : "doctorHome/:doctorId", component : DoctorHomeComponent, canActivate : [AuthGuardService] },
