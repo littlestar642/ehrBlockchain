@@ -1,7 +1,7 @@
 <div *ngIf = "record" class="p-6 bg-gray-900 rounded-lg mt-4 text-xl tracking-wider">
     <div class="card-container">
     <div class="child">
-        <h5>Symptoms : </h5>
+        <h5>Symptoms :-</h5>
         <hr/>
         <div *ngIf="record.Symptoms" class="subchild">
             <p>Fainting: {{record.Symptoms.fainting}}</p>
@@ -12,14 +12,15 @@
         </div>
     </div>
     <div class="child">
-        <h5>Other probs :</h5>
+        <h5>Other probs :-</h5>
         <hr/>
-        <div *ngIf="record" class="subchild">
+        <div *ngIf="record" class="subchild text-center">
             {{record.anyOtherProblem}}
         </div>
+        <hr/>
     </div>
     <div class="child">
-        <h5>Blood-test :</h5>
+        <h5>Blood-test :-</h5>
         <hr/>
         <div *ngIf="record.bloodtest" class="subchild">
             <p>Wbc Count:   {{record.bloodtest.wbcCount}}</p>
@@ -31,28 +32,31 @@
         </div>
     </div>
     <div class="child">
-        <h5>Medicines :</h5>
+        <h5>Medicines :-</h5>
         <hr/>
-        <div *ngIf="record" class="subchild">
+        <div *ngIf="record" class="subchild text-center">
                 {{record.medicines}}
         </div>
+        <hr/>
     </div>
     <div class="child">
-        <h5>Status : </h5>
+        <h5>Status :-</h5>
         <hr/>
         <div *ngIf="record.util" class="subchild">
-            <p> public nextAppointment: {{record.util.nextAppointment}} </p>   
-            <p>public consultancyFees:  {{record.util.consultancyFees}}</p>    
-            <p>public paymentDone:  {{record.util.paymentDone}}</p>    
-            <p>public paymentMethod: {{record.util.paymentMethod}}</p>
+            <p>nextAppointment: {{record.util.nextAppointment}} </p>   
+            <p>consultancyFees:  {{record.util.consultancyFees}}</p>    
+            <p>paymentDone:  {{record.util.paymentDone}}</p>    
+            <p>paymentMethod: {{record.util.paymentMethod}}</p>
         </div>
+        <hr/>
     </div>
     <div class="child">
         <h5>Patient feedback : </h5>
         <hr/>
-        <div *ngIf="record" class="subchild">
+        <div *ngIf="record" class="subchild text-center">
                 {{record.patientFeedback}}
         </div>
+        <hr/>
     </div>
    </div> 
 </div>

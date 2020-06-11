@@ -125,7 +125,6 @@ export class PatientConsentComponent implements OnInit {
             }
             else{
               localStorage.setItem("consentedPatient",this.patientId);
-              if(Boolean(localStorage.getItem('isNewPatient'))){
                 this.patientService.updateDoctorForPatient(this.patientId).subscribe(data=>{
                   this.spinner.hide();                  
                   if(!data.action){
@@ -135,7 +134,6 @@ export class PatientConsentComponent implements OnInit {
                     this.router.navigate([`/doctorOption/${this.doctorId}/${this.patientId}`]);
                   }
                 });
-              }
             }
           })
         }

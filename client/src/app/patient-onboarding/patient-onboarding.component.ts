@@ -45,6 +45,7 @@ export class PatientOnboardingComponent implements OnInit {
     console.log('here');
     let username=this.form.get('patientId').value;
     this.patientService.checkUsernamePresence(username).subscribe((data)=>{
+      console.log(data);
       if(!data.action){
         this.alertService.error(data.message);
       }
