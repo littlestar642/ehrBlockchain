@@ -57,6 +57,26 @@ export class DoctorService {
     return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
   }
 
+  getRoomForChat(args:any) : Subscribable<any>{
+    let url = this.baseUrl + "getRoomForChat";
+    let headers=new HttpHeaders();
+    let newObj={"doctorId":"","patientId":""}
+    newObj.doctorId=args.doctorId;
+    newObj.patientId=args.patientId;
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
+  createRoomForChat(args:any) : Subscribable<any>{
+    let url = this.baseUrl + "createRoomForChat";
+    let headers=new HttpHeaders();
+    let newObj={"doctorId":"","patientId":""}
+    newObj.doctorId=args.doctorId;
+    newObj.patientId=args.patientId;
+    headers.set('Content-Type','application/json');
+    return this.http.post<any>(url,JSON.parse(JSON.stringify(newObj)),{headers:headers});
+  }
+
   checkUsernamePresence(args:any):Observable<any>{
     let url = this.baseUrl + "checkUsernamePresence";
     let headers=new HttpHeaders();

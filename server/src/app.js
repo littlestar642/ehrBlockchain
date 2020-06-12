@@ -6,7 +6,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
-const uuid = require('uuid');
 const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
@@ -214,6 +213,72 @@ app.post('/createEhr', async (req, res) => {
     }
 });
 
+app.post('/getRoomForChat', async (req, res) => {
+        let doctorId=req.body.doctorId;
+        let patientId=req.body.patientId;
+        let args={"patientId":patientId,"doctorId":doctorId};
+        args = JSON.parse(JSON.stringify(args));
+        let networkObj = await network.connectToNetwork(doctorId);
+        if (networkObj.error) {
+            res.send({
+                action: false,
+                message: "could not find doctor"
+            })
+        };
+        let invokeResponse = await network.invoke(networkObj,true, 'getRoomForChat', [args]);
+        if (invokeResponse.error) {
+            res.send({
+                action: false,
+                message: "error in invoking"
+            })
+        } else {
+            if (invokeResponse.toString() == ""){
+                res.send({
+                    action: false,
+                    message: "no room found"
+                })
+            }
+            else {
+                res.send({
+                    action: true,
+                    message: invokeResponse.toString()
+                })
+            }
+        }
+});
+
+app.post('/createRoomForChat', async (req, res) => {
+        let doctorId=req.body.doctorId;
+        let patientId=req.body.patientId;
+        let args={"patientId":patientId,"doctorId":doctorId,"roomId":""};
+        let roomId = v4();
+        args.roomId = roomId;
+        args = JSON.parse(JSON.stringify(args));
+        let networkObj = await network.connectToNetwork(doctorId);
+        if (networkObj.error) {
+            socket.emit('error',{action:false,message:"network obj error"})
+        };
+        let invokeResponse = await network.invoke(networkObj,false,'createRoomForChat',[args]);
+        if (invokeResponse.error) {
+            res.send({
+                action: false,
+                message: "error in invoking chaincode"
+            })
+        } else {
+            if (invokeResponse.toString() == "true"){
+                res.send({
+                    action: true,
+                    message: roomId
+                })
+            }
+            else {
+                res.send({
+                    action: false,
+                    message: "error in creating room"
+                })
+            }
+        }
+});
 
 
 // handlers to check presence of user
@@ -409,14 +474,15 @@ app.post('/checkUsernamePresence', async (req, res) => {
     args = JSON.parse(JSON.stringify(args));
 
     let networkObj = await network.connectToNetwork(args.id);
-    console.log(networkObj);
-    if (networkObj.error) {
+    if (!networkObj.error) {
         res.send({
-            action: true,
-            message: "username available"
+            action: false,
+            message: "username not available"
         })
     } else {
+        console.log('here');
         let userExist = await network.invoke(networkObj, true, 'checkUsernamePresence', [args]);
+        
         if (!userExist) {
             res.send({
                 action: true,

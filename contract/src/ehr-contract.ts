@@ -278,6 +278,15 @@ export class EhrContract extends Contract {
         await ctx.stub.putState(newPatient.patientId, Buffer.from(JSON.stringify(newPatient)));
         return true;
     }
+
+    @Transaction()
+    public async createRoomForChat(ctx:Context,args:string):Promise<Boolean>{
+        let newArgs=JSON.parse(args);
+        let indexName="doctor~patient";
+        let doctorPatientKey=ctx.stub.createCompositeKey(indexName,[newArgs.doctorId,newArgs.patientId]);
+        await ctx.stub.putState(doctorPatientKey,Buffer.from(newArgs.roomId));
+        return true;
+    }
   
 
 
@@ -427,6 +436,18 @@ export class EhrContract extends Contract {
               }
               
           }
+        }
+
+        @Transaction(false)
+        public async getRoomForChat(ctx:Context, args:string) {
+          let newObj=JSON.parse(args);
+          let indexName="doctor~patient";
+          let doctorPatientKey=ctx.stub.createCompositeKey(indexName,[newObj.doctorId,newObj.patientId]);
+          let patientExists=await this.patientExists(ctx,args);
+          if(!patientExists)throw new Error('patient does not exist')
+          
+          let buffer=await ctx.stub.getState(doctorPatientKey);
+          return buffer.toString();
         }
 
 

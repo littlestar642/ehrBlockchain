@@ -18,6 +18,10 @@ import { PatientAuthGuardService } from './services/patient-auth-guard.service';
 import { PatientAuthGuardLoginService } from './services/patient-auth-guard-login.service';
 import { ArCompComponent } from './ar-comp/ar-comp.component';
 import { ClientArComponent } from './client-ar/client-ar.component';
+import { DoctorChatComponent } from './doctor-chat/doctor-chat.component';
+import { ChooseChatComponent } from './choose-chat/choose-chat.component';
+import { ChoosePatientChatComponent } from './choose-patient-chat/choose-patient-chat.component';
+import { PatientChatComponent } from './patient-chat/patient-chat.component';
 
 const routes: Routes = [
   { path : "doctorLogin", component : DoctorLoginComponent, canActivate : [AuthGuardLoginService] },
@@ -25,6 +29,10 @@ const routes: Routes = [
   { path : "homepage", component : HomepageComponent },
   { path : "arPage", component : ArCompComponent },
   { path : "qrPage", component : ClientArComponent },
+  { path : "chooseChat", component : ChooseChatComponent },
+  { path : "chooseDoctor", component : ChoosePatientChatComponent },
+  { path : "doctorChat/:patientId", component : DoctorChatComponent },
+  { path : "patientChat/:doctorId", component : PatientChatComponent },
   { path : "doctorRegistration", component : DoctorRegistrationComponent},
   { path : "patientLogin", component : PatientLoginComponent, canActivate: [PatientAuthGuardLoginService] },
   { path : "doctorHome/:doctorId", component : DoctorHomeComponent, canActivate : [AuthGuardService] },

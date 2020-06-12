@@ -25,6 +25,10 @@ import { PatientChoiceComponent } from './patient-choice/patient-choice.componen
 import { DoctorDetailComponent } from './doctor-detail/doctor-detail.component';
 import { ArCompComponent } from './ar-comp/ar-comp.component';
 import { ClientArComponent } from './client-ar/client-ar.component';
+import { PatientChatComponent } from './patient-chat/patient-chat.component';
+import { DoctorChatComponent } from './doctor-chat/doctor-chat.component';
+import { ChooseChatComponent } from './choose-chat/choose-chat.component';
+import { ChoosePatientChatComponent } from './choose-patient-chat/choose-patient-chat.component';
 
 
 
@@ -47,7 +51,11 @@ import { ClientArComponent } from './client-ar/client-ar.component';
     PatientChoiceComponent,
     DoctorDetailComponent,
     ArCompComponent,
-    ClientArComponent
+    ClientArComponent,
+    PatientChatComponent,
+    DoctorChatComponent,
+    ChooseChatComponent,
+    ChoosePatientChatComponent
     
   ],
   imports: [
