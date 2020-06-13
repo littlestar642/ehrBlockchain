@@ -39,7 +39,7 @@ export class PatientLoginComponent implements OnInit {
       }
       else{
         this.spinner.hide();
-        localStorage.setItem('patientId',this.patient.patientId)
+        localStorage.setItem('p_patientId',this.patient.patientId)
         this.router.navigate(['/patientChoice/']);
       }
     })

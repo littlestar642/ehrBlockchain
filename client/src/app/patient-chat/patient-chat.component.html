@@ -12,7 +12,7 @@
             
         </div>
         <div id="input-div" [formGroup]="msgGroup" class="bottom-0 absolute flex w-full">
-            <input type="text" formControlName="message" class="input-area flex-1 shadow-lg">
+            <input type="text" formControlName="message" class="input-area flex-1 shadow-lg" (keydown.enter)="sendMsg()">
             <button class="inline-block btn-primary flex-initial px-4 text-2xl ml-2" (click)="sendMsg()">Send</button>
         </div>
     </div>

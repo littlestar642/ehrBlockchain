@@ -30,7 +30,7 @@ export class PatientChoiceComponent implements OnInit {
 
   generateOtp(){
     this.spinner.show();
-    let patientId=localStorage.getItem('patientId');
+    let patientId=localStorage.getItem('p_patientId');
     this.patientService.generateOtp(patientId).subscribe((data)=>{
       if(!data.action){     
         this.spinner.hide();   
@@ -44,7 +44,7 @@ export class PatientChoiceComponent implements OnInit {
 
   login() {
     this.spinner.show();
-    let patientId=localStorage.getItem('patientId');
+    let patientId=localStorage.getItem('p_patientId');
     let password=this.form.get('password').value;
     let newObj={"patientId":patientId,"password":password};
     this.patientService.checkPatientPassword(JSON.stringify(newObj)).subscribe((data)=>{
@@ -62,7 +62,7 @@ export class PatientChoiceComponent implements OnInit {
 
   checkOtp(){
     let otp=this.form.get('otp').value;
-    let patientId=localStorage.getItem('patientId');
+    let patientId=localStorage.getItem('p_patientId');
     let newObj={"otp":otp,"patientId":patientId};
     console.log("new obj : ",newObj);
     this.patientService.checkOtp(JSON.stringify(newObj)).subscribe((data)=>{

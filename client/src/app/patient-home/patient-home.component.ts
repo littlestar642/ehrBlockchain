@@ -45,7 +45,7 @@ export class PatientHomeComponent implements OnInit {
 
 
   ngOnInit() {
-    this.patientId = localStorage.getItem("patientId");
+    this.patientId = localStorage.getItem("p_patientId");
     this.hasPassword();
     this.getHistoryForPatient();
     // this.getDoctorDetails();

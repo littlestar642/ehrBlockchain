@@ -43,7 +43,7 @@ export class PatientService {
   }
 
   getDoctor(doctorIdPassed:string){
-    let patientId=localStorage.getItem('patientId');
+    let patientId=localStorage.getItem('p_patientId');
     let url = this.baseUrl + "getDoctor";
     let headers=new HttpHeaders();
     let newObj={"patientId":"","doctorId":""}
@@ -54,7 +54,7 @@ export class PatientService {
   }
 
   getPatientDoctorHistory(){
-    let patientId=localStorage.getItem('patientId');
+    let patientId=localStorage.getItem('p_patientId');
     let url = this.baseUrl + "getPatientDoctorHistory";
     let headers=new HttpHeaders();
     let newObj={"patientId":"","doctorId":""}

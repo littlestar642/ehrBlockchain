@@ -22,6 +22,9 @@ export class DoctorChatComponent implements OnInit {
   room:string;
   noMsg:Boolean;
   msgList:any;
+
+  
+
   ngOnInit(): void {
     this.noMsg=false;
     let doctorId=localStorage.getItem('doctorId');
@@ -49,12 +52,14 @@ export class DoctorChatComponent implements OnInit {
                 }
                 else{
                   this.msgList.push(...msg);
+          
                 }
               })
               this.socket.on('received',(data)=>{
                 this.noMsg=false;
                 console.log(data);
                 this.msgList.push(data.content);
+                
               })
             }
           })

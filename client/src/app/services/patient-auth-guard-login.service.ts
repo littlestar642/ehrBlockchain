@@ -14,7 +14,7 @@ export class PatientAuthGuardLoginService implements CanActivate{
 
   canActivate(){
     if(this.patientService.isLoggedIn()){
-      let loggedPatientId = localStorage.getItem("patientId");
+      let loggedPatientId = localStorage.getItem("p_patientId");
       this.router.navigate(['/patientHome/'+loggedPatientId]);
       this.alertService.warn("You cannot go back to login page without logging out.");
       return false;
