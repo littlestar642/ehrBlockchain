@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import io from 'socket.io-client';
 import { Url } from 'url';
 import { ActivatedRoute } from '@angular/router';
@@ -11,8 +11,8 @@ import { DoctorService } from '../services/doctor.service';
   templateUrl: './patient-chat.component.html',
   styleUrls: ['./patient-chat.component.css']
 })
-export class PatientChatComponent implements OnInit {
-
+export class PatientChatComponent implements OnInit,AfterViewChecked  {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   msgGroup=new FormGroup({
     message:new FormControl()
   })
@@ -23,6 +23,7 @@ export class PatientChatComponent implements OnInit {
   noMsg:Boolean;
   msgList:any;
   ngOnInit(): void {
+    this.scrollToBottom();
     this.noMsg=false;
     let patientId=localStorage.getItem('p_patientId');
     let doctorId=this.route.snapshot.url[1].path;
@@ -91,5 +92,13 @@ export class PatientChatComponent implements OnInit {
     this.msgGroup.get('message').setValue("");
     this.socket.emit("chat message",{room:this.room,content:{message,from:"patient",time:Date.now()}});
   }
+  ngAfterViewChecked() {        
+    this.scrollToBottom();        
+} 
+scrollToBottom(): void {
+  try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+  } catch(err) { }                 
+}
 
 }
