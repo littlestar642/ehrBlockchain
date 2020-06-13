@@ -27,7 +27,7 @@ export class PatientAuthGuardService implements CanActivate{
     }
     else if(stateUrl.startsWith("/patientHome/")){
       let accessingPatientId = route.url[1].path;
-      let loggedPatientId = localStorage.getItem("patientId")
+      let loggedPatientId = localStorage.getItem("p_patientId")
       
 
       if(accessingPatientId != loggedPatientId)

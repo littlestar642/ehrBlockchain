@@ -24,7 +24,7 @@ export class PatientChatComponent implements OnInit {
   msgList:any;
   ngOnInit(): void {
     this.noMsg=false;
-    let patientId=localStorage.getItem('patientId');
+    let patientId=localStorage.getItem('p_patientId');
     let doctorId=this.route.snapshot.url[1].path;
     this.msgList=[];
     this.doctorService.getRoomForChat({doctorId,patientId}).subscribe(data=>{
