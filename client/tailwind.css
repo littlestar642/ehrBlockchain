@@ -10,8 +10,16 @@
     @apply shadow-outline outline-none;
 }
 
+.btn-primary:hover{
+  @apply bg-green-700;
+}
+
 .btn-3d{
   @apply bg-white text-green-500 font-bold py-2 px-4 border-b-4 border-green-900 rounded m-4 ;
+}
+
+.btn-3d:hover{
+  @apply border-green-800 shadow-lg;
 }
 
 

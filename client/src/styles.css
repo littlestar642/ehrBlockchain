@@ -8,7 +8,7 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
- html {
+html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -643,6 +643,12 @@ video {
   outline: 0;
 }
 
+.btn-primary:hover{
+  --bg-opacity: 1;
+  background-color: #2f855a;
+  background-color: rgba(47, 133, 90, var(--bg-opacity));
+}
+
 .btn-3d{
   --bg-opacity: 1;
   background-color: #fff;
@@ -661,6 +667,13 @@ video {
   border-color: rgba(34, 84, 61, var(--border-opacity));
   border-radius: 0.25rem;
   margin: 1rem;
+}
+
+.btn-3d:hover{
+  --border-opacity: 1;
+  border-color: #276749;
+  border-color: rgba(39, 103, 73, var(--border-opacity));
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .input-area{
