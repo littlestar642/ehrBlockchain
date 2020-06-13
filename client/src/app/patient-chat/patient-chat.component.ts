@@ -89,6 +89,7 @@ export class PatientChatComponent implements OnInit,AfterViewChecked  {
 
   sendMsg(){
     let message=this.msgGroup.get('message').value;
+    if(message=="")return;
     this.msgGroup.get('message').setValue("");
     this.socket.emit("chat message",{room:this.room,content:{message,from:"patient",time:Date.now()}});
   }
